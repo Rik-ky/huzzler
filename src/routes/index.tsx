@@ -358,10 +358,10 @@ function Index() {
         </div>
       </section>
 
-      {/* Footer — fully green */}
+      {/* Footer */}
       <footer
         className="text-white"
-        style={{ backgroundColor: "#58cc02" }}
+        style={{ backgroundColor: "#00bfff" }}
       >
         <div className="mx-auto max-w-6xl px-5 py-16">
           <div className="grid gap-10 md:grid-cols-4">
