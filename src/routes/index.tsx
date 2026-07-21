@@ -304,47 +304,49 @@ function Index() {
       {/* Problem / Solution */}
       <section className="mx-auto max-w-6xl px-5 py-20 md:py-28">
         <div className="grid gap-10 md:grid-cols-2 md:gap-16 items-start">
-          <div>
+          <Reveal variant="left">
             <span className="chip">The problem</span>
             <h2 className="mt-4 text-4xl md:text-5xl leading-[1.05]">
               You can't get a job <span className="text-primary">without experience</span>.
               You can't get experience <span className="text-primary">without a job</span>.
             </h2>
-          </div>
-          <p className="text-lg md:text-xl leading-relaxed text-charcoal/75 md:mt-14">
-            Bootcamps teach syntax. Tutorials teach patterns. Neither teaches you
-            how to ship a feature with a PM breathing down your neck, a designer
-            iterating on Figma, and a QA logging bugs.
-            <br />
-            <br />
-            <span className="text-primary font-bold">Huzzler simulates the real thing.</span>{" "}
-            An AI recruiter verifies you. An AI project manager assembles your
-            team. An AI mentor grades your output. You earn XP and a portfolio
-            that proves you can actually do the work.
-          </p>
+          </Reveal>
+          <Reveal variant="right" delay={1}>
+            <p className="text-lg md:text-xl leading-relaxed text-charcoal/75 md:mt-14">
+              Bootcamps teach syntax. Tutorials teach patterns. Neither teaches you
+              how to ship a feature with a PM breathing down your neck, a designer
+              iterating on Figma, and a QA logging bugs.
+              <br />
+              <br />
+              <span className="text-primary font-bold">Huzzler simulates the real thing.</span>{" "}
+              An AI recruiter verifies you. An AI project manager assembles your
+              team. An AI mentor grades your output. You earn XP and a portfolio
+              that proves you can actually do the work.
+            </p>
+          </Reveal>
         </div>
       </section>
 
       {/* The Loop */}
       <section id="loop" className="bg-gradient-to-b from-white to-[oklch(0.98_0.015_235)] border-y border-border">
         <div className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-          <div className="max-w-2xl">
+          <Reveal variant="up" className="max-w-2xl">
             <span className="chip">The experience loop</span>
             <h2 className="mt-4 text-4xl md:text-5xl leading-[1.05]">From zero to shipping in four steps.</h2>
-          </div>
+          </Reveal>
           <div className="mt-14 grid gap-6 md:grid-cols-4">
             {[
               { n: "01", title: "Gateway task", body: "Pick your role, take a real-world simulation. AI evaluates your submission on a strict rubric.", Icon: Target },
               { n: "02", title: "Verified & profiled", body: "Pass the gateway to unlock your first badge and get tagged with a verified capability.", Icon: CheckCircle2 },
               { n: "03", title: "Team assembly", body: "The AI drafts you into a cross-functional cohort the moment a matching project appears.", Icon: Dna },
               { n: "04", title: "Gamified execution", body: "Ship role-specific micro-tasks in an AI-managed workspace. Earn XP. Fill your heatmap.", Icon: Rocket },
-            ].map((s) => (
-              <div key={s.n} className="card-duo p-6 relative">
+            ].map((s, i) => (
+              <Reveal key={s.n} variant="up" delay={i} className="group card-duo lift p-6 relative cursor-default">
                 <div className="text-xs font-semibold text-primary tracking-[0.15em]">STEP {s.n}</div>
-                <div className="mt-3"><IconTile Icon={s.Icon} size="lg" /></div>
+                <div className="mt-3"><span className="icon-pop inline-block"><IconTile Icon={s.Icon} size="lg" /></span></div>
                 <h3 className="mt-3 text-xl">{s.title}</h3>
                 <p className="mt-2 text-charcoal/70 text-sm leading-relaxed">{s.body}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -353,7 +355,7 @@ function Index() {
       {/* Pillars */}
       <section id="pillars" className="mx-auto max-w-6xl px-5 py-20 md:py-28 space-y-24 md:space-y-32">
         <div className="grid gap-10 md:grid-cols-2 items-center">
-          <div>
+          <Reveal variant="left">
             <span className="chip"><GraduationCap size={12} strokeWidth={2.5} /> Pillar 01 — The Gateway</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">AI that knows if you can actually do the job.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
@@ -367,24 +369,24 @@ function Index() {
                 "Real-world tasks per discipline (Frontend, UI/UX, PM, Data, AI)",
                 "Structured JSON rubric scoring — no vibes-based grading",
                 "Badge celebrations when you pass",
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-2">
+              ].map((t, i) => (
+                <Reveal key={t} as="li" variant="up" delay={i} className="flex items-start gap-2">
                   <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white shrink-0"><Check size={12} strokeWidth={3} /></span>
                   {t}
-                </li>
+                </Reveal>
               ))}
             </ul>
-          </div>
-          <div className="relative">
+          </Reveal>
+          <Reveal variant="right" delay={1} className="relative">
             <img src={gatewayImg} alt="AI evaluator grading a submission" width={900} height={900} loading="lazy" className="mx-auto w-full max-w-[420px] animate-float" />
-          </div>
+          </Reveal>
         </div>
 
         <div className="grid gap-10 md:grid-cols-2 items-center">
-          <div className="order-2 md:order-1 relative">
+          <Reveal variant="left" className="order-2 md:order-1 relative">
             <img src={studioImg} alt="Collaboration tree of a cross-functional Huzzler team" width={900} height={900} loading="lazy" className="mx-auto w-full max-w-[460px] animate-float" />
-          </div>
-          <div className="order-1 md:order-2">
+          </Reveal>
+          <Reveal variant="right" delay={1} className="order-1 md:order-2">
             <span className="chip"><Users size={12} strokeWidth={2.5} /> Pillar 02 — The Studio</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">Dropped into a real team. In minutes.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
@@ -400,18 +402,18 @@ function Index() {
                 { k: "Role-specific", v: "Digestible mini-tasks per role" },
                 { k: "Visual", v: "Collaboration tree diagram" },
                 { k: "Live", v: "Real-time progress milestones" },
-              ].map((f) => (
-                <div key={f.k} className="card-duo p-4">
+              ].map((f, i) => (
+                <Reveal key={f.k} variant="scale" delay={i} className="card-duo lift p-4">
                   <div className="text-[10px] font-bold text-primary uppercase tracking-[0.15em]">{f.k}</div>
                   <div className="mt-1 text-sm font-semibold text-charcoal/80">{f.v}</div>
-                </div>
+                </Reveal>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
 
         <div className="grid gap-10 md:grid-cols-2 items-center">
-          <div>
+          <Reveal variant="left">
             <span className="chip"><UserCircle2 size={12} strokeWidth={2.5} /> Pillar 03 — Developer Identity</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">A living portfolio that proves you ship.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
@@ -420,16 +422,19 @@ function Index() {
               receipts that get you hired.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {["React", "Figma", "Product", "SQL", "TypeScript", "Tailwind", "AI Prompting"].map((b) => (
-                <span key={b} className="chip !bg-white !text-charcoal !border-border">{b}</span>
+              {["React", "Figma", "Product", "SQL", "TypeScript", "Tailwind", "AI Prompting"].map((b, i) => (
+                <Reveal key={b} as="span" variant="scale" delay={i} className="chip !bg-white !text-charcoal !border-border transition-transform hover:-translate-y-0.5 hover:!border-primary hover:!text-primary">
+                  {b}
+                </Reveal>
               ))}
             </div>
-          </div>
-          <div className="relative">
+          </Reveal>
+          <Reveal variant="right" delay={1} className="relative">
             <img src={identityImg} alt="Developer identity profile card with heatmap and badges" width={900} height={900} loading="lazy" className="mx-auto w-full max-w-[440px] animate-float" />
-          </div>
+          </Reveal>
         </div>
       </section>
+
 
       {/* Heatmap Preview */}
       <section id="profile" className="border-y border-border bg-white">
