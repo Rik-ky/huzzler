@@ -64,15 +64,13 @@ const roles: { label: string; Icon: LucideIcon }[] = [
   { label: "Mobile Developer", Icon: Smartphone },
 ];
 
-// 2D styled icon tile — soft square with brand tint, no emoji
+// 2D styled icon tile — soft square in brand sky,575R575
 function IconTile({
   Icon,
   size = "md",
-  tone = "primary",
 }: {
   Icon: LucideIcon;
   size?: "sm" | "md" | "lg";
-  tone?: "primary" | "accent" | "fire" | "gold";
 }) {
   const sizes = {
     sm: "h-7 w-7 rounded-lg",
@@ -84,17 +82,9 @@ function IconTile({
     md: 20,
     lg: 24,
   } as const;
-  const tones: Record<string, string> = {
-    primary:
-      "bg-[color-mix(in_oklab,var(--primary)_14%,white)] text-[var(--primary)] ring-1 ring-[color-mix(in_oklab,var(--primary)_25%,white)]",
-    accent:
-      "bg-[color-mix(in_oklab,var(--accent)_35%,white)] text-[var(--primary)] ring-1 ring-[color-mix(in_oklab,var(--primary)_20%,white)]",
-    fire: "bg-[color-mix(in_oklab,var(--fire)_18%,white)] text-[var(--fire)] ring-1 ring-[color-mix(in_oklab,var(--fire)_25%,white)]",
-    gold: "bg-[color-mix(in_oklab,var(--gold)_22%,white)] text-[oklch(0.55_0.14_85)] ring-1 ring-[color-mix(in_oklab,var(--gold)_35%,white)]",
-  };
   return (
     <span
-      className={`inline-flex items-center justify-center shrink-0 ${sizes[size]} ${tones[tone]}`}
+      className={`inline-flex items-center justify-center shrink-0 ${sizes[size]} bg-[color-mix(in_oklab,var(--primary)_12%,white)] text-[var(--primary)] ring-1 ring-[color-mix(in_oklab,var(--primary)_22%,white)]`}
     >
       <Icon size={icon[size]} strokeWidth={2.25} />
     </span>
