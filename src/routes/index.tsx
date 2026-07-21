@@ -366,7 +366,11 @@ function Index() {
         <div className="mx-auto max-w-6xl px-5 py-16">
           <div className="grid gap-10 md:grid-cols-4">
             <div className="md:col-span-1">
-              <Logo className="h-9 w-auto brightness-0 invert" />
+              <img
+                src="/huzzler-logo-inverted.svg"
+                alt="Huzzler"
+                className="h-9 w-auto"
+              />
               <p className="mt-4 text-sm text-white/85 leading-relaxed max-w-xs">
                 Experience as a software. The AI-powered launchpad for African tech talent.
               </p>
