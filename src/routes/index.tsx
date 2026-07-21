@@ -442,10 +442,10 @@ function Index() {
 
       {/* Footer */}
       <footer
-        className="text-white"
+        className="text-white skew-y-1 origin-bottom-left"
         style={{ backgroundColor: "#00bfff" }}
       >
-        <div className="mx-auto max-w-6xl px-5 py-16">
+        <div className="mx-auto max-w-6xl px-5 py-16 -skew-y-1">
           <div className="grid gap-10 md:grid-cols-4">
             <div className="md:col-span-1">
               <img
