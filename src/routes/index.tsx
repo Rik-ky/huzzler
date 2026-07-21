@@ -142,7 +142,7 @@ function Header() {
   }, []);
 
   const island =
-    "mx-auto max-w-3xl px-5 py-2 bg-white/95 rounded-full shadow-2xl shadow-black/8 ring-1 ring-black/5 backdrop-blur-md";
+    "mx-auto max-w-3xl px-5 py-2 bg-white/95 rounded-full shadow-2xl shadow-black/10 ring-1 ring-black/5 backdrop-blur-md";
   const full =
     "mx-auto max-w-6xl px-5 py-3.5 bg-white/85 border-b border-border backdrop-blur";
 
