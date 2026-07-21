@@ -440,7 +440,7 @@ function Index() {
       <section id="profile" className="border-y border-border bg-white">
         <div className="mx-auto max-w-6xl px-5 py-20 md:py-24">
           <div className="grid gap-10 md:grid-cols-[1fr_1.3fr] items-center">
-            <div>
+            <Reveal variant="left">
               <span className="chip">Contribution heatmap</span>
               <h2 className="mt-4 text-4xl md:text-5xl leading-[1.05]">Consistency, <span className="text-primary">visualized.</span></h2>
               <p className="mt-4 text-lg text-charcoal/75 leading-relaxed">
@@ -451,13 +451,13 @@ function Index() {
                 <span>Less</span>
                 <div className="flex gap-1">
                   {["#eef2f7", "#bfe8ff", "#66d4ff", "#00bfff", "#0090c4"].map((c) => (
-                    <span key={c} className="h-4 w-4 rounded-[3px]" style={{ backgroundColor: c }} />
+                    <span key={c} className="h-4 w-4 rounded-[3px] transition-transform hover:scale-125" style={{ backgroundColor: c }} />
                   ))}
                 </div>
                 <span>More</span>
               </div>
-            </div>
-            <div className="card-duo p-6 md:p-8">
+            </Reveal>
+            <Reveal variant="right" delay={1} className="card-duo lift p-6 md:p-8">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-[0.15em] text-charcoal/50">Chidi O.</div>
@@ -473,14 +473,14 @@ function Index() {
                   { k: "Projects", v: "8" },
                   { k: "Tasks shipped", v: "162" },
                   { k: "Badges", v: "17" },
-                ].map((s) => (
-                  <div key={s.k} className="rounded-xl bg-secondary p-3 text-center">
+                ].map((s, i) => (
+                  <Reveal key={s.k} variant="scale" delay={i} className="rounded-xl bg-secondary p-3 text-center transition-transform hover:-translate-y-1">
                     <div className="text-2xl font-bold text-primary">{s.v}</div>
                     <div className="text-[10px] font-semibold uppercase tracking-[0.15em] text-charcoal/60 mt-1">{s.k}</div>
-                  </div>
+                  </Reveal>
                 ))}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -492,20 +492,20 @@ function Index() {
             { n: "10,000+", l: "Verified junior talent" },
             { n: "500+", l: "Mock projects shipped" },
             { n: "43", l: "Cities across Africa" },
-          ].map((s) => (
-            <div key={s.l} className="card-duo p-8 text-center">
+          ].map((s, i) => (
+            <Reveal key={s.l} variant="up" delay={i} className="card-duo lift p-8 text-center">
               <div className="text-5xl font-bold text-primary">{s.n}</div>
               <div className="mt-2 font-semibold text-charcoal/60">{s.l}</div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
       {/* CTA */}
       <section id="cta" className="mx-auto max-w-6xl px-5 pb-24">
-        <div className="card-duo relative overflow-hidden p-10 md:p-16 text-center">
-          <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full bg-accent/40 blur-3xl" />
-          <div className="absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-primary/25 blur-3xl" />
+        <Reveal variant="scale" className="card-duo relative overflow-hidden p-10 md:p-16 text-center">
+          <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full bg-accent/40 blur-3xl animate-pulse" />
+          <div className="absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-primary/25 blur-3xl animate-pulse" style={{ animationDelay: "1.2s" }} />
           <h2 className="text-4xl md:text-5xl relative leading-[1.05]">Ready to earn your <span className="text-primary">first real experience?</span></h2>
           <p className="mt-4 text-lg text-charcoal/70 max-w-xl mx-auto relative">
             Join thousands of young African builders using Huzzler to break into
@@ -515,8 +515,9 @@ function Index() {
             <a href="#top" className="btn-duo">Get started free</a>
             <a href="#loop" className="btn-duo-outline">See how it works</a>
           </div>
-        </div>
+        </Reveal>
       </section>
+
 
       {/* Footer */}
       <footer
