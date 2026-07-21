@@ -95,29 +95,56 @@
 }
 
 @layer components {
+  /* Exact button style from uploaded button.svg — purple pill, glossy sheen, inset depth */
   .btn-duo {
+    --btn-purple: #4C43CD;
+    --btn-purple-deep: #3b339f;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.01em;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.5rem;
-    border-radius: 0.9rem;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 1.05rem 2rem;
+    border-radius: 9999px;
     color: white;
-    background-color: var(--primary);
-    box-shadow: 0 2px 0 0 var(--primary-shadow), 0 10px 30px -12px color-mix(in oklab, var(--primary) 60%, transparent);
-    border: 1.5px solid var(--primary-shadow);
-    transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms ease;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 170% 90% at 28% 18%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 55%),
+      radial-gradient(ellipse 160% 110% at 92% 105%, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0) 60%),
+      linear-gradient(180deg, #5A4FDB 0%, #4C43CD 45%, #4239B8 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.35),
+      inset 0 -3px 5px rgba(0,0,0,0.18),
+      0 6px 0 0 var(--btn-purple-deep),
+      0 14px 28px -8px rgba(76, 67, 205, 0.45);
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
     cursor: pointer;
   }
-  .btn-duo:hover { filter: brightness(1.05); transform: translateY(-1px); }
-  .btn-duo:active {
-    transform: translateY(1px);
-    box-shadow: 0 1px 0 0 var(--primary-shadow);
+  .btn-duo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(ellipse 140% 80% at 50% -10%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 55%);
+    pointer-events: none;
   }
+  .btn-duo:hover { filter: brightness(1.06); transform: translateY(-2px); }
+  .btn-duo:active {
+    transform: translateY(2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.3),
+      inset 0 -2px 4px rgba(0,0,0,0.18),
+      0 2px 0 0 var(--btn-purple-deep),
+      0 6px 14px -6px rgba(76, 67, 205, 0.4);
+  }
+
 
   .btn-duo-outline {
     display: inline-flex;
