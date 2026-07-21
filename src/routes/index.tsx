@@ -438,14 +438,19 @@ function Index() {
                 Experience as a software. The AI-powered launchpad for African tech talent.
               </p>
               <div className="mt-5 flex gap-3">
-                {["𝕏", "in", "GH", "IG"].map((s) => (
+                {[
+                  { label: "Twitter", Icon: Twitter },
+                  { label: "LinkedIn", Icon: Linkedin },
+                  { label: "GitHub", Icon: Github },
+                  { label: "Instagram", Icon: Instagram },
+                ].map((s) => (
                   <a
-                    key={s}
+                    key={s.label}
                     href="#"
-                    className="h-9 w-9 rounded-full border border-white/30 hover:border-white flex items-center justify-center text-sm font-bold transition-colors"
-                    aria-label={s}
+                    className="h-9 w-9 rounded-full border border-white/30 hover:border-white hover:bg-white/10 flex items-center justify-center transition-colors"
+                    aria-label={s.label}
                   >
-                    {s}
+                    <s.Icon size={16} strokeWidth={2.25} />
                   </a>
                 ))}
               </div>
