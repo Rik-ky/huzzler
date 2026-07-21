@@ -190,7 +190,7 @@ function Index() {
             <div className="flex items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">
               {roles.concat(roles).map((r, i) => (
                 <div key={i} className="flex items-center gap-2 shrink-0">
-                  <IconTile Icon={r.Icon} size="sm" tone="primary" />
+                  <IconTile Icon={r.Icon} size="sm" />
                   {r.label}
                 </div>
               ))}
