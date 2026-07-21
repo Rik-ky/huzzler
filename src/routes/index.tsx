@@ -142,18 +142,13 @@ function Reveal({
     variant === "scale" ? "reveal-scale" : "";
 
   const mergedStyle: CSSProperties = { ...(style || {}), ["--i" as string]: String(delay) };
+  const cls = `reveal ${variantClass} ${visible ? "is-visible" : ""} ${className}`;
+  const refCb = (node: HTMLElement | null) => { ref.current = node; };
 
-  return (
-    // @ts-expect-error dynamic tag
-    <Tag
-      ref={ref}
-      id={id}
-      style={mergedStyle}
-      className={`reveal ${variantClass} ${visible ? "is-visible" : ""} ${className}`}
-    >
-      {children}
-    </Tag>
-  );
+  if (Tag === "section") return <section ref={refCb} id={id} style={mergedStyle} className={cls}>{children}</section>;
+  if (Tag === "span")    return <span ref={refCb as (n: HTMLSpanElement | null) => void} id={id} style={mergedStyle} className={cls}>{children}</span>;
+  if (Tag === "li")      return <li ref={refCb as (n: HTMLLIElement | null) => void} id={id} style={mergedStyle} className={cls}>{children}</li>;
+  return <div ref={refCb as (n: HTMLDivElement | null) => void} id={id} style={mergedStyle} className={cls}>{children}</div>;
 }
 
 function Heatmap() {
