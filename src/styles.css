@@ -95,7 +95,7 @@
 }
 
 @layer components {
-  /* Primary action — soft glow elevation, angled shadow, moving sheen */
+  /* Gamified primary — chunky pill with hard bottom shadow that presses on click */
   .btn-huzzler {
     position: relative;
     display: inline-flex;
@@ -103,17 +103,19 @@
     justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    font-size: 1.0625rem;
-    line-height: 1.25;
-    padding: 0.875rem 2.25rem;
-    border-radius: 9999px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    line-height: 1;
+    padding: 1.1rem 2.25rem;
+    border-radius: 1.25rem;
     color: white;
-    background-color: var(--primary);
-    border: none;
-    box-shadow: 6px 10px 24px -4px color-mix(in oklab, var(--primary) 40%, transparent);
-    transition: transform 300ms ease, box-shadow 300ms ease, filter 300ms ease;
+    background: var(--primary);
+    border: 2px solid color-mix(in oklab, var(--primary) 70%, black 15%);
+    box-shadow: 0 6px 0 0 color-mix(in oklab, var(--primary) 55%, black 25%),
+                0 10px 24px -8px color-mix(in oklab, var(--primary) 45%, transparent);
+    transition: transform 120ms ease, box-shadow 120ms ease, filter 200ms ease;
     cursor: pointer;
     overflow: hidden;
     isolation: isolate;
@@ -121,39 +123,25 @@
   .btn-huzzler::before {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    inset: 2px 2px auto 2px;
+    height: 45%;
+    border-radius: 1.1rem 1.1rem 2rem 2rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0));
     pointer-events: none;
-    z-index: 1;
-  }
-  .btn-huzzler::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -80%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
-    transform: skewX(-20deg) translateX(-100%);
-    transition: transform 700ms ease-in-out;
-    pointer-events: none;
-    z-index: 2;
   }
   .btn-huzzler:hover {
     filter: brightness(1.05);
-    transform: translateY(-4px);
-    box-shadow: 8px 14px 28px -2px color-mix(in oklab, var(--primary) 50%, transparent);
-  }
-  .btn-huzzler:hover::after {
-    transform: skewX(-20deg) translateX(350%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 0 color-mix(in oklab, var(--primary) 55%, black 25%),
+                0 14px 28px -8px color-mix(in oklab, var(--primary) 50%, transparent);
   }
   .btn-huzzler:active {
-    transform: scale(0.95) translateY(0);
-    box-shadow: 6px 10px 20px -4px color-mix(in oklab, var(--primary) 40%, transparent);
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 0 color-mix(in oklab, var(--primary) 55%, black 25%),
+                0 4px 10px -4px color-mix(in oklab, var(--primary) 40%, transparent);
   }
 
-  /* Secondary action — pill outline, subtle lift on hover */
+  /* Gamified secondary — same chunky shape, light fill */
   .btn-huzzler-outline {
     position: relative;
     display: inline-flex;
@@ -161,49 +149,88 @@
     justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.025em;
-    font-size: 1.0625rem;
-    line-height: 1.25;
-    padding: 0.875rem 2.25rem;
-    border-radius: 9999px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    line-height: 1;
+    padding: 1.1rem 2.25rem;
+    border-radius: 1.25rem;
     color: var(--charcoal);
-    background-color: white;
-    border: 1.5px solid var(--border);
-    transition: transform 300ms ease, border-color 300ms ease, color 300ms ease, box-shadow 300ms ease;
+    background: white;
+    border: 2px solid var(--border);
+    box-shadow: 0 6px 0 0 color-mix(in oklab, var(--charcoal) 10%, var(--border));
+    transition: transform 120ms ease, box-shadow 120ms ease, color 200ms ease, border-color 200ms ease;
     cursor: pointer;
   }
   .btn-huzzler-outline:hover {
-    border-color: var(--primary);
     color: var(--primary);
+    border-color: color-mix(in oklab, var(--primary) 60%, white);
     transform: translateY(-2px);
-    box-shadow: 0 12px 24px -8px color-mix(in oklab, var(--primary) 20%, transparent);
+    box-shadow: 0 8px 0 0 color-mix(in oklab, var(--primary) 25%, var(--border));
   }
   .btn-huzzler-outline:active {
-    transform: translateY(0);
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 0 color-mix(in oklab, var(--charcoal) 10%, var(--border));
   }
 
   .chip {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.35rem 0.75rem;
+    padding: 0.4rem 0.85rem;
     border-radius: 999px;
-    background: color-mix(in oklab, var(--primary) 10%, white);
+    background: color-mix(in oklab, var(--primary) 12%, white);
     color: color-mix(in oklab, var(--primary) 75%, black);
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.72rem;
-    letter-spacing: 0.02em;
-    text-transform: none;
-    border: 1px solid color-mix(in oklab, var(--primary) 20%, white);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1.5px solid color-mix(in oklab, var(--primary) 25%, white);
+    box-shadow: 0 2px 0 0 color-mix(in oklab, var(--primary) 20%, white);
   }
 
+  /* Gamified card — chunky rounded with hard bottom border shadow */
   .card-duo {
     background: white;
-    border: 1px solid var(--border);
-    border-radius: 1.25rem;
-    box-shadow: 0 1px 0 0 var(--border), 0 20px 40px -24px oklch(0.4 0.02 250 / 0.15);
+    border: 2px solid var(--border);
+    border-radius: 1.5rem;
+    box-shadow: 0 6px 0 0 var(--border),
+                0 24px 40px -28px oklch(0.4 0.02 250 / 0.18);
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+  .card-duo:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--primary) 30%, var(--border));
+    box-shadow: 0 9px 0 0 color-mix(in oklab, var(--primary) 20%, var(--border)),
+                0 28px 44px -24px oklch(0.4 0.02 250 / 0.22);
+  }
+
+  /* Gamified inset stat tile — nested chunk inside a card */
+  .stat-tile {
+    background: color-mix(in oklab, var(--primary) 6%, white);
+    border: 2px solid color-mix(in oklab, var(--primary) 15%, var(--border));
+    border-radius: 1.1rem;
+    padding: 1rem 0.75rem;
+    text-align: center;
+    box-shadow: inset 0 -4px 0 0 color-mix(in oklab, var(--primary) 15%, var(--border));
+  }
+  .stat-tile .stat-value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--primary);
+  }
+  .stat-tile .stat-label {
+    margin-top: 0.4rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
   }
 }
 
