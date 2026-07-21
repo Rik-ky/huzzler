@@ -92,6 +92,70 @@ function IconTile({
   );
 }
 
+/* ============ Reveal on scroll ============ */
+function Reveal({
+  children,
+  as: Tag = "div",
+  variant = "up",
+  delay = 0,
+  className = "",
+  style,
+  id,
+}: {
+  children: ReactNode;
+  as?: "div" | "section" | "span" | "li";
+  variant?: "up" | "left" | "right" | "scale";
+  delay?: number;
+  className?: string;
+  style?: CSSProperties;
+  id?: string;
+}) {
+  const ref = useRef<HTMLElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setVisible(true);
+            io.disconnect();
+            break;
+          }
+        }
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+
+  const variantClass =
+    variant === "left" ? "reveal-left" :
+    variant === "right" ? "reveal-right" :
+    variant === "scale" ? "reveal-scale" : "";
+
+  const mergedStyle: CSSProperties = { ...(style || {}), ["--i" as string]: String(delay) };
+
+  return (
+    // @ts-expect-error dynamic tag
+    <Tag
+      ref={ref}
+      id={id}
+      style={mergedStyle}
+      className={`reveal ${variantClass} ${visible ? "is-visible" : ""} ${className}`}
+    >
+      {children}
+    </Tag>
+  );
+}
+
 function Heatmap() {
   const weeks = 17;
   const days = 7;
