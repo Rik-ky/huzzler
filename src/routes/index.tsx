@@ -173,13 +173,16 @@ function Heatmap() {
           className="grid gap-[3px]"
           style={{ gridTemplateRows: `repeat(${days}, 1fr)` }}
         >
-          {Array.from({ length: days }).map((_, d) => (
-            <div
-              key={d}
-              className="aspect-square rounded-[3px]"
-              style={{ backgroundColor: levels[cells[w * days + d]] }}
-            />
-          ))}
+          {Array.from({ length: days }).map((_, d) => {
+            const idx = w * days + d;
+            return (
+              <div
+                key={d}
+                className="aspect-square rounded-[3px] cell-in"
+                style={{ backgroundColor: levels[cells[idx]], animationDelay: `${idx * 6}ms` }}
+              />
+            );
+          })}
         </div>
       ))}
     </div>
