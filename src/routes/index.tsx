@@ -168,9 +168,9 @@ function Index() {
               <a href="#loop" className="btn-duo-outline">I already have an account</a>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-charcoal/75 font-semibold">
-              <div className="flex items-center gap-2"><IconTile Icon={Zap} size="sm" tone="gold" /> AI-verified skills</div>
-              <div className="flex items-center gap-2"><IconTile Icon={Users} size="sm" tone="primary" /> Real team projects</div>
-              <div className="flex items-center gap-2"><IconTile Icon={Trophy} size="sm" tone="fire" /> XP & badges</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Zap} size="sm" /> AI-verified skills</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Users} size="sm" /> Real team projects</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Trophy} size="sm" /> XP & badges</div>
             </div>
           </div>
           <div className="order-1 md:order-2 relative">
