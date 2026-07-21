@@ -91,7 +91,7 @@ function Index() {
             <a href="#profile" className="hover:text-primary transition-colors">Your profile</a>
             <a href="#roles" className="hover:text-primary transition-colors">Roles</a>
           </nav>
-          <a href="#cta" className="btn-huzzler !py-2.5 !px-4">Get started</a>
+          <a href="#cta" className="btn-duo !py-2.5 !px-4">Get started</a>
         </div>
       </header>
 
@@ -110,8 +110,8 @@ function Index() {
               no-experience catch-22.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#cta" className="btn-huzzler">Get started free</a>
-              <a href="#loop" className="btn-huzzler-outline">I already have an account</a>
+              <a href="#cta" className="btn-duo">Get started free</a>
+              <a href="#loop" className="btn-duo-outline">I already have an account</a>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-charcoal/70 font-semibold">
               <div className="flex items-center gap-2"><span className="text-lg">⚡</span> AI-verified skills</div>
@@ -352,8 +352,8 @@ function Index() {
             tech — for free.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3 relative">
-            <a href="#top" className="btn-huzzler">Get started free</a>
-            <a href="#loop" className="btn-huzzler-outline">See how it works</a>
+            <a href="#top" className="btn-duo">Get started free</a>
+            <a href="#loop" className="btn-duo-outline">See how it works</a>
           </div>
         </div>
       </section>
