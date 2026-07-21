@@ -262,7 +262,7 @@ function Index() {
       <section id="pillars" className="mx-auto max-w-6xl px-5 py-20 md:py-28 space-y-24 md:space-y-32">
         <div className="grid gap-10 md:grid-cols-2 items-center">
           <div>
-            <span className="chip">🎓 Pillar 01 — The Gateway</span>
+            <span className="chip"><GraduationCap size={12} strokeWidth={2.5} /> Pillar 01 — The Gateway</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">AI that knows if you can actually do the job.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
               Every user faces a role-based simulation task. Our AI evaluation
