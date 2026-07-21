@@ -320,7 +320,7 @@ function Index() {
 
         <div className="grid gap-10 md:grid-cols-2 items-center">
           <div>
-            <span className="chip">👤 Pillar 03 — Developer Identity</span>
+            <span className="chip"><UserCircle2 size={12} strokeWidth={2.5} /> Pillar 03 — Developer Identity</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">A living portfolio that proves you ship.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
               Every task you complete feeds a GitHub-style contribution heatmap,
@@ -328,7 +328,7 @@ function Index() {
               receipts that get you hired.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {["React ⚛️", "Figma 🎨", "PM 📋", "SQL 🧮", "TypeScript 🟦", "Tailwind 🌬", "AI Prompting 🤖"].map((b) => (
+              {["React", "Figma", "Product", "SQL", "TypeScript", "Tailwind", "AI Prompting"].map((b) => (
                 <span key={b} className="chip !bg-white !text-charcoal !border-border">{b}</span>
               ))}
             </div>
