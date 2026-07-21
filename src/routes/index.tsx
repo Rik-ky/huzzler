@@ -244,27 +244,37 @@ function Index() {
       <section id="top" className="relative overflow-hidden">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-5 pt-16 pb-16 md:grid-cols-2 md:pt-24 md:pb-24">
           <div className="order-2 md:order-1">
-            <span className="chip"><MapPin size={12} strokeWidth={2.5} /> Built for Africa</span>
-            <h1 className="mt-5 text-5xl leading-[1.02] md:text-6xl md:leading-[1.02]">
-              <span className="text-charcoal">Experience</span>{" "}
-              <span className="text-primary">as a software.</span>
-            </h1>
-            <p className="mt-6 max-w-lg text-lg text-charcoal/70 leading-relaxed">
-              The free, AI-powered way for junior African tech talent to earn
-              real cross-functional project experience — and finally break the
-              no-experience catch-22.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#cta" className="btn-duo">Get started free</a>
-              <a href="#loop" className="btn-duo-outline">I already have an account</a>
-            </div>
-            <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-charcoal/75 font-semibold">
-              <div className="flex items-center gap-2"><IconTile Icon={Zap} size="sm" /> AI-verified skills</div>
-              <div className="flex items-center gap-2"><IconTile Icon={Users} size="sm" /> Real team projects</div>
-              <div className="flex items-center gap-2"><IconTile Icon={Trophy} size="sm" /> XP & badges</div>
-            </div>
+            <Reveal variant="up" delay={0}>
+              <span className="chip"><MapPin size={12} strokeWidth={2.5} /> Built for Africa</span>
+            </Reveal>
+            <Reveal variant="up" delay={1}>
+              <h1 className="mt-5 text-5xl leading-[1.02] md:text-6xl md:leading-[1.02]">
+                <span className="text-charcoal">Experience</span>{" "}
+                <span className="text-primary">as a software.</span>
+              </h1>
+            </Reveal>
+            <Reveal variant="up" delay={2}>
+              <p className="mt-6 max-w-lg text-lg text-charcoal/70 leading-relaxed">
+                The free, AI-powered way for junior African tech talent to earn
+                real cross-functional project experience — and finally break the
+                no-experience catch-22.
+              </p>
+            </Reveal>
+            <Reveal variant="up" delay={3}>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="#cta" className="btn-duo">Get started free</a>
+                <a href="#loop" className="btn-duo-outline">I already have an account</a>
+              </div>
+            </Reveal>
+            <Reveal variant="up" delay={4}>
+              <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-charcoal/75 font-semibold">
+                <div className="group flex items-center gap-2"><span className="icon-pop"><IconTile Icon={Zap} size="sm" /></span> AI-verified skills</div>
+                <div className="group flex items-center gap-2"><span className="icon-pop"><IconTile Icon={Users} size="sm" /></span> Real team projects</div>
+                <div className="group flex items-center gap-2"><span className="icon-pop"><IconTile Icon={Trophy} size="sm" /></span> XP & badges</div>
+              </div>
+            </Reveal>
           </div>
-          <div className="order-1 md:order-2 relative">
+          <Reveal variant="scale" delay={1} className="order-1 md:order-2 relative">
             <img
               src={heroImg}
               alt="Diverse African tech team collaborating"
@@ -272,16 +282,16 @@ function Index() {
               height={1000}
               className="mx-auto w-full max-w-[560px] animate-float"
             />
-          </div>
+          </Reveal>
         </div>
 
         {/* Roles marquee */}
         <div id="roles" className="border-y border-border bg-white">
-          <div className="mx-auto max-w-6xl overflow-x-auto px-5 py-4">
-            <div className="flex items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">
-              {roles.concat(roles).map((r, i) => (
-                <div key={i} className="flex items-center gap-2 shrink-0">
-                  <IconTile Icon={r.Icon} size="sm" />
+          <div className="marquee-mask mx-auto max-w-6xl overflow-hidden px-5 py-4">
+            <div className="animate-marquee flex w-max items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">
+              {roles.concat(roles).concat(roles).map((r, i) => (
+                <div key={i} className="group flex items-center gap-2 shrink-0 transition-colors hover:text-primary">
+                  <span className="icon-pop"><IconTile Icon={r.Icon} size="sm" /></span>
                   {r.label}
                 </div>
               ))}
@@ -289,6 +299,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
       {/* Problem / Solution */}
       <section className="mx-auto max-w-6xl px-5 py-20 md:py-28">
