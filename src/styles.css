@@ -101,21 +101,31 @@
     justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.01em;
     font-size: 0.95rem;
-    padding: 0.85rem 1.5rem;
-    border-radius: 0.9rem;
+    padding: 0.9rem 1.6rem;
+    border-radius: 1.5rem;
     color: white;
-    background-color: var(--primary);
-    box-shadow: 0 2px 0 0 var(--primary-shadow), 0 10px 30px -12px color-mix(in oklab, var(--primary) 60%, transparent);
-    border: 1.5px solid var(--primary-shadow);
-    transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms ease;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--primary) 92%, white) 0%, var(--primary) 100%);
+    box-shadow: 0 4px 0 0 var(--primary-shadow), 0 14px 34px -10px color-mix(in oklab, var(--primary) 55%, transparent);
+    border: 2px solid var(--primary-shadow);
+    transition: transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 120ms ease, filter 120ms ease;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
   }
-  .btn-duo:hover { filter: brightness(1.05); transform: translateY(-1px); }
+  .btn-duo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 0 color-mix(in oklab, white 35%, transparent);
+    pointer-events: none;
+  }
+  .btn-duo:hover { filter: brightness(1.06); transform: translateY(-2px) scale(1.02); }
   .btn-duo:active {
-    transform: translateY(1px);
+    transform: translateY(2px) scale(0.98);
     box-shadow: 0 1px 0 0 var(--primary-shadow);
   }
 
@@ -125,18 +135,30 @@
     justify-content: center;
     gap: 0.5rem;
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.01em;
     font-size: 0.95rem;
-    padding: 0.85rem 1.5rem;
-    border-radius: 0.9rem;
+    padding: 0.9rem 1.6rem;
+    border-radius: 1.5rem;
     color: var(--charcoal);
-    background-color: white;
-    border: 1.5px solid var(--border);
-    transition: transform 150ms ease, border-color 150ms ease;
+    background: linear-gradient(180deg, white 0%, oklch(0.99 0.005 250) 100%);
+    border: 2px solid var(--border);
+    box-shadow: 0 3px 0 0 var(--border), 0 10px 28px -12px oklch(0.4 0.02 250 / 0.12);
+    transition: transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1), border-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
   }
-  .btn-duo-outline:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-duo-outline::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 0 white;
+    pointer-events: none;
+  }
+  .btn-duo-outline:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px) scale(1.02); box-shadow: 0 4px 0 0 color-mix(in oklab, var(--primary) 25%, var(--border)), 0 14px 34px -10px color-mix(in oklab, var(--primary) 25%, transparent); }
+  .btn-duo-outline:active { transform: translateY(2px) scale(0.98); box-shadow: 0 1px 0 0 var(--border); }
 
   .chip {
     display: inline-flex;
