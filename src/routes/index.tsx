@@ -3,6 +3,33 @@ import heroImg from "@/assets/hero.png";
 import gatewayImg from "@/assets/gateway.png";
 import studioImg from "@/assets/studio.png";
 import identityImg from "@/assets/identity.png";
+import {
+  Code2,
+  Palette,
+  ClipboardList,
+  BarChart3,
+  Cpu,
+  Wrench,
+  Bug,
+  Smartphone,
+  Zap,
+  Users,
+  Trophy,
+  Target,
+  CheckCircle2,
+  Dna,
+  Rocket,
+  GraduationCap,
+  UserCircle2,
+  Flame,
+  MapPin,
+  Check,
+  Twitter,
+  Linkedin,
+  Github,
+  Instagram,
+  type LucideIcon,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
