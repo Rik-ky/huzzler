@@ -145,7 +145,7 @@ function Index() {
             <a href="#profile" className="hover:text-primary transition-colors">Your profile</a>
             <a href="#roles" className="hover:text-primary transition-colors">Roles</a>
           </nav>
-          <a href="#cta" className="btn-duo !py-2.5 !px-4">Get started</a>
+          <a href="#cta" className="btn-duo">Get started</a>
         </div>
       </header>
 
