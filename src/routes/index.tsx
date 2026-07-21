@@ -293,7 +293,7 @@ function Index() {
             <img src={studioImg} alt="Collaboration tree of a cross-functional Huzzler team" width={900} height={900} loading="lazy" className="mx-auto w-full max-w-[460px] animate-float" />
           </div>
           <div className="order-1 md:order-2">
-            <span className="chip">🤝 Pillar 02 — The Studio</span>
+            <span className="chip"><Users size={12} strokeWidth={2.5} /> Pillar 02 — The Studio</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">Dropped into a real team. In minutes.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
               When the AI detects a mock-project — say, <em>"Build a Healthcare
