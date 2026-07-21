@@ -173,7 +173,7 @@ function Header() {
 
 function Index() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground" style={{ overflowX: "clip" }}>
       {/* Nav */}
       <Header />
 
