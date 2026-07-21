@@ -64,15 +64,13 @@ const roles: { label: string; Icon: LucideIcon }[] = [
   { label: "Mobile Developer", Icon: Smartphone },
 ];
 
-// 2D styled icon tile — soft square with brand tint, no emoji
+// 2D styled icon tile — soft square in brand sky,575R575
 function IconTile({
   Icon,
   size = "md",
-  tone = "primary",
 }: {
   Icon: LucideIcon;
   size?: "sm" | "md" | "lg";
-  tone?: "primary" | "accent" | "fire" | "gold";
 }) {
   const sizes = {
     sm: "h-7 w-7 rounded-lg",
@@ -84,17 +82,9 @@ function IconTile({
     md: 20,
     lg: 24,
   } as const;
-  const tones: Record<string, string> = {
-    primary:
-      "bg-[color-mix(in_oklab,var(--primary)_14%,white)] text-[var(--primary)] ring-1 ring-[color-mix(in_oklab,var(--primary)_25%,white)]",
-    accent:
-      "bg-[color-mix(in_oklab,var(--accent)_35%,white)] text-[var(--primary)] ring-1 ring-[color-mix(in_oklab,var(--primary)_20%,white)]",
-    fire: "bg-[color-mix(in_oklab,var(--fire)_18%,white)] text-[var(--fire)] ring-1 ring-[color-mix(in_oklab,var(--fire)_25%,white)]",
-    gold: "bg-[color-mix(in_oklab,var(--gold)_22%,white)] text-[oklch(0.55_0.14_85)] ring-1 ring-[color-mix(in_oklab,var(--gold)_35%,white)]",
-  };
   return (
     <span
-      className={`inline-flex items-center justify-center shrink-0 ${sizes[size]} ${tones[tone]}`}
+      className={`inline-flex items-center justify-center shrink-0 ${sizes[size]} bg-[color-mix(in_oklab,var(--primary)_12%,white)] text-[var(--primary)] ring-1 ring-[color-mix(in_oklab,var(--primary)_22%,white)]`}
     >
       <Icon size={icon[size]} strokeWidth={2.25} />
     </span>
@@ -178,9 +168,9 @@ function Index() {
               <a href="#loop" className="btn-duo-outline">I already have an account</a>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-charcoal/75 font-semibold">
-              <div className="flex items-center gap-2"><IconTile Icon={Zap} size="sm" tone="gold" /> AI-verified skills</div>
-              <div className="flex items-center gap-2"><IconTile Icon={Users} size="sm" tone="primary" /> Real team projects</div>
-              <div className="flex items-center gap-2"><IconTile Icon={Trophy} size="sm" tone="fire" /> XP & badges</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Zap} size="sm" /> AI-verified skills</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Users} size="sm" /> Real team projects</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Trophy} size="sm" /> XP & badges</div>
             </div>
           </div>
           <div className="order-1 md:order-2 relative">
@@ -200,7 +190,7 @@ function Index() {
             <div className="flex items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">
               {roles.concat(roles).map((r, i) => (
                 <div key={i} className="flex items-center gap-2 shrink-0">
-                  <IconTile Icon={r.Icon} size="sm" tone="primary" />
+                  <IconTile Icon={r.Icon} size="sm" />
                   {r.label}
                 </div>
               ))}
@@ -242,14 +232,14 @@ function Index() {
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-4">
             {[
-              { n: "01", title: "Gateway task", body: "Pick your role, take a real-world simulation. AI evaluates your submission on a strict rubric.", Icon: Target, tone: "primary" as const },
-              { n: "02", title: "Verified & profiled", body: "Pass the gateway to unlock your first badge and get tagged with a verified capability.", Icon: CheckCircle2, tone: "accent" as const },
-              { n: "03", title: "Team assembly", body: "The AI drafts you into a cross-functional cohort the moment a matching project appears.", Icon: Dna, tone: "gold" as const },
-              { n: "04", title: "Gamified execution", body: "Ship role-specific micro-tasks in an AI-managed workspace. Earn XP. Fill your heatmap.", Icon: Rocket, tone: "fire" as const },
+              { n: "01", title: "Gateway task", body: "Pick your role, take a real-world simulation. AI evaluates your submission on a strict rubric.", Icon: Target },
+              { n: "02", title: "Verified & profiled", body: "Pass the gateway to unlock your first badge and get tagged with a verified capability.", Icon: CheckCircle2 },
+              { n: "03", title: "Team assembly", body: "The AI drafts you into a cross-functional cohort the moment a matching project appears.", Icon: Dna },
+              { n: "04", title: "Gamified execution", body: "Ship role-specific micro-tasks in an AI-managed workspace. Earn XP. Fill your heatmap.", Icon: Rocket },
             ].map((s) => (
               <div key={s.n} className="card-duo p-6 relative">
                 <div className="text-xs font-semibold text-primary tracking-[0.15em]">STEP {s.n}</div>
-                <div className="mt-3"><IconTile Icon={s.Icon} size="lg" tone={s.tone} /></div>
+                <div className="mt-3"><IconTile Icon={s.Icon} size="lg" /></div>
                 <h3 className="mt-3 text-xl">{s.title}</h3>
                 <p className="mt-2 text-charcoal/70 text-sm leading-relaxed">{s.body}</p>
               </div>
