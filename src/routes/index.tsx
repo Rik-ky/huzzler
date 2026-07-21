@@ -3,6 +3,33 @@ import heroImg from "@/assets/hero.png";
 import gatewayImg from "@/assets/gateway.png";
 import studioImg from "@/assets/studio.png";
 import identityImg from "@/assets/identity.png";
+import {
+  Code2,
+  Palette,
+  ClipboardList,
+  BarChart3,
+  Cpu,
+  Wrench,
+  Bug,
+  Smartphone,
+  Zap,
+  Users,
+  Trophy,
+  Target,
+  CheckCircle2,
+  Dna,
+  Rocket,
+  GraduationCap,
+  UserCircle2,
+  Flame,
+  MapPin,
+  Check,
+  Twitter,
+  Linkedin,
+  Github,
+  Instagram,
+  type LucideIcon,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,16 +53,53 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const roles = [
-  { label: "Frontend Engineer", emoji: "💻" },
-  { label: "UI / UX Designer", emoji: "🎨" },
-  { label: "Product Manager", emoji: "📋" },
-  { label: "Data Analyst", emoji: "📊" },
-  { label: "AI / ML Engineer", emoji: "🤖" },
-  { label: "Backend Engineer", emoji: "🛠️" },
-  { label: "QA Tester", emoji: "🔍" },
-  { label: "Mobile Developer", emoji: "📱" },
+const roles: { label: string; Icon: LucideIcon }[] = [
+  { label: "Frontend Engineer", Icon: Code2 },
+  { label: "UI / UX Designer", Icon: Palette },
+  { label: "Product Manager", Icon: ClipboardList },
+  { label: "Data Analyst", Icon: BarChart3 },
+  { label: "AI / ML Engineer", Icon: Cpu },
+  { label: "Backend Engineer", Icon: Wrench },
+  { label: "QA Tester", Icon: Bug },
+  { label: "Mobile Developer", Icon: Smartphone },
 ];
+
+// 2D styled icon tile — soft square with brand tint, no emoji
+function IconTile({
+  Icon,
+  size = "md",
+  tone = "primary",
+}: {
+  Icon: LucideIcon;
+  size?: "sm" | "md" | "lg";
+  tone?: "primary" | "accent" | "fire" | "gold";
+}) {
+  const sizes = {
+    sm: "h-7 w-7 rounded-lg",
+    md: "h-10 w-10 rounded-xl",
+    lg: "h-12 w-12 rounded-2xl",
+  } as const;
+  const icon = {
+    sm: 14,
+    md: 20,
+    lg: 24,
+  } as const;
+  const tones: Record<string, string> = {
+    primary:
+      "bg-[color-mix(in_oklab,var(--primary)_14%,white)] text-[var(--primary)] ring-1 ring-[color-mix(in_oklab,var(--primary)_25%,white)]",
+    accent:
+      "bg-[color-mix(in_oklab,var(--accent)_35%,white)] text-[var(--primary)] ring-1 ring-[color-mix(in_oklab,var(--primary)_20%,white)]",
+    fire: "bg-[color-mix(in_oklab,var(--fire)_18%,white)] text-[var(--fire)] ring-1 ring-[color-mix(in_oklab,var(--fire)_25%,white)]",
+    gold: "bg-[color-mix(in_oklab,var(--gold)_22%,white)] text-[oklch(0.55_0.14_85)] ring-1 ring-[color-mix(in_oklab,var(--gold)_35%,white)]",
+  };
+  return (
+    <span
+      className={`inline-flex items-center justify-center shrink-0 ${sizes[size]} ${tones[tone]}`}
+    >
+      <Icon size={icon[size]} strokeWidth={2.25} />
+    </span>
+  );
+}
 
 function Heatmap() {
   const weeks = 17;
@@ -99,7 +163,7 @@ function Index() {
       <section id="top" className="relative overflow-hidden">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-5 pt-16 pb-16 md:grid-cols-2 md:pt-24 md:pb-24">
           <div className="order-2 md:order-1">
-            <span className="chip">🇳🇬 Built for Africa</span>
+            <span className="chip"><MapPin size={12} strokeWidth={2.5} /> Built for Africa</span>
             <h1 className="mt-5 text-5xl leading-[1.02] md:text-6xl md:leading-[1.02]">
               <span className="text-charcoal">Experience</span>{" "}
               <span className="text-primary">as a software.</span>
@@ -113,20 +177,19 @@ function Index() {
               <a href="#cta" className="btn-duo">Get started free</a>
               <a href="#loop" className="btn-duo-outline">I already have an account</a>
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-charcoal/70 font-semibold">
-              <div className="flex items-center gap-2"><span className="text-lg">⚡</span> AI-verified skills</div>
-              <div className="flex items-center gap-2"><span className="text-lg">🤝</span> Real team projects</div>
-              <div className="flex items-center gap-2"><span className="text-lg">🏆</span> XP & badges</div>
+            <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-charcoal/75 font-semibold">
+              <div className="flex items-center gap-2"><IconTile Icon={Zap} size="sm" tone="gold" /> AI-verified skills</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Users} size="sm" tone="primary" /> Real team projects</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Trophy} size="sm" tone="fire" /> XP & badges</div>
             </div>
           </div>
           <div className="order-1 md:order-2 relative">
-            <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-accent/30 via-transparent to-primary/10 blur-2xl" />
             <img
               src={heroImg}
               alt="Diverse African tech team collaborating"
               width={1200}
               height={1000}
-              className="mx-auto w-full max-w-[560px] animate-float drop-shadow-xl"
+              className="mx-auto w-full max-w-[560px] animate-float"
             />
           </div>
         </div>
@@ -137,7 +200,7 @@ function Index() {
             <div className="flex items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">
               {roles.concat(roles).map((r, i) => (
                 <div key={i} className="flex items-center gap-2 shrink-0">
-                  <span className="text-xl">{r.emoji}</span>
+                  <IconTile Icon={r.Icon} size="sm" tone="primary" />
                   {r.label}
                 </div>
               ))}
@@ -179,14 +242,14 @@ function Index() {
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-4">
             {[
-              { n: "01", title: "Gateway task", body: "Pick your role, take a real-world simulation. AI evaluates your submission on a strict rubric.", emoji: "🎯" },
-              { n: "02", title: "Verified & profiled", body: "Pass the gateway to unlock your first badge and get tagged with a verified capability.", emoji: "✅" },
-              { n: "03", title: "Team assembly", body: "The AI drafts you into a cross-functional cohort the moment a matching project appears.", emoji: "🧬" },
-              { n: "04", title: "Gamified execution", body: "Ship role-specific micro-tasks in an AI-managed workspace. Earn XP. Fill your heatmap.", emoji: "🚀" },
+              { n: "01", title: "Gateway task", body: "Pick your role, take a real-world simulation. AI evaluates your submission on a strict rubric.", Icon: Target, tone: "primary" as const },
+              { n: "02", title: "Verified & profiled", body: "Pass the gateway to unlock your first badge and get tagged with a verified capability.", Icon: CheckCircle2, tone: "accent" as const },
+              { n: "03", title: "Team assembly", body: "The AI drafts you into a cross-functional cohort the moment a matching project appears.", Icon: Dna, tone: "gold" as const },
+              { n: "04", title: "Gamified execution", body: "Ship role-specific micro-tasks in an AI-managed workspace. Earn XP. Fill your heatmap.", Icon: Rocket, tone: "fire" as const },
             ].map((s) => (
               <div key={s.n} className="card-duo p-6 relative">
                 <div className="text-xs font-semibold text-primary tracking-[0.15em]">STEP {s.n}</div>
-                <div className="text-3xl mt-3">{s.emoji}</div>
+                <div className="mt-3"><IconTile Icon={s.Icon} size="lg" tone={s.tone} /></div>
                 <h3 className="mt-3 text-xl">{s.title}</h3>
                 <p className="mt-2 text-charcoal/70 text-sm leading-relaxed">{s.body}</p>
               </div>
@@ -199,7 +262,7 @@ function Index() {
       <section id="pillars" className="mx-auto max-w-6xl px-5 py-20 md:py-28 space-y-24 md:space-y-32">
         <div className="grid gap-10 md:grid-cols-2 items-center">
           <div>
-            <span className="chip">🎓 Pillar 01 — The Gateway</span>
+            <span className="chip"><GraduationCap size={12} strokeWidth={2.5} /> Pillar 01 — The Gateway</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">AI that knows if you can actually do the job.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
               Every user faces a role-based simulation task. Our AI evaluation
@@ -214,7 +277,7 @@ function Index() {
                 "Badge celebrations when you pass",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2">
-                  <span className="mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white text-xs font-bold">✓</span>
+                  <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white shrink-0"><Check size={12} strokeWidth={3} /></span>
                   {t}
                 </li>
               ))}
@@ -230,7 +293,7 @@ function Index() {
             <img src={studioImg} alt="Collaboration tree of a cross-functional Huzzler team" width={900} height={900} loading="lazy" className="mx-auto w-full max-w-[460px] animate-float" />
           </div>
           <div className="order-1 md:order-2">
-            <span className="chip">🤝 Pillar 02 — The Studio</span>
+            <span className="chip"><Users size={12} strokeWidth={2.5} /> Pillar 02 — The Studio</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">Dropped into a real team. In minutes.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
               When the AI detects a mock-project — say, <em>"Build a Healthcare
@@ -257,7 +320,7 @@ function Index() {
 
         <div className="grid gap-10 md:grid-cols-2 items-center">
           <div>
-            <span className="chip">👤 Pillar 03 — Developer Identity</span>
+            <span className="chip"><UserCircle2 size={12} strokeWidth={2.5} /> Pillar 03 — Developer Identity</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">A living portfolio that proves you ship.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
               Every task you complete feeds a GitHub-style contribution heatmap,
@@ -265,7 +328,7 @@ function Index() {
               receipts that get you hired.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {["React ⚛️", "Figma 🎨", "PM 📋", "SQL 🧮", "TypeScript 🟦", "Tailwind 🌬", "AI Prompting 🤖"].map((b) => (
+              {["React", "Figma", "Product", "SQL", "TypeScript", "Tailwind", "AI Prompting"].map((b) => (
                 <span key={b} className="chip !bg-white !text-charcoal !border-border">{b}</span>
               ))}
             </div>
@@ -304,7 +367,7 @@ function Index() {
                   <div className="text-xl font-bold text-primary mt-0.5">247 contributions this year</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="chip">🔥 12-day streak</span>
+                  <span className="chip"><Flame size={12} strokeWidth={2.5} /> 12-day streak</span>
                 </div>
               </div>
               <Heatmap />
@@ -375,14 +438,19 @@ function Index() {
                 Experience as a software. The AI-powered launchpad for African tech talent.
               </p>
               <div className="mt-5 flex gap-3">
-                {["𝕏", "in", "GH", "IG"].map((s) => (
+                {[
+                  { label: "Twitter", Icon: Twitter },
+                  { label: "LinkedIn", Icon: Linkedin },
+                  { label: "GitHub", Icon: Github },
+                  { label: "Instagram", Icon: Instagram },
+                ].map((s) => (
                   <a
-                    key={s}
+                    key={s.label}
                     href="#"
-                    className="h-9 w-9 rounded-full border border-white/30 hover:border-white flex items-center justify-center text-sm font-bold transition-colors"
-                    aria-label={s}
+                    className="h-9 w-9 rounded-full border border-white/30 hover:border-white hover:bg-white/10 flex items-center justify-center transition-colors"
+                    aria-label={s.label}
                   >
-                    {s}
+                    <s.Icon size={16} strokeWidth={2.25} />
                   </a>
                 ))}
               </div>
