@@ -35,17 +35,17 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Huzzler — Experience as a Software for African Tech Talent" },
+      { title: "Huzzler | Experience as a Software for African Tech Talent" },
       {
         name: "description",
         content:
-          "Huzzler is an AI platform that turns junior African tech talent into job-ready professionals through real cross-functional project simulations.",
+          "Huzzler is an AI platform that turns junior African tech talent into job-ready professionals through real cross-functional projects.",
       },
-      { property: "og:title", content: "Huzzler — Experience as a Software" },
+      { property: "og:title", content: "Huzzler | Experience as a Software" },
       {
         property: "og:description",
         content:
-          "Break the no-experience catch-22. Get verified by AI, join real project teams, and build the portfolio that gets you hired.",
+          "Break the no-experience loop. Get verified by AI, join real product teams, and build the portfolio that gets you hired.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -189,8 +189,8 @@ function Index() {
             </h1>
             <p className="mt-6 max-w-lg text-lg text-charcoal/70 leading-relaxed">
               The free, AI-powered way for junior African tech talent to earn
-              real cross-functional project experience — and finally break the
-              no-experience catch-22.
+              real cross-functional product experience and finally break the
+              no-experience loop.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#cta" className="btn-duo">Get started free</a>
@@ -240,14 +240,14 @@ function Index() {
           </div>
           <p className="text-lg md:text-xl leading-relaxed text-charcoal/75 md:mt-14">
             Bootcamps teach syntax. Tutorials teach patterns. Neither teaches you
-            how to ship a feature with a PM breathing down your neck, a designer
-            iterating on Figma, and a QA logging bugs.
+            how to ship a feature with a PM setting scope, a designer iterating on
+            Figma, and a QA logging bugs.
             <br />
             <br />
-            <span className="text-primary font-bold">Huzzler simulates the real thing.</span>{" "}
+            <span className="text-primary font-bold">Huzzler puts you on real product teams.</span>{" "}
             An AI recruiter verifies you. An AI project manager assembles your
             team. An AI mentor grades your output. You earn XP and a portfolio
-            that proves you can actually do the work.
+            that proves you can actually ship products users love.
           </p>
         </div>
       </section>
@@ -261,10 +261,10 @@ function Index() {
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-4">
             {[
-              { n: "01", title: "Gateway task", body: "Pick your role, take a real-world simulation. AI evaluates your submission on a strict rubric.", Icon: Target },
+              { n: "01", title: "Gateway task", body: "Pick your role and complete a real-world challenge. AI evaluates your submission on a strict rubric.", Icon: Target },
               { n: "02", title: "Verified & profiled", body: "Pass the gateway to unlock your first badge and get tagged with a verified capability.", Icon: CheckCircle2 },
-              { n: "03", title: "Team assembly", body: "The AI drafts you into a cross-functional cohort the moment a matching project appears.", Icon: Dna },
-              { n: "04", title: "Gamified execution", body: "Ship role-specific micro-tasks in an AI-managed workspace. Earn XP. Fill your heatmap.", Icon: Rocket },
+              { n: "03", title: "Team assembly", body: "The AI drafts you into a cross-functional cohort the moment a matching product team needs you.", Icon: Dna },
+              { n: "04", title: "Gamified execution", body: "Ship role-specific tasks in an AI-managed workspace. Earn XP. Fill your contribution heatmap.", Icon: Rocket },
             ].map((s) => (
               <div key={s.n} className="card-duo p-6 relative">
                 <div className="text-xs font-semibold text-primary tracking-[0.15em]">STEP {s.n}</div>
@@ -284,15 +284,15 @@ function Index() {
             <span className="chip"><GraduationCap size={12} strokeWidth={2.5} /> Pillar 01 — The Gateway</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">AI that knows if you can actually do the job.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
-              Every user faces a role-based simulation task. Our AI evaluation
+              Every user faces a role-based evaluation task. Our AI evaluation
               engine parses your submission against a strict rubric and returns a
-              score from 0–100 with qualitative feedback — like a senior manager
-              reviewing your first PR.
+              score from 0 to 100 with qualitative feedback, like a senior manager
+              reviewing your first deliverable.
             </p>
             <ul className="mt-6 space-y-3 font-semibold text-charcoal">
               {[
                 "Real-world tasks per discipline (Frontend, UI/UX, PM, Data, AI)",
-                "Structured JSON rubric scoring — no vibes-based grading",
+                "Structured JSON rubric scoring with no vibes-based grading",
                 "Badge celebrations when you pass",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2">
@@ -315,11 +315,10 @@ function Index() {
             <span className="chip"><Users size={12} strokeWidth={2.5} /> Pillar 02 — The Studio</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">Dropped into a real team. In minutes.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
-              When the AI detects a mock-project — say, <em>"Build a Healthcare
-              Landing Page"</em> — it autonomously drafts a team of verified
-              users: 1 PM, 2 React engineers, 1 designer, 1 data analyst. You
-              drop into a shared workspace with a visual collaboration tree
-              showing how everyone connects.
+              When a product team needs talent, the AI autonomously drafts a
+              verified crew: 1 PM, 2 React engineers, 1 designer, 1 data analyst.
+              You drop into a shared workspace with a visual collaboration tree
+              showing how everyone connects and ships live features.
             </p>
             <div className="mt-6 grid grid-cols-2 gap-3">
               {[
