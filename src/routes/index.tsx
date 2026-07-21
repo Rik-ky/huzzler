@@ -577,7 +577,7 @@ function Index() {
                     <li key={l}>
                       <a
                         href="#"
-                        className="text-sm font-semibold text-white/90 hover:text-white transition-colors"
+                        className="link-underline text-sm font-semibold text-white/90 hover:text-white transition-colors"
                       >
                         {l}
                       </a>
