@@ -163,7 +163,7 @@ function Index() {
       <section id="top" className="relative overflow-hidden">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-5 pt-16 pb-16 md:grid-cols-2 md:pt-24 md:pb-24">
           <div className="order-2 md:order-1">
-            <span className="chip">🇳🇬 Built for Africa</span>
+            <span className="chip"><MapPin size={12} strokeWidth={2.5} /> Built for Africa</span>
             <h1 className="mt-5 text-5xl leading-[1.02] md:text-6xl md:leading-[1.02]">
               <span className="text-charcoal">Experience</span>{" "}
               <span className="text-primary">as a software.</span>
@@ -177,20 +177,19 @@ function Index() {
               <a href="#cta" className="btn-duo">Get started free</a>
               <a href="#loop" className="btn-duo-outline">I already have an account</a>
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-6 text-sm text-charcoal/70 font-semibold">
-              <div className="flex items-center gap-2"><span className="text-lg">⚡</span> AI-verified skills</div>
-              <div className="flex items-center gap-2"><span className="text-lg">🤝</span> Real team projects</div>
-              <div className="flex items-center gap-2"><span className="text-lg">🏆</span> XP & badges</div>
+            <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-charcoal/75 font-semibold">
+              <div className="flex items-center gap-2"><IconTile Icon={Zap} size="sm" tone="gold" /> AI-verified skills</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Users} size="sm" tone="primary" /> Real team projects</div>
+              <div className="flex items-center gap-2"><IconTile Icon={Trophy} size="sm" tone="fire" /> XP & badges</div>
             </div>
           </div>
           <div className="order-1 md:order-2 relative">
-            <div className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-accent/30 via-transparent to-primary/10 blur-2xl" />
             <img
               src={heroImg}
               alt="Diverse African tech team collaborating"
               width={1200}
               height={1000}
-              className="mx-auto w-full max-w-[560px] animate-float drop-shadow-xl"
+              className="mx-auto w-full max-w-[560px] animate-float"
             />
           </div>
         </div>
@@ -201,7 +200,7 @@ function Index() {
             <div className="flex items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">
               {roles.concat(roles).map((r, i) => (
                 <div key={i} className="flex items-center gap-2 shrink-0">
-                  <span className="text-xl">{r.emoji}</span>
+                  <IconTile Icon={r.Icon} size="sm" tone="primary" />
                   {r.label}
                 </div>
               ))}
