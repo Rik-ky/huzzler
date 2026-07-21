@@ -142,23 +142,21 @@ function Header() {
   }, []);
 
   const island =
-    "mx-auto max-w-3xl px-5 py-2 bg-white/95 rounded-full shadow-2xl shadow-black/10 ring-1 ring-black/5 backdrop-blur-md";
+    "mx-auto max-w-3xl px-5 py-2 bg-white/95 rounded-full shadow-xl shadow-black/10 ring-1 ring-black/5 backdrop-blur";
   const full =
     "mx-auto max-w-6xl px-5 py-3.5 bg-white/85 border-b border-border backdrop-blur";
 
   return (
     <header
-      className={`sticky top-0 z-30 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-        scrolled ? "pt-3 px-4" : "pt-0 px-0"
-      }`}
+      className={`sticky top-0 z-30 ${scrolled ? "pt-3 px-4" : "pt-0 px-0"}`}
+      style={{ transition: "padding 250ms ease" }}
     >
       <div
-        className={`flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-          scrolled ? island : full
-        }`}
+        className={`flex items-center justify-between ${scrolled ? island : full}`}
+        style={{ transition: "max-width 250ms ease, padding 250ms ease, border-radius 250ms ease, box-shadow 250ms ease, background-color 250ms ease" }}
       >
         <a href="#top" className="flex items-center gap-2">
-          <Logo className={`w-auto transition-all duration-500 ${scrolled ? "h-6" : "h-8"}`} />
+          <Logo className={`w-auto ${scrolled ? "h-6" : "h-8"}`} />
         </a>
         <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-charcoal/75">
           <a href="#loop" className="hover:text-primary transition-colors">How it works</a>
@@ -166,15 +164,16 @@ function Header() {
           <a href="#profile" className="hover:text-primary transition-colors">Your profile</a>
           <a href="#roles" className="hover:text-primary transition-colors">Roles</a>
         </nav>
-        <a href="#cta" className={`btn-duo transition-all duration-500 ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
+        <a href="#cta" className={`btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
       </div>
     </header>
   );
 }
 
+
 function Index() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground" style={{ overflowX: "clip" }}>
       {/* Nav */}
       <Header />
 
