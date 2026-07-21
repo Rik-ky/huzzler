@@ -367,7 +367,7 @@ function Index() {
                   <div className="text-xl font-bold text-primary mt-0.5">247 contributions this year</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="chip">🔥 12-day streak</span>
+                  <span className="chip"><Flame size={12} strokeWidth={2.5} /> 12-day streak</span>
                 </div>
               </div>
               <Heatmap />
