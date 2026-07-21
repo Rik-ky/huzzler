@@ -65,7 +65,7 @@ const roles: { label: string; Icon: LucideIcon }[] = [
   { label: "Mobile Developer", Icon: Smartphone },
 ];
 
-// 2D styled icon tile — soft square in brand sky,575R575
+// 2D styled icon tile - soft square in brand sky blue
 function IconTile({
   Icon,
   size = "md",
@@ -281,7 +281,7 @@ function Index() {
       <section id="pillars" className="mx-auto max-w-6xl px-5 py-20 md:py-28 space-y-24 md:space-y-32">
         <div className="grid gap-10 md:grid-cols-2 items-center">
           <div>
-            <span className="chip"><GraduationCap size={12} strokeWidth={2.5} /> Pillar 01 — The Gateway</span>
+            <span className="chip"><GraduationCap size={12} strokeWidth={2.5} /> Pillar 01 - The Gateway</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">AI that knows if you can actually do the job.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
               Every user faces a role-based evaluation task. Our AI evaluation
@@ -312,7 +312,7 @@ function Index() {
             <img src={studioImg} alt="Collaboration tree of a cross-functional Huzzler team" width={900} height={900} loading="lazy" className="mx-auto w-full max-w-[460px] animate-float" />
           </div>
           <div className="order-1 md:order-2">
-            <span className="chip"><Users size={12} strokeWidth={2.5} /> Pillar 02 — The Studio</span>
+            <span className="chip"><Users size={12} strokeWidth={2.5} /> Pillar 02 - The Studio</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">Dropped into a real team. In minutes.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
               When a product team needs talent, the AI autonomously drafts a
@@ -338,12 +338,12 @@ function Index() {
 
         <div className="grid gap-10 md:grid-cols-2 items-center">
           <div>
-            <span className="chip"><UserCircle2 size={12} strokeWidth={2.5} /> Pillar 03 — Developer Identity</span>
+            <span className="chip"><UserCircle2 size={12} strokeWidth={2.5} /> Pillar 03 - Developer Identity</span>
             <h2 className="mt-4 text-4xl md:text-5xl text-primary leading-[1.05]">A living portfolio that proves you ship.</h2>
             <p className="mt-5 text-lg text-charcoal/75 leading-relaxed">
-              Every task you complete feeds a GitHub-style contribution heatmap,
-              your Trophy Room of skill badges, and your public profile — the
-              receipts that get you hired.
+              Every task you complete feeds your contribution heatmap, your
+              Trophy Room of skill badges, and your public profile: the receipts
+              that get you hired.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {["React", "Figma", "Product", "SQL", "TypeScript", "Tailwind", "AI Prompting"].map((b) => (
@@ -411,7 +411,7 @@ function Index() {
         <div className="grid gap-6 md:grid-cols-3">
           {[
             { n: "10,000+", l: "Verified junior talent" },
-            { n: "500+", l: "Mock projects shipped" },
+            { n: "500+", l: "Real products shipped" },
             { n: "43", l: "Cities across Africa" },
           ].map((s) => (
             <div key={s.l} className="card-duo p-8 text-center">
@@ -430,7 +430,7 @@ function Index() {
           <h2 className="text-4xl md:text-5xl relative leading-[1.05]">Ready to earn your <span className="text-primary">first real experience?</span></h2>
           <p className="mt-4 text-lg text-charcoal/70 max-w-xl mx-auto relative">
             Join thousands of young African builders using Huzzler to break into
-            tech — for free.
+            tech, for free.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3 relative">
             <a href="#top" className="btn-duo">Get started free</a>
