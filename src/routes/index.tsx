@@ -223,7 +223,9 @@ function Index() {
               className="mx-auto w-full max-w-[560px] animate-float"
             />
           </div>
+        </div>
       </section>
+
 
 
       {/* Problem / Solution */}
