@@ -46,16 +46,16 @@ function AuthPage() {
       <main className="flex-1 flex items-center justify-center px-5 py-10">
         <div className="w-full max-w-md">
           {/* Tabs */}
-          <div className="mx-auto inline-flex w-full rounded-full bg-white/5 p-1 ring-1 ring-white/10">
+          <div className="mx-auto inline-flex w-full rounded-full bg-white/5 p-1 ring-2 ring-white/20">
             {(["signup", "login"] as Mode[]).map((m) => (
               <button
                 key={m}
                 type="button"
                 onClick={() => setMode(m)}
-                className={`flex-1 px-4 py-2 rounded-full text-sm font-bold transition-colors ${
+                className={`flex-1 px-4 py-2 rounded-full text-sm font-bold transition-all ring-2 ${
                   mode === m
-                    ? "bg-white text-charcoal"
-                    : "text-white/60 hover:text-white"
+                    ? "bg-white text-charcoal ring-charcoal/10"
+                    : "text-white/60 hover:text-white ring-white/20 hover:ring-white/30"
                 }`}
               >
                 {m === "signup" ? "Create account" : "Sign in"}
@@ -71,14 +71,14 @@ function AuthPage() {
           <div className="mt-8 grid grid-cols-2 gap-3">
             <button
               type="button"
-              className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition-colors"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-2 ring-white/20 hover:bg-white/10 hover:ring-white/30 transition-all"
             >
               <GoogleIcon />
               Google
             </button>
             <button
               type="button"
-              className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition-colors"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-2 ring-white/20 hover:bg-white/10 hover:ring-white/30 transition-all"
             >
               <Github size={16} />
               GitHub
