@@ -22,6 +22,7 @@ import {
   ChevronRight,
   Menu,
   X,
+  Wallet,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
@@ -34,15 +35,15 @@ export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
       { title: "Your workspace · Huzzler" },
-      { name: "description", content: "Your Huzzler workspace: Gateway evaluations, Studio missions, and your builder Identity." },
+      { name: "description", content: "Your Huzzler workspace: Onboarding, Opportunities, Squads and Earnings in one place." },
       { property: "og:title", content: "Your workspace · Huzzler" },
-      { property: "og:description", content: "Gateway, Studio, and Identity in one place." },
+      { property: "og:description", content: "Onboarding, Opportunities, Squads and Earnings in one place." },
       { property: "og:url", content: "/dashboard" },
       { property: "og:image", content: "/og-image.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Your workspace · Huzzler" },
-      { name: "twitter:description", content: "Gateway, Studio, and Identity in one place." },
+      { name: "twitter:description", content: "Onboarding, Opportunities, Squads and Earnings in one place." },
       { name: "twitter:image", content: "/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "/dashboard" }],
@@ -54,13 +55,13 @@ type NavItem = { key: string; label: string; icon: LucideIcon };
 
 const NAV: NavItem[] = [
   { key: "overview", label: "Overview", icon: LayoutDashboard },
-  { key: "gateway", label: "Gateway", icon: BrainCircuit },
-  { key: "studio", label: "Studio", icon: Hammer },
-  { key: "identity", label: "Identity", icon: UserCircle2 },
+  { key: "onboarding", label: "Onboarding", icon: BrainCircuit },
+  { key: "opportunities", label: "Opportunities", icon: Hammer },
   { key: "squads", label: "Squads", icon: Users },
-  { key: "leaderboard", label: "Leaderboard", icon: Trophy },
+  { key: "earnings", label: "Earnings", icon: Wallet },
   { key: "settings", label: "Settings", icon: Settings },
 ];
+
 
 function DashboardPage() {
   const [active, setActive] = useState("overview");
@@ -174,10 +175,10 @@ function DashboardPage() {
             </div>
             <div className="hidden items-center gap-2 md:flex">
               <ThemeToggle />
-              <button className="btn-duo !py-2.5 !px-5 text-sm">
+              <Link to="/assessments" className="btn-duo !py-2.5 !px-5 text-sm">
                 <Rocket className="h-4 w-4" />
                 Try AI Assessments
-              </button>
+              </Link>
             </div>
             <button
               onClick={() => setMobileOpen(true)}
@@ -205,21 +206,21 @@ function DashboardPage() {
           <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
             <PillarCard
               icon={BrainCircuit}
-              tag="Gateway"
+              tag="Onboarding"
               title="AI Evaluation"
-              body="You have cleared 2 of 5 Gateway stages. Live Craft Challenge is up next."
-              cta="Open Gateway"
+              body="You have cleared 2 of 5 Onboarding stages. Live Craft Challenge is up next."
+              cta="Open Onboarding"
               progress={40}
-              onClick={() => goTo("gateway")}
+              onClick={() => goTo("onboarding")}
             />
             <PillarCard
               icon={Hammer}
-              tag="Studio"
+              tag="Opportunities"
               title="Active engagements"
               body="2 live roles including your Amala Marketplace internship. 3 new offers waiting."
-              cta="Open Studio"
+              cta="Open Opportunities"
               progress={60}
-              onClick={() => goTo("studio")}
+              onClick={() => goTo("opportunities")}
             />
             <PillarCard
               icon={Users}
@@ -240,7 +241,7 @@ function DashboardPage() {
                   <div className="font-display text-lg font-bold">Current missions</div>
                   <div className="text-xs text-muted-foreground">Real product work, shipped with your squad.</div>
                 </div>
-                <button onClick={() => goTo("studio")} className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
+                <button onClick={() => goTo("opportunities")} className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
                   View all
                 </button>
               </div>
@@ -283,8 +284,8 @@ function DashboardPage() {
             </>
           )}
 
-          {active === "gateway" && <GatewayView onGoToStudio={() => goTo("studio")} />}
-          {active === "studio" && (
+          {active === "onboarding" && <GatewayView onGoToStudio={() => goTo("opportunities")} />}
+          {active === "opportunities" && (
             <StudioView
               onOpenSquad={(mission) => {
                 setSquadContext(mission);
@@ -293,12 +294,19 @@ function DashboardPage() {
             />
           )}
           {active === "squads" && <SquadsView activeMission={squadContext} />}
-          {active !== "overview" && active !== "gateway" && active !== "studio" && active !== "squads" && (
+          {active === "earnings" && <EarningsView />}
+          {active === "settings" && <SettingsView />}
+          {active !== "overview" &&
+            active !== "onboarding" &&
+            active !== "opportunities" &&
+            active !== "squads" &&
+            active !== "earnings" &&
+            active !== "settings" && (
             <div className="card-duo grid place-items-center p-16 text-center">
               <Sparkles className="mb-3 h-8 w-8 text-primary" />
               <div className="font-display text-lg font-bold">Coming soon</div>
               <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-                We are prioritising Gateway, Studio and Squads for this build. This section unlocks next.
+                This section unlocks next.
               </p>
             </div>
           )}
@@ -328,10 +336,14 @@ function DashboardPage() {
               </button>
             </div>
 
-            <button className="btn-duo mb-6 w-full justify-center text-sm">
+            <Link
+              to="/assessments"
+              onClick={() => setMobileOpen(false)}
+              className="btn-duo mb-6 w-full justify-center text-sm"
+            >
               <Rocket className="h-4 w-4" />
               Try AI Assessments
-            </button>
+            </Link>
 
             <nav className="flex flex-col gap-1">
               {NAV.map((n) => {
@@ -493,6 +505,167 @@ function QuestRow({ icon: Icon, title, progress, total }: { icon: LucideIcon; ti
         <div className="h-2 overflow-hidden rounded-full bg-muted">
           <div className="h-full rounded-full bg-primary" style={{ width: `${pct}%` }} />
         </div>
+      </div>
+    </div>
+  );
+}
+
+function EarningsView() {
+  const txns = [
+    { id: 1, label: "Amala Marketplace · Week 4 stipend", amount: "+₦180,000", date: "Jul 18, 2026", status: "Paid" },
+    { id: 2, label: "PayNow · Growth experiment bonus", amount: "+₦95,000", date: "Jul 12, 2026", status: "Paid" },
+    { id: 3, label: "Amala Marketplace · Week 3 stipend", amount: "+₦180,000", date: "Jul 11, 2026", status: "Paid" },
+    { id: 4, label: "LagosCare · Internship completion", amount: "+₦350,000", date: "Jun 28, 2026", status: "Paid" },
+    { id: 5, label: "Zowa · Offer acceptance bonus", amount: "+₦120,000", date: "Pending", status: "Pending" },
+  ];
+  return (
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col gap-2">
+        <span className="chip w-fit">Earnings</span>
+        <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+          What you have earned by shipping.
+        </h1>
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Stipends, bonuses and completion payouts from every mission you deliver on Huzzler.
+        </p>
+      </header>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="card-duo p-5">
+          <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Lifetime</div>
+          <div className="mt-2 font-display text-3xl font-bold">₦1,925,000</div>
+          <div className="mt-1 text-xs text-primary">+₦275k this month</div>
+        </div>
+        <div className="card-duo p-5">
+          <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Available</div>
+          <div className="mt-2 font-display text-3xl font-bold">₦455,000</div>
+          <button className="btn-duo mt-3 !py-2 !px-4 text-sm">Withdraw</button>
+        </div>
+        <div className="card-duo p-5">
+          <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Pending</div>
+          <div className="mt-2 font-display text-3xl font-bold">₦120,000</div>
+          <div className="mt-1 text-xs text-muted-foreground">Clears on Jul 30, 2026</div>
+        </div>
+      </div>
+
+      <div className="card-duo p-5">
+        <div className="mb-3 flex items-center justify-between">
+          <div className="font-display text-base font-bold">Transactions</div>
+          <button className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
+            Export CSV
+          </button>
+        </div>
+        <div className="divide-y divide-border">
+          {txns.map((t) => (
+            <div key={t.id} className="flex items-center justify-between py-3">
+              <div className="min-w-0">
+                <div className="truncate font-display text-sm font-bold">{t.label}</div>
+                <div className="text-xs text-muted-foreground">{t.date}</div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className={`hidden rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider sm:inline ${
+                  t.status === "Paid" ? "bg-primary/15 text-primary" : "bg-[color:var(--gold)]/15 text-[color:var(--gold)]"
+                }`}>
+                  {t.status}
+                </span>
+                <span className="font-display text-sm font-bold text-primary">{t.amount}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SettingsView() {
+  return (
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col gap-2">
+        <span className="chip w-fit">Settings</span>
+        <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+          Your identity and preferences.
+        </h1>
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Your builder Identity, account details and app preferences all in one place.
+        </p>
+      </header>
+
+      {/* Identity */}
+      <div className="card-duo p-5 md:p-6">
+        <div className="mb-4 flex items-center gap-2">
+          <UserCircle2 className="h-4 w-4 text-primary" />
+          <div className="font-display text-base font-bold">Builder Identity</div>
+        </div>
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="grid h-16 w-16 place-items-center rounded-2xl bg-primary/15 font-display text-xl font-bold text-primary ring-2 ring-primary/25">
+              AK
+            </div>
+            <div>
+              <div className="font-display text-lg font-bold">Ada Kola</div>
+              <div className="text-sm text-muted-foreground">Full-stack builder · Lagos, NG</div>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {["React", "Node", "Postgres", "Design"].map((t) => (
+                  <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <button className="btn-duo-outline !py-2 !px-4 text-sm">Edit profile</button>
+        </div>
+
+        <div className="mt-5 grid grid-cols-3 gap-3">
+          <IdentityStat label="Missions" value="4" />
+          <IdentityStat label="XP" value="1,240" />
+          <IdentityStat label="Endorsements" value="17" />
+        </div>
+      </div>
+
+      {/* Account */}
+      <div className="card-duo p-5">
+        <div className="mb-3 font-display text-base font-bold">Account</div>
+        <div className="divide-y divide-border">
+          <SettingRow label="Email" value="ada@huzzler.dev" />
+          <SettingRow label="Phone" value="+234 810 000 0000" />
+          <SettingRow label="Payout method" value="Bank · GTBank ****1234" />
+          <SettingRow label="Password" value="Last changed 2 weeks ago" />
+        </div>
+      </div>
+
+      {/* Preferences */}
+      <div className="card-duo p-5">
+        <div className="mb-3 font-display text-base font-bold">Preferences</div>
+        <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 p-3">
+          <div>
+            <div className="text-sm font-semibold">Appearance</div>
+            <div className="text-xs text-muted-foreground">Switch between light and dark mode.</div>
+          </div>
+          <ThemeToggle />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IdentityStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-border bg-muted/40 p-3 text-center">
+      <div className="font-display text-xl font-bold">{value}</div>
+      <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function SettingRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between py-3">
+      <div className="text-sm font-semibold text-muted-foreground">{label}</div>
+      <div className="flex items-center gap-3">
+        <span className="text-sm">{value}</span>
+        <button className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">Edit</button>
       </div>
     </div>
   );
