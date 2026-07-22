@@ -31,15 +31,68 @@ function AuthPage() {
   const [mode, setMode] = useState<Mode>(initialMode);
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setMode(initialMode);
+    setError("");
+    setSuccessMsg("");
   }, [initialMode]);
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate({ to: mode === "signup" ? "/onboarding" : "/dashboard" });
+  const handleModeChange = (newMode: Mode) => {
+    setMode(newMode);
+    setError("");
+    setSuccessMsg("");
+    navigate({ to: "/auth", search: { mode: newMode }, replace: true });
   };
 
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const endpoint = mode === "signup" ? "/api/auth/signup" : "/api/auth/login";
+      const body = mode === "signup" 
+        ? { email, password, metadata: { name } } 
+        : { email, password };
+
+      const res = await fetch(`http://localhost:3001${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Authentication failed");
+      }
+
+      if (mode === "signup" && !data.data.session) {
+        setSuccessMsg("Account created! Please check your email to verify your account before signing in.");
+        setMode("login");
+        return;
+      }
+
+      // Store token (in a real app, this might be handled by HTTP-only cookies or a more secure storage,
+      // but localStorage is fine for this demo)
+      if (data.data.session) {
+        localStorage.setItem("huzzler_token", data.data.session.access_token);
+      }
+
+      navigate({ to: mode === "signup" ? "/onboarding" : "/dashboard" });
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-charcoal text-white flex flex-col" style={{ overflowX: "clip" }}>
@@ -71,7 +124,7 @@ function AuthPage() {
               <button
                 key={m}
                 type="button"
-                onClick={() => setMode(m)}
+                onClick={() => handleModeChange(m)}
                 className={`flex-1 px-4 py-2 rounded-full text-sm font-bold transition-all ${
                   mode === m
                     ? "bg-white text-charcoal"
@@ -89,13 +142,13 @@ function AuthPage() {
 
           {/* Social */}
           <div className="mt-8 grid grid-cols-2 gap-3">
-            <button
-              type="button"
+            <a
+              href="http://localhost:3001/api/auth/google"
               className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-2 ring-white/20 hover:bg-white/10 hover:ring-white/30 transition-all"
             >
               <GoogleIcon />
               Google
-            </button>
+            </a>
             <button
               type="button"
               className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-2 ring-white/20 hover:bg-white/10 hover:ring-white/30 transition-all"
@@ -112,14 +165,42 @@ function AuthPage() {
           </div>
 
           <form onSubmit={onSubmit} className="space-y-3">
-            {mode === "signup" && (
-              <BoldInput placeholder="Your name" type="text" autoComplete="name" />
+            {error && (
+              <div className="rounded-xl bg-red-500/10 p-3 text-sm font-semibold text-red-500 ring-1 ring-red-500/20">
+                {error}
+              </div>
             )}
-            <BoldInput placeholder="Email address" type="email" autoComplete="email" />
+            {successMsg && (
+              <div className="rounded-xl bg-green-500/10 p-3 text-sm font-semibold text-green-500 ring-1 ring-green-500/20">
+                {successMsg}
+              </div>
+            )}
+            
+            {mode === "signup" && (
+              <BoldInput 
+                placeholder="Your name" 
+                type="text" 
+                autoComplete="name" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            )}
+            <BoldInput 
+              placeholder="Email address" 
+              type="email" 
+              autoComplete="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
             <BoldInput
               placeholder="Password"
               type="password"
               autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
 
             {mode === "login" && (
@@ -132,10 +213,11 @@ function AuthPage() {
 
             <button
               type="submit"
-              className="btn-duo w-full flex items-center justify-center gap-2 mt-4 !text-base !py-3.5"
+              disabled={loading}
+              className="btn-duo w-full flex items-center justify-center gap-2 mt-4 !text-base !py-3.5 disabled:opacity-50"
             >
-              {mode === "signup" ? "Create my account" : "Sign in"}
-              <ArrowRight size={18} strokeWidth={2.75} />
+              {loading ? "Please wait..." : (mode === "signup" ? "Create my account" : "Sign in")}
+              {!loading && <ArrowRight size={18} strokeWidth={2.75} />}
             </button>
           </form>
 

@@ -130,10 +130,33 @@ function OnboardingPage() {
   }, []);
 
 
-  const next = () => {
-    if (!selected) return;
-    if (step < STEPS.length - 1) setStep(step + 1);
-    else navigate({ to: "/dashboard" });
+  const [submitting, setSubmitting] = useState(false);
+
+  const next = async () => {
+    if (!selected || submitting) return;
+    if (step < STEPS.length - 1) {
+      setStep(step + 1);
+    } else {
+      setSubmitting(true);
+      try {
+        const token = localStorage.getItem("huzzler_token");
+        if (token) {
+          await fetch("http://localhost:3001/api/auth/onboarding", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ answers }),
+          });
+        }
+      } catch (err) {
+        console.error("Failed to save onboarding:", err);
+      } finally {
+        setSubmitting(false);
+        navigate({ to: "/dashboard" });
+      }
+    }
   };
   const back = () => (step === 0 ? navigate({ to: "/" }) : setStep(step - 1));
 

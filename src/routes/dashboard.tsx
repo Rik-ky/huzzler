@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
@@ -23,6 +23,7 @@ import {
   Menu,
   X,
   Wallet,
+  LogOut,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
@@ -68,6 +69,26 @@ function DashboardPage() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [squadContext, setSquadContext] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const token = localStorage.getItem("huzzler_token");
+      if (!token) return;
+      try {
+        const res = await fetch("http://localhost:3001/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchUser();
+  }, []);
 
   const goTo = (key: string) => {
     setActive(key);
@@ -295,7 +316,7 @@ function DashboardPage() {
           )}
           {active === "squads" && <SquadsView activeMission={squadContext} />}
           {active === "earnings" && <EarningsView />}
-          {active === "settings" && <SettingsView />}
+          {active === "settings" && <SettingsView user={user} />}
           {active !== "overview" &&
             active !== "onboarding" &&
             active !== "opportunities" &&
@@ -578,7 +599,52 @@ function EarningsView() {
   );
 }
 
-function SettingsView() {
+function SettingsView({ user }: { user?: any }) {
+  const name = user?.user_metadata?.full_name || user?.user_metadata?.name || "Ada Kola";
+  const initials = name
+    .split(" ")
+    .filter(Boolean)
+    .map((n: string) => n[0])
+    .join("")
+    .toUpperCase()
+    .substring(0, 2) || "AK";
+  const email = user?.email || "ada@huzzler.dev";
+
+  const onboarding = user?.user_metadata?.onboarding || {};
+  
+  const craftMap: Record<string, string> = {
+    eng: "Engineering",
+    design: "Design",
+    product: "Product Management",
+    marketing: "Marketing",
+    data: "Data Science",
+    ops: "Operations",
+  };
+
+  const levelMap: Record<string, string> = {
+    starting: "Beginner",
+    some: "Side Project Builder",
+    junior: "Junior Builder",
+    mid: "Mid-level Builder",
+  };
+
+  const goalMap: Record<string, string> = {
+    ship: "Ship real product",
+    hired: "Get hired",
+    portfolio: "Build portfolio",
+    team: "Team builder",
+  };
+
+  const craftLabel = craftMap[onboarding.craft] || "Full-stack";
+  const levelLabel = levelMap[onboarding.level] || "Builder";
+  const goalLabel = goalMap[onboarding.goal];
+
+  const tags = [
+    craftLabel,
+    ...(levelLabel ? [levelLabel] : []),
+    ...(goalLabel ? [goalLabel] : []),
+  ];
+
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-2">
@@ -600,13 +666,13 @@ function SettingsView() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-4">
             <div className="grid h-16 w-16 place-items-center rounded-2xl bg-primary/15 font-display text-xl font-bold text-primary ring-2 ring-primary/25">
-              AK
+              {initials}
             </div>
             <div>
-              <div className="font-display text-lg font-bold">Ada Kola</div>
-              <div className="text-sm text-muted-foreground">Full-stack builder · Lagos, NG</div>
+              <div className="font-display text-lg font-bold">{name}</div>
+              <div className="text-sm text-muted-foreground">{craftLabel} · {levelLabel}</div>
               <div className="mt-2 flex flex-wrap gap-1.5">
-                {["React", "Node", "Postgres", "Design"].map((t) => (
+                {tags.map((t) => (
                   <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                     {t}
                   </span>
@@ -628,7 +694,7 @@ function SettingsView() {
       <div className="card-duo p-5">
         <div className="mb-3 font-display text-base font-bold">Account</div>
         <div className="divide-y divide-border">
-          <SettingRow label="Email" value="ada@huzzler.dev" />
+          <SettingRow label="Email" value={email} />
           <SettingRow label="Phone" value="+234 810 000 0000" />
           <SettingRow label="Payout method" value="Bank · GTBank ****1234" />
           <SettingRow label="Password" value="Last changed 2 weeks ago" />
@@ -644,6 +710,27 @@ function SettingsView() {
             <div className="text-xs text-muted-foreground">Switch between light and dark mode.</div>
           </div>
           <ThemeToggle />
+        </div>
+      </div>
+
+      {/* Session / Log out */}
+      <div className="card-duo p-5 border-red-500/20 bg-red-500/5">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="font-display text-base font-bold text-red-500">Sign out</div>
+            <div className="text-xs text-muted-foreground">Log out of your Huzzler account on this device.</div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              localStorage.removeItem("huzzler_token");
+              window.location.href = "/auth?mode=login";
+            }}
+            className="flex items-center gap-2 rounded-xl bg-red-500/10 px-4 py-2.5 text-sm font-bold text-red-500 ring-1 ring-red-500/20 hover:bg-red-500 hover:text-white transition-all cursor-pointer"
+          >
+            <LogOut className="h-4 w-4" />
+            Log out
+          </button>
         </div>
       </div>
     </div>
