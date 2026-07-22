@@ -21,6 +21,13 @@ type Mode = "signup" | "login";
 
 function AuthPage() {
   const [mode, setMode] = useState<Mode>("signup");
+  const navigate = useNavigate();
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate({ to: mode === "signup" ? "/onboarding" : "/dashboard" });
+  };
+
 
   return (
     <div className="min-h-screen bg-charcoal text-white flex flex-col" style={{ overflowX: "clip" }}>
