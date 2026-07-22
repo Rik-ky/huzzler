@@ -1,252 +1,168 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-
-import {
-  ArrowLeft,
-  Rocket,
-  Compass,
-  Briefcase,
-  RefreshCw,
-  Code2,
-  Palette,
-  LineChart,
-  Megaphone,
-  Database,
-  Wrench,
-  Sparkles,
-  Trophy,
-  Hammer,
-  GraduationCap,
-  Users,
-  Search,
-  Instagram,
-  Youtube,
-  MessageCircle,
-  Newspaper,
-  MoreHorizontal,
-  type LucideIcon,
-} from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { CheckCircle2, Lock, ArrowRight, Play, Loader2 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
     meta: [
-      { title: "Get started · Huzzler" },
-      { name: "description", content: "Set up your Huzzler profile in a minute so we can match you to real product teams." },
-      { property: "og:title", content: "Get started · Huzzler" },
-      { property: "og:description", content: "Set up your Huzzler profile in a minute." },
-      { property: "og:url", content: "/onboarding" },
-      { property: "og:image", content: "/og-image.png" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Get started · Huzzler" },
-      { name: "twitter:description", content: "Set up your Huzzler profile in a minute." },
-      { name: "twitter:image", content: "/og-image.png" },
+      { title: "Onboarding Stages · Huzzler" },
     ],
-    links: [{ rel: "canonical", href: "/onboarding" }],
   }),
-  component: OnboardingPage,
+  component: OnboardingStages,
 });
 
-type Option = { id: string; label: string; hint?: string; icon: LucideIcon };
-
-type Step = {
-  key: string;
-  question: string;
-  helper?: string;
-  options: Option[];
-};
-
-const STEPS: Step[] = [
-  {
-    key: "reason",
-    question: "What brings you to Huzzler?",
-    helper: "We'll tailor your first mission to this.",
-    options: [
-      { id: "experience", label: "I need real experience", icon: Rocket },
-      { id: "build", label: "I want to build things", icon: Hammer },
-      { id: "switch", label: "I'm switching careers", icon: RefreshCw },
-      { id: "role", label: "I'm hunting for a role", icon: Briefcase },
-    ],
-  },
-  {
-    key: "craft",
-    question: "Which craft do you want to grow in?",
-    helper: "Pick the one you'd love to ship in first.",
-    options: [
-      { id: "eng", label: "Engineering", icon: Code2 },
-      { id: "design", label: "Design", icon: Palette },
-      { id: "product", label: "Product", icon: Compass },
-      { id: "marketing", label: "Marketing", icon: Megaphone },
-      { id: "data", label: "Data", icon: Database },
-      { id: "ops", label: "Ops", icon: Wrench },
-    ],
-  },
-  {
-    key: "level",
-    question: "Where are you right now?",
-    options: [
-      { id: "starting", label: "Just starting out", icon: GraduationCap },
-      { id: "some", label: "A few side projects", icon: Sparkles },
-      { id: "junior", label: "Junior in the field", icon: LineChart },
-      { id: "mid", label: "Mid level, want more", icon: Trophy },
-    ],
-  },
-  {
-    key: "goal",
-    question: "What would make this year a win?",
-    options: [
-      { id: "ship", label: "Ship a real product", icon: Rocket },
-      { id: "hired", label: "Get hired somewhere great", icon: Briefcase },
-      { id: "portfolio", label: "Build a strong portfolio", icon: Trophy },
-      { id: "team", label: "Work with a team I love", icon: Users },
-    ],
-  },
-  {
-    key: "source",
-    question: "How did you hear about Huzzler?",
-    options: [
-      { id: "friend", label: "A friend told me", icon: Users },
-      { id: "search", label: "Google search", icon: Search },
-      { id: "yt", label: "YouTube", icon: Youtube },
-      { id: "ig", label: "Instagram", icon: Instagram },
-      { id: "tt", label: "TikTok", icon: MessageCircle },
-      { id: "news", label: "News or article", icon: Newspaper },
-      { id: "other", label: "Somewhere else", icon: MoreHorizontal },
-    ],
-  },
-];
-
-function OnboardingPage() {
+function OnboardingStages() {
   const navigate = useNavigate();
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const current = STEPS[step];
-  const selected = answers[current.key];
-  const progress = useMemo(() => ((step + (selected ? 1 : 0)) / STEPS.length) * 100, [step, selected]);
 
   useEffect(() => {
-    document.documentElement.classList.add("dark");
+    // Show toast on mount for new users
+    const hasSeenToast = sessionStorage.getItem("huzzler_welcome_toast");
+    if (!hasSeenToast) {
+      setTimeout(() => {
+        toast("Welcome! Get started in the onboarding page", {
+          description: "Complete these stages to unlock live offers.",
+          icon: "👋",
+        });
+      }, 500);
+      sessionStorage.setItem("huzzler_welcome_toast", "true");
+    }
   }, []);
 
-
-  const [submitting, setSubmitting] = useState(false);
-
-  const next = async () => {
-    if (!selected || submitting) return;
-    if (step < STEPS.length - 1) {
-      setStep(step + 1);
-    } else {
-      setSubmitting(true);
-      try {
-        const token = localStorage.getItem("huzzler_token");
-        if (token) {
-          await fetch("http://localhost:3001/api/auth/onboarding", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ answers }),
-          });
-        }
-      } catch (err) {
-        console.error("Failed to save onboarding:", err);
-      } finally {
-        setSubmitting(false);
-        navigate({ to: "/dashboard" });
-      }
-    }
-  };
-  const back = () => (step === 0 ? navigate({ to: "/" }) : setStep(step - 1));
+  const stages = [
+    {
+      num: "01",
+      title: "AI Skills Screener",
+      evaluator: "AI",
+      status: "Passed · 88",
+      state: "cleared",
+      desc: "Adaptive multi-domain screener across problem solving, craft and communication.",
+      actionText: "Cleared",
+    },
+    {
+      num: "02",
+      title: "Portfolio Review",
+      evaluator: "AI",
+      status: "Passed · 82",
+      state: "cleared",
+      desc: "Your work samples were parsed and scored for depth, originality and shipping evidence.",
+      actionText: "Cleared",
+    },
+    {
+      num: "03",
+      title: "Live Craft Challenge",
+      evaluator: "AI",
+      status: "In progress",
+      state: "active",
+      desc: "A 90 minute build session evaluated live by Huzzler, your AI agent.",
+      actionText: "Start now",
+      onAction: () => navigate({ to: "/dashboard" }),
+    },
+    {
+      num: "04",
+      title: "Human Panel Interview",
+      evaluator: "Human",
+      status: "Locked",
+      state: "locked",
+      desc: "A 30 minute conversation with two operators from the Huzzler network.",
+    },
+    {
+      num: "05",
+      title: "Placement Ready",
+      evaluator: "Human",
+      status: "Locked",
+      state: "locked",
+      desc: "Your profile is unlocked to receive live offers in the Studio.",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 py-6">
-        {/* Top bar */}
+    <main className="min-h-screen bg-background text-foreground selection:bg-primary/20 selection:text-primary pb-20">
+      {/* Top Nav */}
+      <nav className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-border bg-background/80 px-6 backdrop-blur-md md:px-12">
+        <div className="flex items-center gap-3">
+          <div className="grid h-8 w-8 place-items-center rounded-xl bg-primary text-primary-foreground font-display font-bold">
+            H
+          </div>
+          <span className="font-display text-lg font-bold">Huzzler</span>
+        </div>
         <div className="flex items-center gap-4">
-          <button
-            onClick={back}
-            aria-label="Back"
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full ring-2 ring-border text-foreground hover:text-primary hover:ring-primary transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </button>
-          <div className="h-3 flex-1 overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-primary transition-[width] duration-500"
-              style={{ width: `${progress}%` }}
-            />
+          <div className="hidden items-center gap-2 text-sm font-medium md:flex">
+            <span className="text-muted-foreground">Progress:</span>
+            <span className="text-foreground">2 / 5 Stages</span>
           </div>
           <ThemeToggle />
         </div>
+      </nav>
 
-        {/* Question */}
-        <div className="mt-14 flex items-start gap-4">
-          <img src="/huzzler-mark.svg" alt="" className="h-14 w-14 shrink-0 animate-float" />
-          <div className="relative mt-2 rounded-2xl border-2 border-border bg-card px-5 py-4">
-            <span className="absolute -left-2 top-5 h-4 w-4 rotate-45 border-b-2 border-l-2 border-border bg-card" />
-            <h1 className="font-display text-xl font-bold tracking-tight sm:text-2xl">
-              {current.question}
-            </h1>
-            {current.helper && (
-              <p className="mt-1 text-sm text-muted-foreground">{current.helper}</p>
-            )}
-          </div>
-        </div>
+      <div className="mx-auto max-w-4xl px-6 py-12 md:py-20">
+        <header className="mb-12">
+          <h1 className="font-display text-4xl font-bold tracking-tight md:text-5xl">
+            Your Placement Journey
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
+            Prove your craft and unlock access to the Huzzler Studio. Each stage is designed to validate your skills against real-world standards.
+          </p>
+        </header>
 
-        {/* Options */}
-        <div className="mt-10 grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2">
-          {current.options.map((opt) => {
-            const active = selected === opt.id;
-            const Icon = opt.icon;
-            return (
-              <button
-                key={opt.id}
-                onClick={() => setAnswers({ ...answers, [current.key]: opt.id })}
-                className={`group flex items-center gap-4 rounded-2xl border-2 bg-card px-4 py-4 text-left transition-all ${
-                  active
-                    ? "border-primary ring-4 ring-primary/20"
-                    : "border-border hover:border-primary/60"
-                }`}
-              >
-                <span
-                  className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ring-2 transition-colors ${
-                    active
-                      ? "bg-primary/15 ring-primary/40 text-primary"
-                      : "bg-muted ring-border text-foreground group-hover:text-primary"
-                  }`}
-                >
-                  <Icon className="h-5 w-5" />
-                </span>
-                <span className="font-display text-base font-bold">{opt.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Continue */}
-        <div className="sticky bottom-0 mt-10 border-t border-border bg-background/95 py-5 backdrop-blur">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Step {step + 1} of {STEPS.length}
-            </span>
-            <button
-              disabled={!selected}
-              onClick={next}
-              className="btn-duo disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:transform-none"
+        <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[1.875rem] before:hidden md:before:block before:w-[2px] before:bg-border before:z-0">
+          {stages.map((stage) => (
+            <div
+              key={stage.num}
+              className={`relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 rounded-2xl border bg-card p-6 md:p-8 transition-all hover:shadow-lg ${
+                stage.state === "active"
+                  ? "border-primary ring-1 ring-primary shadow-md"
+                  : stage.state === "locked"
+                  ? "border-border/50 opacity-60 grayscale-[0.5]"
+                  : "border-border"
+              }`}
             >
-              {step === STEPS.length - 1 ? "Finish" : "Continue"}
-            </button>
-          </div>
-          <div className="mt-3 text-center text-xs text-muted-foreground">
-            Already have an account?{" "}
-            <Link to="/auth" className="font-semibold text-primary hover:underline">
-              Sign in
-            </Link>
-          </div>
+              {/* Number indicator */}
+              <div className="hidden md:flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-muted font-display text-2xl font-bold tracking-tighter text-muted-foreground">
+                {stage.num}
+              </div>
+
+              <div className="flex-1">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-3">
+                    <h2 className="font-display text-xl md:text-2xl font-bold">{stage.title}</h2>
+                    <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-secondary-foreground">
+                      {stage.evaluator}
+                    </span>
+                  </div>
+                  <div
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${
+                      stage.state === "cleared"
+                        ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                        : stage.state === "active"
+                        ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {stage.state === "cleared" && <CheckCircle2 className="h-4 w-4" />}
+                    {stage.state === "active" && <Loader2 className="h-4 w-4 animate-spin" />}
+                    {stage.state === "locked" && <Lock className="h-4 w-4" />}
+                    {stage.status}
+                  </div>
+                </div>
+                
+                <p className="text-muted-foreground">{stage.desc}</p>
+                
+                {stage.state === "active" && (
+                  <button
+                    onClick={stage.onAction}
+                    className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-8 font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:scale-[0.98]"
+                  >
+                    <Play className="h-4 w-4" />
+                    {stage.actionText}
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

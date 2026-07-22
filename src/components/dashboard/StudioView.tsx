@@ -52,44 +52,7 @@ type Offer = {
   match: number;
 };
 
-const ENGAGEMENTS: Engagement[] = [
-  {
-    id: "e1",
-    title: "Full-stack Builder",
-    company: "Amala Marketplace",
-    logo: "A",
-    type: "Internship",
-    location: "Remote · Lagos",
-    duration: "12 weeks · Week 4",
-    status: "Active",
-    description:
-      "Amala is building the operating system for street food vendors across West Africa. You are on the discovery pod shipping the search & filters experience end-to-end.",
-    role: "Own the search filters, discovery ranking and the vendor detail page. Ship weekly to real users.",
-    achievements: [
-      "Cut search-to-order time by 38% in your first sprint.",
-      "Shipped 2 production releases with the Amala squad.",
-      "Wrote the ranking spec now used by the whole discovery pod.",
-    ],
-    squadName: "Amala Squad",
-  },
-  {
-    id: "e2",
-    title: "Growth Engineer",
-    company: "PayNow",
-    logo: "P",
-    type: "Job",
-    location: "Hybrid · Lagos",
-    duration: "Ongoing · Month 2",
-    status: "Active",
-    description:
-      "PayNow processes checkout for 4,000+ SME merchants across Nigeria. You partner with growth to instrument, test and ship revenue experiments.",
-    role: "Own the checkout webhook reliability and lead 2 growth experiments per month.",
-    achievements: [
-      "Recovered ₦3.2M in dropped webhooks with a retry queue.",
-      "Launched the promo-code experiment, +6.4% conversion.",
-    ],
-    squadName: "PayNow Squad",
-  },
+export const INITIAL_ENGAGEMENTS: Engagement[] = [
   {
     id: "e3",
     title: "Frontend Intern",
@@ -110,7 +73,7 @@ const ENGAGEMENTS: Engagement[] = [
   },
 ];
 
-const OFFERS: Offer[] = [
+export const INITIAL_OFFERS: Offer[] = [
   {
     id: "o1",
     title: "Product Engineer",
@@ -144,6 +107,39 @@ const OFFERS: Offer[] = [
     expiresIn: "8 days",
     match: 82,
   },
+  {
+    id: "o4",
+    title: "Backend Developer",
+    company: "Paystack",
+    logo: "P",
+    type: "Job",
+    location: "Remote",
+    compensation: "₦2.5M / mo",
+    expiresIn: "2 days",
+    match: 98,
+  },
+  {
+    id: "o5",
+    title: "Product Marketing",
+    company: "Piggyvest",
+    logo: "PV",
+    type: "Job",
+    location: "Hybrid · Lagos",
+    compensation: "₦1.5M / mo",
+    expiresIn: "10 days",
+    match: 75,
+  },
+  {
+    id: "o6",
+    title: "UI Designer",
+    company: "Kuda",
+    logo: "K",
+    type: "Internship",
+    location: "Remote",
+    compensation: "₦600k / mo",
+    expiresIn: "14 days",
+    match: 89,
+  }
 ];
 
 type Tab = "active" | "past" | "offers";
@@ -155,8 +151,11 @@ export function StudioView({
 }) {
   const [tab, setTab] = useState<Tab>("active");
   const [openId, setOpenId] = useState<string | null>(null);
+  
+  const [engagements, setEngagements] = useState<Engagement[]>(INITIAL_ENGAGEMENTS);
+  const [offers, setOffers] = useState<Offer[]>(INITIAL_OFFERS);
 
-  const opened = openId ? ENGAGEMENTS.find((e) => e.id === openId) ?? null : null;
+  const opened = openId ? engagements.find((e) => e.id === openId) ?? null : null;
 
   if (opened) {
     return (
@@ -168,8 +167,31 @@ export function StudioView({
     );
   }
 
-  const active = ENGAGEMENTS.filter((e) => e.status === "Active");
-  const past = ENGAGEMENTS.filter((e) => e.status === "Past");
+  const active = engagements.filter((e) => e.status === "Active");
+  const past = engagements.filter((e) => e.status === "Past");
+
+  const handleAcceptOffer = (offer: Offer) => {
+    // 1. Remove from offers
+    setOffers(prev => prev.filter(o => o.id !== offer.id));
+    // 2. Add to active engagements
+    const newEngagement: Engagement = {
+      id: `e-${offer.id}`,
+      title: offer.title,
+      company: offer.company,
+      logo: offer.logo,
+      type: offer.type,
+      location: offer.location,
+      duration: "Ongoing · Week 1",
+      status: "Active",
+      description: `You have accepted the offer for ${offer.title} at ${offer.company}.`,
+      role: "Onboarding and getting up to speed.",
+      achievements: ["Successfully completed Huzzler onboarding and accepted the offer."],
+      squadName: `${offer.company} Squad`,
+    };
+    setEngagements(prev => [newEngagement, ...prev]);
+    // 3. Switch tab to active
+    setTab("active");
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -192,7 +214,7 @@ export function StudioView({
         <TabButton active={tab === "past"} onClick={() => setTab("past")} count={past.length}>
           Past
         </TabButton>
-        <TabButton active={tab === "offers"} onClick={() => setTab("offers")} count={OFFERS.length}>
+        <TabButton active={tab === "offers"} onClick={() => setTab("offers")} count={offers.length}>
           Offers
         </TabButton>
       </div>
@@ -203,7 +225,7 @@ export function StudioView({
       {tab === "past" && (
         <EngagementList list={past} onOpen={setOpenId} emptyText="Your past work will show here." />
       )}
-      {tab === "offers" && <OfferList />}
+      {tab === "offers" && <OfferList offers={offers} onAccept={handleAcceptOffer} />}
     </div>
   );
 }
@@ -310,17 +332,17 @@ function EngagementList({
 
 type OfferStatus = "pending" | "accepted" | "declined";
 
-function OfferList() {
+function OfferList({ offers, onAccept }: { offers: Offer[], onAccept: (offer: Offer) => void }) {
   const [status, setStatus] = useState<Record<string, OfferStatus>>({});
   const [confirm, setConfirm] = useState<{ id: string; action: "accept" | "decline" } | null>(null);
 
   const set = (id: string, s: OfferStatus) => setStatus((prev) => ({ ...prev, [id]: s }));
-  const active = confirm ? OFFERS.find((o) => o.id === confirm.id) ?? null : null;
+  const active = confirm ? offers.find((o) => o.id === confirm.id) ?? null : null;
 
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {OFFERS.map((o) => {
+        {offers.map((o) => {
           const s: OfferStatus = status[o.id] ?? "pending";
           return (
             <div
@@ -445,7 +467,11 @@ function OfferList() {
               </button>
               <button
                 onClick={() => {
-                  set(confirm.id, confirm.action === "accept" ? "accepted" : "declined");
+                  if (confirm.action === "accept" && active) {
+                    onAccept(active);
+                  } else {
+                    set(confirm.id, "declined");
+                  }
                   setConfirm(null);
                 }}
                 className="btn-duo !py-2 !px-4 text-sm"

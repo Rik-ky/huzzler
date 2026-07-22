@@ -76,7 +76,7 @@ function DashboardPage() {
       const token = localStorage.getItem("huzzler_token");
       if (!token) return;
       try {
-        const res = await fetch("http://localhost:3001/api/auth/me", {
+        const res = await fetch("http://127.0.0.1:3001/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.ok) {
@@ -266,11 +266,10 @@ function DashboardPage() {
                   View all
                 </button>
               </div>
-              <div className="flex flex-col divide-y divide-border">
-                <MissionRow title="Build search filters" product="Amala Marketplace" status="In progress" due="3d" icon={Target} />
-                <MissionRow title="Wire checkout webhook" product="PayNow" status="In review" due="1d" icon={Clock} />
-                <MissionRow title="Onboarding illustrations" product="LagosCare" status="Shipped" due="Done" icon={CheckCircle2} />
-                <MissionRow title="Pricing page copy" product="Zowa" status="Backlog" due="5d" icon={Sparkles} />
+              <div className="flex flex-col items-center justify-center p-8 text-center border border-dashed border-border rounded-xl">
+                <Target className="h-8 w-8 text-muted-foreground mb-2 opacity-50" />
+                <p className="text-sm font-medium">No active missions yet.</p>
+                <p className="text-xs text-muted-foreground">Accept an offer to get started.</p>
               </div>
             </div>
 
@@ -278,18 +277,13 @@ function DashboardPage() {
               <div className="card-duo p-5">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="font-display text-base font-bold">Your squad</div>
-                  <span className="chip">Amala</span>
                 </div>
-                <div className="flex -space-x-2">
-                  {["A", "T", "K", "N", "+2"].map((c, i) => (
-                    <div key={i} className="grid h-9 w-9 place-items-center rounded-full ring-2 ring-card bg-primary/15 text-primary font-display text-sm font-bold">
-                      {c}
-                    </div>
-                  ))}
+                <div className="flex flex-col items-center justify-center py-6 text-center">
+                  <Users className="h-6 w-6 text-muted-foreground mb-2 opacity-50" />
+                  <p className="text-xs text-muted-foreground">
+                    You haven't been assigned to a squad yet.
+                  </p>
                 </div>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  4 builders shipping a marketplace for street food vendors in Lagos.
-                </p>
               </div>
 
               <div className="card-duo p-5">

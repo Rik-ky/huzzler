@@ -2,23 +2,42 @@ import { useEffect, useState, useCallback } from "react";
 import { Moon, Sun } from "lucide-react";
 
 const KEY = "huzzler-theme";
+const getSavedTheme = () => (typeof window !== "undefined" && (localStorage.getItem(KEY) as "dark" | "light" | null)) || "dark";
+let globalTheme = getSavedTheme();
+const listeners = new Set<(t: "dark" | "light") => void>();
+
+function setGlobalTheme(t: "dark" | "light") {
+  globalTheme = t;
+  try { localStorage.setItem(KEY, t); } catch {}
+  const root = document.documentElement;
+  if (t === "dark") root.classList.add("dark");
+  else root.classList.remove("dark");
+  listeners.forEach((l) => l(t));
+}
+
+// Initialize theme class on script load to prevent flash
+if (typeof window !== "undefined") {
+  const root = document.documentElement;
+  if (globalTheme === "dark") root.classList.add("dark");
+  else root.classList.remove("dark");
+}
 
 export function useTheme(defaultTheme: "dark" | "light" = "dark") {
-  const [theme, setTheme] = useState<"dark" | "light">(defaultTheme);
+  const [theme, setThemeState] = useState<"dark" | "light">(globalTheme);
 
   useEffect(() => {
-    const saved = (typeof window !== "undefined" && (localStorage.getItem(KEY) as "dark" | "light" | null)) || defaultTheme;
-    setTheme(saved);
-  }, [defaultTheme]);
+    const handler = (newTheme: "dark" | "light") => setThemeState(newTheme);
+    listeners.add(handler);
+    handler(globalTheme); // Sync on mount
+    return () => { listeners.delete(handler); };
+  }, []);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") root.classList.add("dark");
-    else root.classList.remove("dark");
-    try { localStorage.setItem(KEY, theme); } catch {}
-  }, [theme]);
+  const setTheme = useCallback((t: "dark" | "light" | ((prev: "dark" | "light") => "dark" | "light")) => {
+    const newTheme = typeof t === "function" ? t(globalTheme) : t;
+    setGlobalTheme(newTheme);
+  }, []);
 
-  const toggle = useCallback(() => setTheme((t) => (t === "dark" ? "light" : "dark")), []);
+  const toggle = useCallback(() => setTheme((t) => (t === "dark" ? "light" : "dark")), [setTheme]);
   return { theme, toggle, setTheme };
 }
 

@@ -62,7 +62,7 @@ function AuthPage() {
         ? { email, password, metadata: { name } } 
         : { email, password };
 
-      const res = await fetch(`http://localhost:3001${endpoint}`, {
+      const res = await fetch(`http://127.0.0.1:3001${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -74,21 +74,15 @@ function AuthPage() {
         throw new Error(data.error || "Authentication failed");
       }
 
-      if (mode === "signup" && !data.data.session) {
-        setSuccessMsg("Account created! Please check your email to verify your account before signing in.");
-        setMode("login");
-        return;
-      }
-
-      // Store token (in a real app, this might be handled by HTTP-only cookies or a more secure storage,
-      // but localStorage is fine for this demo)
-      if (data.data.session) {
+      if (data.data?.session) {
         localStorage.setItem("huzzler_token", data.data.session.access_token);
+        navigate({ to: mode === "signup" ? "/onboarding" : "/dashboard" });
+      } else if (mode === "signup") {
+        setSuccessMsg("Account created! Please sign in with your credentials.");
+        setMode("login");
       }
-
-      navigate({ to: mode === "signup" ? "/onboarding" : "/dashboard" });
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || "Authentication failed");
     } finally {
       setLoading(false);
     }
