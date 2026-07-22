@@ -143,7 +143,7 @@ function AuthPage() {
           {/* Social */}
           <div className="mt-8 grid grid-cols-2 gap-3">
             <a
-              href="http://localhost:3001/api/auth/google"
+              href="https://tybgjdqdgjhppofzjdav.supabase.co/auth/v1/authorize?provider=google&redirect_to=http://localhost:5173/callback"
               className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-2 ring-white/20 hover:bg-white/10 hover:ring-white/30 transition-all"
             >
               <GoogleIcon />
