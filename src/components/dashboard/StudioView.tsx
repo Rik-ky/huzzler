@@ -662,3 +662,156 @@ function DeadlineRow({ label, when }: { label: string; when: string }) {
     </div>
   );
 }
+
+type Deliverable = {
+  id: string;
+  title: string;
+  due: string;
+  status: "In progress" | "Submitted" | "Approved" | "Changes requested";
+};
+
+function DeliverablesPanel() {
+  const [items, setItems] = useState<Deliverable[]>([
+    { id: "d1", title: "Search filter chips — v1", due: "Today", status: "In progress" },
+    { id: "d2", title: "Ranking spec draft", due: "Thu", status: "In progress" },
+    { id: "d3", title: "Empty state illustrations", due: "Last week", status: "Approved" },
+  ]);
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [form, setForm] = useState({ notes: "", link: "", file: "" });
+
+  const submitting = openId ? items.find((i) => i.id === openId) ?? null : null;
+
+  const submit = () => {
+    if (!submitting) return;
+    setItems((prev) =>
+      prev.map((i) => (i.id === submitting.id ? { ...i, status: "Submitted" } : i)),
+    );
+    setOpenId(null);
+    setForm({ notes: "", link: "", file: "" });
+  };
+
+  const tone = (s: Deliverable["status"]) =>
+    s === "Approved"
+      ? "bg-primary/15 text-primary"
+      : s === "Submitted"
+      ? "bg-[color:var(--gold)]/15 text-[color:var(--gold)]"
+      : s === "Changes requested"
+      ? "bg-[color:var(--fire)]/15 text-[color:var(--fire)]"
+      : "bg-muted text-muted-foreground";
+
+  return (
+    <div className="card-duo p-5">
+      <div className="mb-3 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Upload className="h-4 w-4 text-primary" />
+          <div className="font-display text-base font-bold">Deliverables</div>
+        </div>
+        <span className="text-xs text-muted-foreground">
+          {items.filter((i) => i.status === "Approved").length} of {items.length} approved
+        </span>
+      </div>
+
+      <div className="divide-y divide-border">
+        {items.map((d) => (
+          <div key={d.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
+            <div className="min-w-0">
+              <div className="truncate font-display text-sm font-bold">{d.title}</div>
+              <div className="text-xs text-muted-foreground">Due {d.due}</div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${tone(d.status)}`}>
+                {d.status}
+              </span>
+              {(d.status === "In progress" || d.status === "Changes requested") && (
+                <button
+                  onClick={() => setOpenId(d.id)}
+                  className="btn-duo !py-1.5 !px-3 text-xs"
+                >
+                  Submit
+                </button>
+              )}
+              {d.status === "Submitted" && (
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  Awaiting review
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {submitting && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            onClick={() => setOpenId(null)}
+            aria-hidden
+          />
+          <div
+            role="dialog"
+            className="fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border bg-card p-6 shadow-2xl"
+          >
+            <div className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              Submit deliverable
+            </div>
+            <div className="font-display text-lg font-bold">{submitting.title}</div>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Huzzler will notify your squad lead and log this on your Identity.
+            </p>
+
+            <div className="mt-5 flex flex-col gap-3">
+              <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  Notes
+                </span>
+                <textarea
+                  rows={3}
+                  value={form.notes}
+                  onChange={(e) => setForm({ ...form, notes: e.target.value })}
+                  placeholder="What did you build, what's next, blockers..."
+                  className="rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                />
+              </label>
+
+              <label className="flex flex-col gap-1.5">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  <LinkIcon className="h-3 w-3" /> Link
+                </span>
+                <input
+                  value={form.link}
+                  onChange={(e) => setForm({ ...form, link: e.target.value })}
+                  placeholder="PR, Figma, Loom, deployment..."
+                  className="rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                />
+              </label>
+
+              <label className="flex flex-col gap-1.5">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                  <Paperclip className="h-3 w-3" /> Attachment
+                </span>
+                <div className="flex items-center gap-2 rounded-xl border border-dashed border-border bg-muted/40 px-3 py-3">
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <input
+                    value={form.file}
+                    onChange={(e) => setForm({ ...form, file: e.target.value })}
+                    placeholder="filename.pdf (drag to upload)"
+                    className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                  />
+                </div>
+              </label>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-2">
+              <button onClick={() => setOpenId(null)} className="btn-duo-outline !py-2 !px-4 text-sm">
+                Cancel
+              </button>
+              <button onClick={submit} className="btn-duo !py-2 !px-4 text-sm">
+                <Send className="h-4 w-4" /> Submit for review
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
