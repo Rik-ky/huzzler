@@ -541,6 +541,9 @@ function EngagementDetail({
               ))}
             </ul>
           </div>
+
+          {/* Deliverables */}
+          {engagement.status === "Active" && <DeliverablesPanel />}
         </div>
 
         {/* Hustler AI agent */}
