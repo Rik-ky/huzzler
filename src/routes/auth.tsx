@@ -26,7 +26,7 @@ export const Route = createFileRoute("/auth")({
 type Mode = "signup" | "login";
 
 function AuthPage() {
-  const [mode, setMode] = useState<Mode>("signup");
+  const [mode, setMode] = useState<Mode>("login");
   const navigate = useNavigate();
 
   const onSubmit = (e: React.FormEvent) => {
@@ -66,10 +66,10 @@ function AuthPage() {
                 key={m}
                 type="button"
                 onClick={() => setMode(m)}
-                className={`flex-1 px-4 py-2 rounded-full text-sm font-bold transition-all ring-2 ${
+                className={`flex-1 px-4 py-2 rounded-full text-sm font-bold transition-all ${
                   mode === m
-                    ? "bg-white text-charcoal ring-charcoal/10"
-                    : "text-white/60 hover:text-white ring-white/20 hover:ring-white/30"
+                    ? "bg-white text-charcoal"
+                    : "text-white/60 hover:text-white hover:bg-white/5"
                 }`}
               >
                 {m === "signup" ? "Create account" : "Sign in"}
