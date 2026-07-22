@@ -119,6 +119,11 @@ function OnboardingPage() {
   const selected = answers[current.key];
   const progress = useMemo(() => ((step + (selected ? 1 : 0)) / STEPS.length) * 100, [step, selected]);
 
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
+
+
   const next = () => {
     if (!selected) return;
     if (step < STEPS.length - 1) setStep(step + 1);
