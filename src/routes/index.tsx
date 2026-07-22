@@ -177,7 +177,7 @@ function Header({ onOpenMenu }: { onOpenMenu: () => void }) {
           <a href="#roles" className="hover:text-primary transition-colors">Roles</a>
         </nav>
         <div className="flex items-center gap-2">
-          <a href="/auth" className={`hidden md:inline-flex btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
+          <a href="/auth?mode=signup" className={`hidden md:inline-flex btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
           <button
             onClick={onOpenMenu}
             aria-label="Open menu"
@@ -288,7 +288,7 @@ function Index() {
 
             <div className="mt-8 flex flex-col gap-3">
               <a
-                href="/auth"
+                href="/auth?mode=signup"
                 onClick={() => setMobileOpen(false)}
                 className="btn-duo w-full justify-center text-sm"
               >
@@ -322,7 +322,7 @@ function Index() {
               alongside a real product team.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="/auth" className="btn-duo">Get started free</a>
+              <a href="/auth?mode=signup" className="btn-duo">Get started free</a>
               <a href="/auth" className="btn-duo-outline">I already have an account</a>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-charcoal/75 font-semibold">
@@ -550,7 +550,7 @@ function Index() {
             tech, for free.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3 relative">
-            <a href="#top" className="btn-duo">Get started free</a>
+            <a href="/auth?mode=signup" className="btn-duo">Get started free</a>
             <a href="#loop" className="btn-duo-outline">See how it works</a>
           </div>
         </div>

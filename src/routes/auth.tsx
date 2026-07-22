@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { ArrowRight, Github } from "lucide-react";
 
 
@@ -26,8 +26,14 @@ export const Route = createFileRoute("/auth")({
 type Mode = "signup" | "login";
 
 function AuthPage() {
-  const [mode, setMode] = useState<Mode>("login");
+  const search = useSearch({ from: "/auth" });
+  const initialMode: Mode = search.mode === "signup" ? "signup" : "login";
+  const [mode, setMode] = useState<Mode>(initialMode);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setMode(initialMode);
+  }, [initialMode]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
