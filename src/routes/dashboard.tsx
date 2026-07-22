@@ -339,10 +339,7 @@ function DashboardPage() {
                 return (
                   <button
                     key={n.key}
-                    onClick={() => {
-                      setActive(n.key);
-                      setMobileOpen(false);
-                    }}
+                    onClick={() => goTo(n.key)}
                     className={`flex items-center gap-3 rounded-lg border px-3 py-3 text-left font-display text-sm font-bold tracking-tight transition-colors ${
                       isActive
                         ? "border-primary/40 bg-primary/10 text-primary"
