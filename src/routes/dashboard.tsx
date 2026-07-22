@@ -118,7 +118,7 @@ function DashboardPage() {
               return (
                 <button
                   key={n.key}
-                  onClick={() => setActive(n.key)}
+                  onClick={() => goTo(n.key)}
                   title={collapsed ? n.label : undefined}
                   className={`flex items-center gap-3 rounded-lg border py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
                     collapsed ? "justify-center px-2" : "px-3"
