@@ -223,22 +223,8 @@ function Index() {
               className="mx-auto w-full max-w-[560px] animate-float"
             />
           </div>
-        </div>
-
-        {/* Roles marquee */}
-        <div id="roles" className="border-y border-border bg-white">
-          <div className="mx-auto max-w-6xl overflow-x-auto px-5 py-4">
-            <div className="flex items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">
-              {roles.concat(roles).map((r, i) => (
-                <div key={i} className="flex items-center gap-2 shrink-0">
-                  <IconTile Icon={r.Icon} size="sm" />
-                  {r.label}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </section>
+
 
       {/* Problem / Solution */}
       <section className="mx-auto max-w-6xl px-5 py-20 md:py-28">
