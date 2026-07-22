@@ -175,7 +175,7 @@ function DashboardPage() {
               <ThemeToggle />
               <button className="btn-duo !py-2.5 !px-5 text-sm">
                 <Rocket className="h-4 w-4" />
-                New mission
+                Try AI Assessments
               </button>
             </div>
             <button
