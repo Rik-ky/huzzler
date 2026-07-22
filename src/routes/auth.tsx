@@ -71,14 +71,14 @@ function AuthPage() {
           <div className="mt-8 grid grid-cols-2 gap-3">
             <button
               type="button"
-              className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition-colors"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-2 ring-white/20 hover:bg-white/10 hover:ring-white/30 transition-all"
             >
               <GoogleIcon />
               Google
             </button>
             <button
               type="button"
-              className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition-colors"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-white/5 py-3 text-sm font-semibold text-white ring-2 ring-white/20 hover:bg-white/10 hover:ring-white/30 transition-all"
             >
               <Github size={16} />
               GitHub
