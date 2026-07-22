@@ -284,8 +284,8 @@ function DashboardPage() {
             </>
           )}
 
-          {active === "gateway" && <GatewayView onGoToStudio={() => goTo("studio")} />}
-          {active === "studio" && (
+          {active === "onboarding" && <GatewayView onGoToStudio={() => goTo("opportunities")} />}
+          {active === "opportunities" && (
             <StudioView
               onOpenSquad={(mission) => {
                 setSquadContext(mission);
@@ -294,12 +294,19 @@ function DashboardPage() {
             />
           )}
           {active === "squads" && <SquadsView activeMission={squadContext} />}
-          {active !== "overview" && active !== "gateway" && active !== "studio" && active !== "squads" && (
+          {active === "earnings" && <EarningsView />}
+          {active === "settings" && <SettingsView />}
+          {active !== "overview" &&
+            active !== "onboarding" &&
+            active !== "opportunities" &&
+            active !== "squads" &&
+            active !== "earnings" &&
+            active !== "settings" && (
             <div className="card-duo grid place-items-center p-16 text-center">
               <Sparkles className="mb-3 h-8 w-8 text-primary" />
               <div className="font-display text-lg font-bold">Coming soon</div>
               <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-                We are prioritising Gateway, Studio and Squads for this build. This section unlocks next.
+                This section unlocks next.
               </p>
             </div>
           )}
