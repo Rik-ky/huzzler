@@ -20,6 +20,8 @@ import {
   TrendingUp,
   ChevronLeft,
   ChevronRight,
+  Menu,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
@@ -59,10 +61,20 @@ const NAV: NavItem[] = [
 function DashboardPage() {
   const [active, setActive] = useState("overview");
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.add("dark");
   }, []);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [mobileOpen]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -150,13 +162,20 @@ function DashboardPage() {
               <div className="text-xs font-semibold text-muted-foreground">Welcome back</div>
               <div className="font-display text-base font-bold tracking-tight">Let's ship something today.</div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-2 md:flex">
               <ThemeToggle />
               <button className="btn-duo !py-2.5 !px-5 text-sm">
                 <Rocket className="h-4 w-4" />
                 New mission
               </button>
             </div>
+            <button
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              className="grid h-10 w-10 place-items-center rounded-full border border-border bg-muted text-foreground md:hidden hover:border-primary/40 hover:text-primary transition-colors"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           </div>
 
           <div className="px-4 py-6 md:px-8">
@@ -277,6 +296,65 @@ function DashboardPage() {
           </div>
         </main>
       </div>
+
+      {/* Mobile menu drawer */}
+      {mobileOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed left-0 top-0 z-50 h-full w-[280px] max-w-[80vw] border-r border-border bg-background p-5 md:hidden">
+            <div className="mb-6 flex items-center justify-between">
+              <Link to="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
+                <img src="/huzzler-logo-darkmode.svg" alt="Huzzler" className="h-7 w-auto" />
+              </Link>
+              <button
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+                className="grid h-8 w-8 place-items-center rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <button className="btn-duo mb-6 w-full justify-center text-sm">
+              <Rocket className="h-4 w-4" />
+              New mission
+            </button>
+
+            <nav className="flex flex-col gap-1">
+              {NAV.map((n) => {
+                const isActive = active === n.key;
+                const Icon = n.icon;
+                return (
+                  <button
+                    key={n.key}
+                    onClick={() => {
+                      setActive(n.key);
+                      setMobileOpen(false);
+                    }}
+                    className={`flex items-center gap-3 rounded-lg border px-3 py-3 text-left font-display text-sm font-bold tracking-tight transition-colors ${
+                      isActive
+                        ? "border-primary/40 bg-primary/10 text-primary"
+                        : "border-transparent text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {n.label}
+                  </button>
+                );
+              })}
+            </nav>
+
+            <div className="mt-8 flex items-center justify-between rounded-xl border border-border bg-muted p-3">
+              <span className="text-sm font-semibold">Appearance</span>
+              <ThemeToggle />
+            </div>
+          </div>
+        </>
+      )}
     </div>
 
   );
