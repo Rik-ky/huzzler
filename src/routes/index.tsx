@@ -174,8 +174,21 @@ function Header() {
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground" style={{ overflowX: "clip" }}>
+      {/* Top roles marquee */}
+      <div id="roles" className="bg-primary text-white overflow-hidden py-2">
+        <div className="flex w-max marquee-track">
+          {[...roles, ...roles, ...roles, ...roles].map((r, i) => (
+            <div key={i} className="flex items-center gap-2 px-6 text-[11px] font-semibold uppercase tracking-[0.18em] shrink-0">
+              <r.Icon size={12} strokeWidth={2.75} />
+              {r.label}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Nav */}
       <Header />
+
 
       {/* Hero */}
       <section id="top" className="relative overflow-hidden">
