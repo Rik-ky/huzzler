@@ -175,10 +175,10 @@ function DashboardPage() {
             </div>
             <div className="hidden items-center gap-2 md:flex">
               <ThemeToggle />
-              <button className="btn-duo !py-2.5 !px-5 text-sm">
+              <Link to="/assessments" className="btn-duo !py-2.5 !px-5 text-sm">
                 <Rocket className="h-4 w-4" />
                 Try AI Assessments
-              </button>
+              </Link>
             </div>
             <button
               onClick={() => setMobileOpen(true)}
