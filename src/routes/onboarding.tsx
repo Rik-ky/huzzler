@@ -71,6 +71,33 @@ function OnboardingJourney() {
   const [activeStageIdx, setActiveStageIdx] = useState(0);
   const [showMockup, setShowMockup] = useState(false);
   const [isSimulating, setIsSimulating] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  // Fetch real user data on mount
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const token = localStorage.getItem("huzzler_token");
+        if (!token) {
+          setIsInitializing(false);
+          return;
+        }
+        const res = await fetch("http://127.0.0.1:3001/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const savedStage = data.user?.user_metadata?.onboarding?.stage || 0;
+          setActiveStageIdx(savedStage);
+        }
+      } catch (e) {
+        console.error("Failed to load user data:", e);
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+    fetchProgress();
+  }, []);
 
   useEffect(() => {
     const hasSeenToast = sessionStorage.getItem("huzzler_welcome_toast");
@@ -94,7 +121,25 @@ function OnboardingJourney() {
   const completeMockupStage = () => {
     setIsSimulating(true);
     // Simulate loading for 1.5 seconds to feel realistic
-    setTimeout(() => {
+    setTimeout(async () => {
+      const nextIdx = activeStageIdx + 1;
+      
+      try {
+        const token = localStorage.getItem("huzzler_token");
+        if (token) {
+          await fetch("http://127.0.0.1:3001/api/auth/onboarding", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ answers: { stage: nextIdx } })
+          });
+        }
+      } catch (err) {
+        console.error("Failed to save progress", err);
+      }
+
       setIsSimulating(false);
       setShowMockup(false);
       
@@ -104,9 +149,10 @@ function OnboardingJourney() {
 
       if (activeStageIdx === STAGE_DEFS.length - 1) {
         // Finished all stages
+        sessionStorage.setItem("huzzler_auto_nav", "opportunities");
         navigate({ to: "/dashboard" });
       } else {
-        setActiveStageIdx((prev) => prev + 1);
+        setActiveStageIdx(nextIdx);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }, 1500);
@@ -279,7 +325,7 @@ function OnboardingJourney() {
         <div className="flex items-center gap-4">
           <div className="hidden items-center gap-2 text-sm font-medium md:flex">
             <span className="text-muted-foreground">Progress:</span>
-            <span className="text-foreground">{activeStageIdx} / 5 Stages</span>
+            <span className="text-foreground">{activeStageIdx} / 5 Stages Cleared</span>
           </div>
           <ThemeToggle />
         </div>
@@ -295,9 +341,14 @@ function OnboardingJourney() {
           </p>
         </header>
 
-        <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[1.875rem] before:hidden md:before:block before:w-[2px] before:bg-border before:z-0">
-          {STAGE_DEFS.map((def, idx) => {
-            const state = idx < activeStageIdx ? "cleared" : idx === activeStageIdx ? "active" : "locked";
+        {isInitializing ? (
+          <div className="flex h-40 items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : (
+          <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[1.875rem] before:hidden md:before:block before:w-[2px] before:bg-border before:z-0">
+            {STAGE_DEFS.map((def, idx) => {
+              const state = idx < activeStageIdx ? "cleared" : idx === activeStageIdx ? "active" : "locked";
             
             return (
               <div
@@ -356,20 +407,21 @@ function OnboardingJourney() {
                   
                   <p className="text-muted-foreground">{def.desc}</p>
                   
-                  {state === "active" && (
-                    <button
-                      onClick={() => handleStageAction(idx)}
-                      className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-8 font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-primary/20"
-                    >
-                      <Play className="h-4 w-4 fill-current" />
-                      {def.actionText}
-                    </button>
-                  )}
+                    {state === "active" && (
+                      <button
+                        onClick={() => handleStageAction(idx)}
+                        className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-8 font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-primary/20"
+                      >
+                        <Play className="h-4 w-4 fill-current" />
+                        {def.actionText}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </main>
   );

@@ -9,8 +9,11 @@ import {
   MessageSquare,
   Trophy,
   ArrowRight,
+  Loader2,
   type LucideIcon,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 
 type Stage = {
   id: string;
@@ -68,7 +71,36 @@ const STAGES: Stage[] = [
 ];
 
 export function GatewayView({ onGoToStudio }: { onGoToStudio: () => void }) {
-  const passed = STAGES.filter((s) => s.status === "passed").length;
+  const [activeStageIdx, setActiveStageIdx] = useState(0);
+  const [isInitializing, setIsInitializing] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const token = localStorage.getItem("huzzler_token");
+        if (!token) {
+          setIsInitializing(false);
+          return;
+        }
+        const res = await fetch("http://127.0.0.1:3001/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const savedStage = data.user?.user_metadata?.onboarding?.stage || 0;
+          setActiveStageIdx(savedStage);
+        }
+      } catch (e) {
+        console.error("Failed to load user data:", e);
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+    fetchProgress();
+  }, []);
+
+  const passed = activeStageIdx;
   const total = STAGES.length;
   const pct = Math.round((passed / total) * 100);
 
@@ -116,16 +148,26 @@ export function GatewayView({ onGoToStudio }: { onGoToStudio: () => void }) {
       </div>
 
       {/* Stages */}
-      <div className="flex flex-col gap-3">
-        {STAGES.map((stage, i) => (
-          <StageCard
-            key={stage.id}
-            index={i + 1}
-            stage={stage}
-            onGoToStudio={onGoToStudio}
-          />
-        ))}
-      </div>
+      {isInitializing ? (
+        <div className="flex h-40 items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {STAGES.map((stage, i) => {
+            const dynamicStatus = i < activeStageIdx ? "passed" : i === activeStageIdx ? "active" : "locked";
+            return (
+              <StageCard
+                key={stage.id}
+                index={i + 1}
+                stage={{ ...stage, status: dynamicStatus }}
+                onGoToStudio={onGoToStudio}
+                onStart={() => navigate({ to: "/onboarding" })}
+              />
+            );
+          })}
+        </div>
+      )}
 
       {/* Reward panel */}
       <div className="card-duo flex flex-col gap-3 border-primary/30 bg-primary/5 p-5 md:flex-row md:items-center md:justify-between">
@@ -153,10 +195,12 @@ function StageCard({
   index,
   stage,
   onGoToStudio,
+  onStart,
 }: {
   index: number;
   stage: Stage;
   onGoToStudio: () => void;
+  onStart: () => void;
 }) {
   const Icon = stage.icon;
   const isPassed = stage.status === "passed";
@@ -214,7 +258,7 @@ function StageCard({
           </div>
         )}
         {isActive && (
-          <button className="btn-duo !py-2 !px-4 text-sm">
+          <button onClick={onStart} className="btn-duo !py-2 !px-4 text-sm">
             Start now <ArrowRight className="h-4 w-4" />
           </button>
         )}

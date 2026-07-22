@@ -144,6 +144,18 @@ export function AgentOrb() {
                     </div>
                   </div>
                 ))}
+
+                {/* AI Reasoning Indicator */}
+                {isLoading && (
+                  <div className="flex items-end gap-2">
+                    <AgentMark size={26} animated />
+                    <div className="max-w-[80%] rounded-2xl bg-muted px-3.5 py-3 flex gap-1.5 items-center h-[36px]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <span className="h-1.5 w-1.5 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <span className="h-1.5 w-1.5 rounded-full bg-foreground/40 animate-bounce" style={{ animationDelay: "300ms" }} />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

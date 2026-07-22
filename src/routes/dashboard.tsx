@@ -109,6 +109,14 @@ function DashboardPage() {
     return () => document.body.classList.remove("overflow-hidden");
   }, [mobileOpen]);
 
+  useEffect(() => {
+    const autoNav = sessionStorage.getItem("huzzler_auto_nav");
+    if (autoNav) {
+      setActive(autoNav);
+      sessionStorage.removeItem("huzzler_auto_nav");
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen max-w-[1400px]">

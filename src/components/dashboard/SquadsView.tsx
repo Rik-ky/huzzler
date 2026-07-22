@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Users, Circle, Hash, Send, Calendar, Target, ExternalLink, Video, Plus } from "lucide-react";
 import { AgentMark } from "./AgentOrb";
 
@@ -73,6 +73,28 @@ const MEET_URL = "https://meet.google.com/new";
 
 export function SquadsView({ activeMission }: { activeMission?: string | null }) {
   const [hovered, setHovered] = useState<Member | null>(null);
+  const [isConnecting, setIsConnecting] = useState(true);
+
+  useEffect(() => {
+    // Show connecting screen for 2 seconds on mount
+    const timer = setTimeout(() => setIsConnecting(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isConnecting) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-6">
+        <AgentMark size={64} animated />
+        <div className="flex flex-col items-center gap-2">
+          <div className="font-display text-xl font-bold tracking-tight">Connecting you to your squad...</div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            Syncing identity and channels
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
