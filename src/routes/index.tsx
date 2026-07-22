@@ -550,7 +550,7 @@ function Index() {
             tech, for free.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3 relative">
-            <a href="#top" className="btn-duo">Get started free</a>
+            <a href="/auth?mode=signup" className="btn-duo">Get started free</a>
             <a href="#loop" className="btn-duo-outline">See how it works</a>
           </div>
         </div>
