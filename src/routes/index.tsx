@@ -195,6 +195,18 @@ function Header({ onOpenMenu }: { onOpenMenu: () => void }) {
 function Index() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Landing page is always light. Remove the `dark` class if user navigated
+  // here from a dark-mode surface (dashboard/auth/onboarding). Restore on unmount.
+  useEffect(() => {
+    const root = document.documentElement;
+    const wasDark = root.classList.contains("dark");
+    if (wasDark) root.classList.remove("dark");
+    return () => {
+      if (wasDark) root.classList.add("dark");
+    };
+  }, []);
+
+
   useEffect(() => {
     if (mobileOpen) {
       document.body.classList.add("overflow-hidden");
