@@ -26,7 +26,7 @@ export const Route = createFileRoute("/auth")({
 type Mode = "signup" | "login";
 
 function AuthPage() {
-  const [mode, setMode] = useState<Mode>("signup");
+  const [mode, setMode] = useState<Mode>("login");
   const navigate = useNavigate();
 
   const onSubmit = (e: React.FormEvent) => {
