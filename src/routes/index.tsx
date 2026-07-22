@@ -314,7 +314,7 @@ function Index() {
             <span className="chip"><MapPin size={12} strokeWidth={2.5} /> Built for Africa</span>
             <h1 className="mt-5 text-5xl leading-[1.02] md:text-6xl md:leading-[1.02]">
               <span className="text-charcoal">Experience</span>{" "}
-              <span className="text-primary">as a software.</span>
+              <span className="text-primary">as a service.</span>
             </h1>
             <p className="mt-6 max-w-lg text-lg text-charcoal/70 leading-relaxed">
               The free, AI-powered way for anyone who needs experience and
