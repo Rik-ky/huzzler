@@ -63,7 +63,7 @@ function DashboardPage() {
       <div className="mx-auto flex min-h-screen max-w-[1400px]">
         {/* Sidebar */}
         <aside
-          className={`hidden shrink-0 flex-col border-r border-border py-6 md:flex transition-[width] duration-300 ease-out ${
+          className={`hidden shrink-0 flex-col border-r border-border bg-background py-6 md:sticky md:top-0 md:z-30 md:h-screen md:overflow-y-auto md:flex transition-[width] duration-300 ease-out ${
             collapsed ? "w-20 px-2" : "w-60 px-4"
           }`}
         >
@@ -78,9 +78,9 @@ function DashboardPage() {
             <button
               onClick={() => setCollapsed((v) => !v)}
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-              className="grid h-9 w-9 place-items-center rounded-full border border-primary/40 bg-gradient-to-b from-primary/20 to-primary/5 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_10px_rgba(0,191,255,0.18)] hover:from-primary/30 hover:to-primary/10 hover:scale-105 active:scale-95 transition-all"
+              className="grid h-7 w-7 place-items-center rounded-full border border-primary/40 bg-gradient-to-b from-primary/20 to-primary/5 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] hover:from-primary/30 hover:to-primary/10 hover:scale-105 active:scale-95 transition-all"
             >
-              {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+              {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
             </button>
           </div>
           <nav className="flex flex-col gap-1">
