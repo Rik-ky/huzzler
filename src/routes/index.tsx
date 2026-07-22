@@ -164,7 +164,7 @@ function Header() {
           <a href="#profile" className="hover:text-primary transition-colors">Your profile</a>
           <a href="#roles" className="hover:text-primary transition-colors">Roles</a>
         </nav>
-        <a href="/onboarding" className={`btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
+        <a href="/auth" className={`btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
       </div>
     </header>
   );
