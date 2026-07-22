@@ -192,7 +192,7 @@ function Index() {
               alongside a real product team.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="/onboarding" className="btn-duo">Get started free</a>
+              <a href="/auth" className="btn-duo">Get started free</a>
               <a href="/auth" className="btn-duo-outline">I already have an account</a>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-5 text-sm text-charcoal/75 font-semibold">
