@@ -46,7 +46,7 @@ const STAGES: Stage[] = [
     title: "Live Craft Challenge",
     kind: "AI",
     status: "active",
-    desc: "A 90 minute build session evaluated live by Hustler, your AI agent.",
+    desc: "A 90 minute build session evaluated live by Huzzler, your AI agent.",
     icon: Play,
   },
   {
