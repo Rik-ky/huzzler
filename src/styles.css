@@ -240,3 +240,10 @@
 }
 .animate-sparkle { animation: sparkle-pop 2.6s ease-in-out infinite; transform-origin: center; }
 .animate-sparkle-delay { animation: sparkle-pop 2.6s ease-in-out infinite; animation-delay: 1.3s; transform-origin: center; }
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-right { animation: slide-in-right 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
