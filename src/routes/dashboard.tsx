@@ -72,7 +72,7 @@ function DashboardPage() {
               {collapsed ? (
                 <img src="/huzzler-mark.svg" alt="Huzzler" className="h-9 w-9" />
               ) : (
-                <img src="/huzzler-logo.svg" alt="Huzzler" className="h-8 w-auto" />
+                <img src="/huzzler-logo-darkmode.svg" alt="Huzzler" className="h-8 w-auto" />
               )}
             </Link>
             <button
