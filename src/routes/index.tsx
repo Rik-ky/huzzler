@@ -143,7 +143,7 @@ function Logo({ className = "h-8 w-auto" }: { className?: string }) {
   return <img src="/huzzler-logo.svg" alt="Huzzler" className={className} />;
 }
 
-function Header() {
+function Header({ onOpenMenu }: { onOpenMenu: () => void }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -176,7 +176,16 @@ function Header() {
           <a href="#profile" className="hover:text-primary transition-colors">Your profile</a>
           <a href="#roles" className="hover:text-primary transition-colors">Roles</a>
         </nav>
-        <a href="/auth" className={`btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
+        <div className="flex items-center gap-2">
+          <a href="/auth" className={`hidden md:inline-flex btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
+          <button
+            onClick={onOpenMenu}
+            aria-label="Open menu"
+            className="grid h-10 w-10 place-items-center rounded-full border border-border bg-muted text-foreground md:hidden hover:border-primary/40 hover:text-primary transition-colors"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
       </div>
     </header>
   );
