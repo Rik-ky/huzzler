@@ -174,8 +174,21 @@ function Header() {
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground" style={{ overflowX: "clip" }}>
+      {/* Top roles marquee */}
+      <div id="roles" className="bg-primary text-white overflow-hidden py-2">
+        <div className="flex w-max marquee-track">
+          {[...roles, ...roles, ...roles, ...roles].map((r, i) => (
+            <div key={i} className="flex items-center gap-2 px-6 text-[11px] font-semibold uppercase tracking-[0.18em] shrink-0">
+              <r.Icon size={12} strokeWidth={2.75} />
+              {r.label}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Nav */}
       <Header />
+
 
       {/* Hero */}
       <section id="top" className="relative overflow-hidden">
@@ -211,21 +224,9 @@ function Index() {
             />
           </div>
         </div>
-
-        {/* Roles marquee */}
-        <div id="roles" className="border-y border-border bg-white">
-          <div className="mx-auto max-w-6xl overflow-x-auto px-5 py-4">
-            <div className="flex items-center gap-8 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">
-              {roles.concat(roles).map((r, i) => (
-                <div key={i} className="flex items-center gap-2 shrink-0">
-                  <IconTile Icon={r.Icon} size="sm" />
-                  {r.label}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </section>
+
+
 
       {/* Problem / Solution */}
       <section className="mx-auto max-w-6xl px-5 py-20 md:py-28">
