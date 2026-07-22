@@ -121,7 +121,7 @@ function DashboardPage() {
               <div className="font-display text-base font-bold tracking-tight">Let's ship something today.</div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="md:hidden"><ThemeToggle /></span>
+              <ThemeToggle />
               <button className="btn-duo !py-2.5 !px-5 text-sm">
                 <Rocket className="h-4 w-4" />
                 New mission
