@@ -99,7 +99,7 @@ function AuthPage() {
             <div className="h-px flex-1 bg-white/10" />
           </div>
 
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-3">
+          <form onSubmit={onSubmit} className="space-y-3">
             {mode === "signup" && (
               <BoldInput placeholder="Your name" type="text" autoComplete="name" />
             )}
