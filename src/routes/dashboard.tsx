@@ -360,6 +360,8 @@ function DashboardPage() {
           </div>
         </>
       )}
+
+      <AgentOrb />
     </div>
 
   );
