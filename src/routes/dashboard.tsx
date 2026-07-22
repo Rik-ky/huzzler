@@ -18,6 +18,8 @@ import {
   Clock,
   Sparkles,
   TrendingUp,
+  PanelLeftClose,
+  PanelLeftOpen,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
@@ -50,6 +52,7 @@ const NAV: NavItem[] = [
 
 function DashboardPage() {
   const [active, setActive] = useState("overview");
+  const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.add("dark");
@@ -59,11 +62,27 @@ function DashboardPage() {
     <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen max-w-[1400px]">
         {/* Sidebar */}
-        <aside className="hidden w-60 shrink-0 flex-col border-r border-border px-4 py-6 md:flex">
-          <Link to="/" className="mb-8 flex items-center gap-2 px-2">
-            <img src="/huzzler-mark.svg" alt="Huzzler" className="h-9 w-9" />
-            <span className="font-display text-lg font-bold tracking-tight">Huzzler</span>
-          </Link>
+        <aside
+          className={`hidden shrink-0 flex-col border-r border-border py-6 md:flex transition-[width] duration-300 ease-out ${
+            collapsed ? "w-20 px-2" : "w-60 px-4"
+          }`}
+        >
+          <div className={`mb-8 flex items-center ${collapsed ? "flex-col gap-3" : "justify-between"}`}>
+            <Link to="/" className="flex items-center px-2">
+              {collapsed ? (
+                <img src="/huzzler-mark.svg" alt="Huzzler" className="h-9 w-9" />
+              ) : (
+                <img src="/huzzler-logo.svg" alt="Huzzler" className="h-8 w-auto" />
+              )}
+            </Link>
+            <button
+              onClick={() => setCollapsed((v) => !v)}
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              className="grid h-8 w-8 place-items-center rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+            </button>
+          </div>
           <nav className="flex flex-col gap-1">
             {NAV.map((n) => {
               const isActive = active === n.key;
@@ -72,38 +91,43 @@ function DashboardPage() {
                 <button
                   key={n.key}
                   onClick={() => setActive(n.key)}
-                  className={`flex items-center gap-3 rounded-lg border px-3 py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
+                  title={collapsed ? n.label : undefined}
+                  className={`flex items-center gap-3 rounded-lg border py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
+                    collapsed ? "justify-center px-2" : "px-3"
+                  } ${
                     isActive
                       ? "border-primary/40 bg-primary/10 text-primary"
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <Icon className="h-5 w-5" />
-                  {n.label}
+                  {!collapsed && n.label}
                 </button>
               );
             })}
           </nav>
 
           {/* Promo banner */}
-          <div className="mt-6 relative overflow-hidden rounded-xl border border-primary/30 bg-gradient-to-br from-primary/25 via-primary/10 to-transparent p-4">
-            <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/30 blur-2xl" />
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_30%,color-mix(in_oklab,white_18%,transparent)_45%,transparent_60%)]" />
-            <div className="relative">
-              <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
-                <Sparkles className="h-3 w-3" /> New
+          {!collapsed && (
+            <div className="mt-6 relative overflow-hidden rounded-xl border border-primary/30 bg-gradient-to-br from-primary/25 via-primary/10 to-transparent p-4">
+              <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/30 blur-2xl" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_30%,color-mix(in_oklab,white_18%,transparent)_45%,transparent_60%)]" />
+              <div className="relative">
+                <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
+                  <Sparkles className="h-3 w-3" /> New
+                </div>
+                <div className="font-display text-sm font-bold leading-snug">
+                  Unlock Pro squads
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Ship with senior mentors and get placed faster.
+                </p>
+                <button className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline">
+                  Upgrade <ArrowUpRight className="h-3 w-3" />
+                </button>
               </div>
-              <div className="font-display text-sm font-bold leading-snug">
-                Unlock Pro squads
-              </div>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Ship with senior mentors and get placed faster.
-              </p>
-              <button className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline">
-                Upgrade <ArrowUpRight className="h-3 w-3" />
-              </button>
             </div>
-          </div>
+          )}
         </aside>
 
         {/* Main */}
