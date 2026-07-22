@@ -241,7 +241,7 @@ function DashboardPage() {
                   <div className="font-display text-lg font-bold">Current missions</div>
                   <div className="text-xs text-muted-foreground">Real product work, shipped with your squad.</div>
                 </div>
-                <button onClick={() => goTo("studio")} className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
+                <button onClick={() => goTo("opportunities")} className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
                   View all
                 </button>
               </div>
