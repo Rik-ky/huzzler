@@ -133,7 +133,7 @@ function DashboardPage() {
         {/* Main */}
         <main className="min-w-0 flex-1">
           {/* Top header bar */}
-          <div className="flex items-center justify-between border-b border-border px-4 py-4 md:px-8">
+          <div className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-background/95 px-4 py-4 backdrop-blur md:px-8">
             <div className="flex items-center gap-3 md:hidden">
               <Link to="/" className="flex items-center gap-2">
                 <img src="/huzzler-mark.svg" alt="Huzzler" className="h-8 w-8" />
