@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.png";
 import gatewayImg from "@/assets/gateway.png";
 import studioImg from "@/assets/studio.png";
@@ -29,6 +29,8 @@ import {
   Linkedin,
   Github,
   Instagram,
+  Menu,
+  X,
   type LucideIcon,
 } from "lucide-react";
 
@@ -141,7 +143,7 @@ function Logo({ className = "h-8 w-auto" }: { className?: string }) {
   return <img src="/huzzler-logo.svg" alt="Huzzler" className={className} />;
 }
 
-function Header() {
+function Header({ onOpenMenu }: { onOpenMenu: () => void }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -174,7 +176,16 @@ function Header() {
           <a href="#profile" className="hover:text-primary transition-colors">Your profile</a>
           <a href="#roles" className="hover:text-primary transition-colors">Roles</a>
         </nav>
-        <a href="/auth" className={`btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
+        <div className="flex items-center gap-2">
+          <a href="/auth" className={`hidden md:inline-flex btn-duo ${scrolled ? "!py-2 !px-3.5 text-xs" : "!py-2.5 !px-4"}`}>Get started</a>
+          <button
+            onClick={onOpenMenu}
+            aria-label="Open menu"
+            className="grid h-10 w-10 place-items-center rounded-full border border-border bg-muted text-foreground md:hidden hover:border-primary/40 hover:text-primary transition-colors"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
       </div>
     </header>
   );
@@ -182,6 +193,17 @@ function Header() {
 
 
 function Index() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [mobileOpen]);
+
   return (
     <div className="min-h-screen bg-background text-foreground" style={{ overflowX: "clip" }}>
       {/* Top roles marquee */}
@@ -197,7 +219,71 @@ function Index() {
       </div>
 
       {/* Nav */}
-      <Header />
+      <Header onOpenMenu={() => setMobileOpen(true)} />
+
+      {/* Mobile menu drawer */}
+      {mobileOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed left-0 top-0 z-50 h-full w-[280px] max-w-[80vw] border-r border-border bg-background p-5 md:hidden">
+            <div className="mb-8 flex items-center justify-between">
+              <Link to="/" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
+                <img src="/huzzler-logo.svg" alt="Huzzler" className="h-7 w-auto" />
+              </Link>
+              <button
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+                className="grid h-8 w-8 place-items-center rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-1">
+              <a
+                href="#loop"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 rounded-lg border border-transparent px-3 py-3 text-left font-display text-sm font-bold tracking-tight text-charcoal/75 hover:text-primary transition-colors"
+              >
+                How it works
+              </a>
+              <a
+                href="#pillars"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 rounded-lg border border-transparent px-3 py-3 text-left font-display text-sm font-bold tracking-tight text-charcoal/75 hover:text-primary transition-colors"
+              >
+                Pillars
+              </a>
+              <a
+                href="#profile"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 rounded-lg border border-transparent px-3 py-3 text-left font-display text-sm font-bold tracking-tight text-charcoal/75 hover:text-primary transition-colors"
+              >
+                Your profile
+              </a>
+              <a
+                href="#roles"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 rounded-lg border border-transparent px-3 py-3 text-left font-display text-sm font-bold tracking-tight text-charcoal/75 hover:text-primary transition-colors"
+              >
+                Roles
+              </a>
+            </nav>
+
+            <a
+              href="/auth"
+              onClick={() => setMobileOpen(false)}
+              className="btn-duo mt-8 w-full justify-center text-sm"
+            >
+              Get started
+            </a>
+          </div>
+        </>
+      )}
 
 
       {/* Hero */}
