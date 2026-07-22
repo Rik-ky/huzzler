@@ -25,6 +25,9 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
+import { GatewayView } from "@/components/dashboard/GatewayView";
+import { StudioView } from "@/components/dashboard/StudioView";
+import { SquadsView } from "@/components/dashboard/SquadsView";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
