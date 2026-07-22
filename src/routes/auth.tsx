@@ -54,7 +54,7 @@ function AuthPage() {
                 onClick={() => setMode(m)}
                 className={`flex-1 px-4 py-2 rounded-full text-sm font-bold transition-all ring-2 ${
                   mode === m
-                    ? "bg-white text-charcoal ring-white/30"
+                    ? "bg-white text-charcoal ring-charcoal/10"
                     : "text-white/60 hover:text-white ring-white/20 hover:ring-white/30"
                 }`}
               >
