@@ -173,7 +173,7 @@ export function StudioView({
           Where offers turn into shipped work.
         </h1>
         <p className="max-w-2xl text-sm text-muted-foreground">
-          Review live offers, manage your active internships and jobs, and let Hustler your AI agent
+          Review live offers, manage your active internships and jobs, and let Huzzler your AI agent
           keep the whole thing on track.
         </p>
       </header>
