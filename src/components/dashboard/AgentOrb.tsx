@@ -14,56 +14,7 @@ import {
 
 type Msg = { from: "user" | "agent"; text: string };
 
-const QUICK_ACTION_RESPONSES = {
-  "Plan my day": [
-    "Alright, let's break down today's priorities. First, review your open PRs, then tackle the filter component bug.",
-    "Good morning! I suggest dedicating the first 2 hours to deep work on the search API, followed by code reviews.",
-    "On it. Your calendar looks clear until 2 PM. Let's aim to ship the new layout before your standup.",
-    "Got it. I'll block out time for your ongoing sprint tasks and leave some buffer for unexpected bugs.",
-    "Let's get to work! I recommend starting with the highest priority ticket on the Amala squad board.",
-    "I'm syncing with your calendar. Looks like a solid day to focus entirely on the new feature spec.",
-    "Ready when you are. Let's prioritize finishing the onboarding flow updates first.",
-    "Planning mode engaged. Let's knock out those small UI tweaks before diving into the complex backend logic.",
-    "Here's the plan: Review Kunle's PR, attend the sync, then go heads-down on the ranking algorithm.",
-    "Let's make today count. I've highlighted the top 3 tickets that need your attention before EOD."
-  ],
-  "Draft my standup": [
-    "Drafting your standup based on yesterday's commits. Just a sec.",
-    "I'll pull your recent GitHub activity and format a crisp update.",
-    "Here's a draft: Yesterday I shipped the search filters, today I'm fixing the edge cases. No blockers.",
-    "Looking at your activity... I've put together a solid update for your squad. Ready to review?",
-    "Standup generated! Highlighting your successful deployment to staging yesterday.",
-    "I've drafted your update. It focuses on your progress with the API integration.",
-    "Pulling your ticket status... Got it. I'll emphasize the blocked task so the squad can help.",
-    "Drafting now. I made sure to mention your code review contributions.",
-    "Here's a quick summary of your shipped work from the last 24 hours.",
-    "Standup ready. Short, sweet, and focused on your upcoming deliverables."
-  ],
-  "Review my latest PR": [
-    "Fetching your latest PR. I'll scan for potential edge cases and performance bottlenecks.",
-    "Reviewing now. Let me check if the new components align with our design system.",
-    "Looking at the diff... Give me a moment to analyze the changes in the API layer.",
-    "Scanning your code. I'll leave comments if I spot any missing unit tests.",
-    "On it. I'm checking for common security pitfalls in the new authentication flow.",
-    "Review in progress. Your logic looks solid, but let me double-check the accessibility tags.",
-    "Pulling the branch. I'll verify if this fixes the reported issue cleanly.",
-    "Analyzing the PR. I'm focusing on your state management optimizations.",
-    "Reviewing... I'll let you know if I see any opportunities to refactor for better readability.",
-    "Checking the latest commits. I'll ensure it meets the squad's shipping standards."
-  ],
-  "Help me prep for my next assessment": [
-    "Alright, let's prep. I'm spinning up a mock technical interview focusing on React fundamentals.",
-    "Prepping assessment environment. Let's run through some system design scenarios first.",
-    "Ready to prep. We'll start with a quick quiz on state management and performance.",
-    "Let's do this. I've generated a practice problem similar to the Live Craft Challenge.",
-    "Prepping now. We should review the common edge cases you might face in the interview.",
-    "I'm pulling up a mock code review exercise to sharpen your debugging skills.",
-    "Let's focus on communication today. I'll ask you to explain a complex architectural decision.",
-    "Assessment prep started. Let's tackle a fast-paced algorithms drill.",
-    "Getting things ready. We'll simulate a 30-minute pair programming session.",
-    "Prep mode activated. Let's review your portfolio highlights so you can present them perfectly."
-  ]
-};
+// Mock responses removed, using real API
 
 export function AgentOrb() {
   const [open, setOpen] = useState(false);
@@ -75,23 +26,41 @@ export function AgentOrb() {
     },
   ]);
 
-  const send = (text?: string) => {
-    const value = (text ?? input).trim();
-    if (!value) return;
-    
-    let botReply = `On it. Drafting a plan for "${value}"...`;
-    
-    if (QUICK_ACTION_RESPONSES[value as keyof typeof QUICK_ACTION_RESPONSES]) {
-      const responses = QUICK_ACTION_RESPONSES[value as keyof typeof QUICK_ACTION_RESPONSES];
-      botReply = responses[Math.floor(Math.random() * responses.length)];
-    }
+  const [isLoading, setIsLoading] = useState(false);
 
-    setMessages((m) => [
-      ...m,
-      { from: "user", text: value },
-      { from: "agent", text: botReply },
-    ]);
+  const send = async (text?: string) => {
+    const value = (text ?? input).trim();
+    if (!value || isLoading) return;
+    
+    // Add user message immediately
+    const userMsg: Msg = { from: "user", text: value };
+    setMessages((m) => [...m, userMsg]);
     setInput("");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("http://127.0.0.1:3001/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messages: [...messages, userMsg],
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessages((m) => [...m, { from: "agent", text: data.reply }]);
+      } else {
+        setMessages((m) => [...m, { from: "agent", text: "Sorry, I'm having trouble connecting right now." }]);
+      }
+    } catch (err) {
+      console.error("Chat error:", err);
+      setMessages((m) => [...m, { from: "agent", text: "Network error while connecting to the AI." }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -190,11 +159,16 @@ export function AgentOrb() {
                   placeholder="Ask Huzzler anything..."
                 />
                 <button
+                  type="button"
                   onClick={() => send()}
-                  className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground hover:opacity-90"
-                  aria-label="Send"
+                  disabled={!input.trim() || isLoading}
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground hover:opacity-90 disabled:opacity-50 transition-opacity"
                 >
-                  <Send className="h-4 w-4" />
+                  {isLoading ? (
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
                 </button>
               </div>
               <div className="mt-2 flex items-center gap-1.5 text-[10px] text-muted-foreground">
