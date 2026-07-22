@@ -68,22 +68,19 @@ function DashboardPage() {
             {NAV.map((n) => {
               const isActive = active === n.key;
               const Icon = n.icon;
-              const isSettings = n.key === "settings";
               return (
-                <div key={n.key} className={isSettings ? "flex items-center gap-2" : undefined}>
-                  <button
-                    onClick={() => setActive(n.key)}
-                    className={`flex flex-1 items-center gap-3 rounded-lg border px-3 py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
-                      isActive
-                        ? "border-primary/40 bg-primary/10 text-primary"
-                        : "border-transparent text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    <Icon className="h-5 w-5" />
-                    {n.label}
-                  </button>
-                  {isSettings && <ThemeToggle className="h-9 w-9 shrink-0" />}
-                </div>
+                <button
+                  key={n.key}
+                  onClick={() => setActive(n.key)}
+                  className={`flex items-center gap-3 rounded-lg border px-3 py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
+                    isActive
+                      ? "border-primary/40 bg-primary/10 text-primary"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                  {n.label}
+                </button>
               );
             })}
           </nav>
@@ -124,7 +121,7 @@ function DashboardPage() {
               <div className="font-display text-base font-bold tracking-tight">Let's ship something today.</div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="md:hidden"><ThemeToggle /></span>
+              <ThemeToggle />
               <button className="btn-duo !py-2.5 !px-5 text-sm">
                 <Rocket className="h-4 w-4" />
                 New mission
