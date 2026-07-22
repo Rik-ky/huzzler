@@ -41,15 +41,25 @@ export const Route = createFileRoute("/")({
         content:
           "Huzzler is an AI platform that helps African builders at every level earn real cross-functional product experience by shipping real products with real teams.",
       },
-      { property: "og:title", content: "Huzzler | Experience as a Software" },
+      { property: "og:title", content: "Huzzler | Experience as a Software for African Builders" },
       {
         property: "og:description",
         content:
           "Break the no-experience loop. Get verified by AI, join real product teams, and build the portfolio that gets you hired.",
       },
+      { property: "og:url", content: "/" },
+      { property: "og:image", content: "/og-image.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Huzzler | Experience as a Software for African Builders" },
+      {
+        name: "twitter:description",
+        content:
+          "Break the no-experience loop. Get verified by AI, join real product teams, and build the portfolio that gets you hired.",
+      },
+      { name: "twitter:image", content: "/og-image.png" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
