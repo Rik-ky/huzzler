@@ -190,6 +190,8 @@ function DashboardPage() {
           <div className="px-4 py-6 md:px-8">
 
 
+          {active === "overview" && (
+            <>
           {/* Metric cards - horizontal */}
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             <MetricCard icon={Flame} label="Streak" value="7 days" delta="+2 this wk" tone="fire" />
@@ -204,25 +206,28 @@ function DashboardPage() {
               icon={BrainCircuit}
               tag="Gateway"
               title="AI Evaluation"
-              body="Your last skill assessment scored 82. Retake to level up your placement."
+              body="You have cleared 2 of 5 Gateway stages. Live Craft Challenge is up next."
               cta="Open Gateway"
-              progress={82}
+              progress={40}
+              onClick={() => goTo("gateway")}
             />
             <PillarCard
               icon={Hammer}
               tag="Studio"
-              title="Active mission"
-              body="Ship v0.2 of Marketplace search with the Amala squad. Due in 3 days."
-              cta="Continue building"
-              progress={45}
+              title="Active engagements"
+              body="2 live roles including your Amala Marketplace internship. 3 new offers waiting."
+              cta="Open Studio"
+              progress={60}
+              onClick={() => goTo("studio")}
             />
             <PillarCard
-              icon={UserCircle2}
-              tag="Identity"
-              title="Portfolio"
-              body="3 verified contributions. Your builder profile is 70% complete."
-              cta="View profile"
+              icon={Users}
+              tag="Squads"
+              title="Amala Squad"
+              body="4 builders shipping v0.2 of Marketplace search. Standup today at 4:00 PM WAT."
+              cta="Open squad"
               progress={70}
+              onClick={() => goTo("squads")}
             />
           </div>
 
@@ -234,43 +239,18 @@ function DashboardPage() {
                   <div className="font-display text-lg font-bold">Current missions</div>
                   <div className="text-xs text-muted-foreground">Real product work, shipped with your squad.</div>
                 </div>
-                <button className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
+                <button onClick={() => goTo("studio")} className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
                   View all
                 </button>
               </div>
               <div className="flex flex-col divide-y divide-border">
-                <MissionRow
-                  title="Build search filters"
-                  product="Amala Marketplace"
-                  status="In progress"
-                  due="3d"
-                  icon={Target}
-                />
-                <MissionRow
-                  title="Wire checkout webhook"
-                  product="PayNow"
-                  status="In review"
-                  due="1d"
-                  icon={Clock}
-                />
-                <MissionRow
-                  title="Onboarding illustrations"
-                  product="LagosCare"
-                  status="Shipped"
-                  due="Done"
-                  icon={CheckCircle2}
-                />
-                <MissionRow
-                  title="Pricing page copy"
-                  product="Zowa"
-                  status="Backlog"
-                  due="5d"
-                  icon={Sparkles}
-                />
+                <MissionRow title="Build search filters" product="Amala Marketplace" status="In progress" due="3d" icon={Target} />
+                <MissionRow title="Wire checkout webhook" product="PayNow" status="In review" due="1d" icon={Clock} />
+                <MissionRow title="Onboarding illustrations" product="LagosCare" status="Shipped" due="Done" icon={CheckCircle2} />
+                <MissionRow title="Pricing page copy" product="Zowa" status="Backlog" due="5d" icon={Sparkles} />
               </div>
             </div>
 
-            {/* Squad + daily quests stack */}
             <div className="flex flex-col gap-4">
               <div className="card-duo p-5">
                 <div className="mb-3 flex items-center justify-between">
@@ -279,10 +259,7 @@ function DashboardPage() {
                 </div>
                 <div className="flex -space-x-2">
                   {["A", "T", "K", "N", "+2"].map((c, i) => (
-                    <div
-                      key={i}
-                      className="grid h-9 w-9 place-items-center rounded-full ring-2 ring-card bg-primary/15 text-primary font-display text-sm font-bold"
-                    >
+                    <div key={i} className="grid h-9 w-9 place-items-center rounded-full ring-2 ring-card bg-primary/15 text-primary font-display text-sm font-bold">
                       {c}
                     </div>
                   ))}
@@ -301,6 +278,29 @@ function DashboardPage() {
                 <QuestRow icon={Rocket} title="Ship one PR" progress={0} total={1} />
               </div>
             </div>
+          </div>
+            </>
+          )}
+
+          {active === "gateway" && <GatewayView onGoToStudio={() => goTo("studio")} />}
+          {active === "studio" && (
+            <StudioView
+              onOpenSquad={(mission) => {
+                setSquadContext(mission);
+                goTo("squads");
+              }}
+            />
+          )}
+          {active === "squads" && <SquadsView activeMission={squadContext} />}
+          {active !== "overview" && active !== "gateway" && active !== "studio" && active !== "squads" && (
+            <div className="card-duo grid place-items-center p-16 text-center">
+              <Sparkles className="mb-3 h-8 w-8 text-primary" />
+              <div className="font-display text-lg font-bold">Coming soon</div>
+              <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+                We are prioritising Gateway, Studio and Squads for this build. This section unlocks next.
+              </p>
+            </div>
+          )}
           </div>
           </div>
         </main>
