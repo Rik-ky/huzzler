@@ -206,21 +206,21 @@ function DashboardPage() {
           <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
             <PillarCard
               icon={BrainCircuit}
-              tag="Gateway"
+              tag="Onboarding"
               title="AI Evaluation"
-              body="You have cleared 2 of 5 Gateway stages. Live Craft Challenge is up next."
-              cta="Open Gateway"
+              body="You have cleared 2 of 5 Onboarding stages. Live Craft Challenge is up next."
+              cta="Open Onboarding"
               progress={40}
-              onClick={() => goTo("gateway")}
+              onClick={() => goTo("onboarding")}
             />
             <PillarCard
               icon={Hammer}
-              tag="Studio"
+              tag="Opportunities"
               title="Active engagements"
               body="2 live roles including your Amala Marketplace internship. 3 new offers waiting."
-              cta="Open Studio"
+              cta="Open Opportunities"
               progress={60}
-              onClick={() => goTo("studio")}
+              onClick={() => goTo("opportunities")}
             />
             <PillarCard
               icon={Users}
