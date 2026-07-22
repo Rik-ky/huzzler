@@ -336,10 +336,14 @@ function DashboardPage() {
               </button>
             </div>
 
-            <button className="btn-duo mb-6 w-full justify-center text-sm">
+            <Link
+              to="/assessments"
+              onClick={() => setMobileOpen(false)}
+              className="btn-duo mb-6 w-full justify-center text-sm"
+            >
               <Rocket className="h-4 w-4" />
               Try AI Assessments
-            </button>
+            </Link>
 
             <nav className="flex flex-col gap-1">
               {NAV.map((n) => {
