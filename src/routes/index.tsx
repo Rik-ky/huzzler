@@ -35,11 +35,11 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Huzzler | Experience as a Software for African Tech Talent" },
+      { title: "Huzzler | Experience as a Software for African Builders" },
       {
         name: "description",
         content:
-          "Huzzler is an AI platform that turns junior African tech talent into job-ready professionals through real cross-functional projects.",
+          "Huzzler is an AI platform that helps African builders at every level earn real cross-functional product experience by shipping real products with real teams.",
       },
       { property: "og:title", content: "Huzzler | Experience as a Software" },
       {
