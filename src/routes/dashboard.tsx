@@ -18,6 +18,7 @@ import {
   Clock,
   Sparkles,
   TrendingUp,
+  Gift,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
