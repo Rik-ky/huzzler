@@ -22,6 +22,7 @@ import {
   ChevronRight,
   Menu,
   X,
+  Wallet,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
@@ -34,15 +35,15 @@ export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
       { title: "Your workspace · Huzzler" },
-      { name: "description", content: "Your Huzzler workspace: Gateway evaluations, Studio missions, and your builder Identity." },
+      { name: "description", content: "Your Huzzler workspace: Onboarding, Opportunities, Squads and Earnings in one place." },
       { property: "og:title", content: "Your workspace · Huzzler" },
-      { property: "og:description", content: "Gateway, Studio, and Identity in one place." },
+      { property: "og:description", content: "Onboarding, Opportunities, Squads and Earnings in one place." },
       { property: "og:url", content: "/dashboard" },
       { property: "og:image", content: "/og-image.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Your workspace · Huzzler" },
-      { name: "twitter:description", content: "Gateway, Studio, and Identity in one place." },
+      { name: "twitter:description", content: "Onboarding, Opportunities, Squads and Earnings in one place." },
       { name: "twitter:image", content: "/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "/dashboard" }],
@@ -54,13 +55,13 @@ type NavItem = { key: string; label: string; icon: LucideIcon };
 
 const NAV: NavItem[] = [
   { key: "overview", label: "Overview", icon: LayoutDashboard },
-  { key: "gateway", label: "Gateway", icon: BrainCircuit },
-  { key: "studio", label: "Studio", icon: Hammer },
-  { key: "identity", label: "Identity", icon: UserCircle2 },
+  { key: "onboarding", label: "Onboarding", icon: BrainCircuit },
+  { key: "opportunities", label: "Opportunities", icon: Hammer },
   { key: "squads", label: "Squads", icon: Users },
-  { key: "leaderboard", label: "Leaderboard", icon: Trophy },
+  { key: "earnings", label: "Earnings", icon: Wallet },
   { key: "settings", label: "Settings", icon: Settings },
 ];
+
 
 function DashboardPage() {
   const [active, setActive] = useState("overview");
