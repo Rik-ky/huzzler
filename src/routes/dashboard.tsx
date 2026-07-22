@@ -410,6 +410,7 @@ function PillarCard({
   body,
   cta,
   progress,
+  onClick,
 }: {
   icon: LucideIcon;
   tag: string;
@@ -417,6 +418,7 @@ function PillarCard({
   body: string;
   cta: string;
   progress: number;
+  onClick?: () => void;
 }) {
   return (
     <div className="card-duo p-5 flex flex-col">
@@ -431,7 +433,7 @@ function PillarCard({
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
         <div className="h-full rounded-full bg-primary" style={{ width: `${progress}%` }} />
       </div>
-      <button className="mt-4 inline-flex items-center gap-1.5 self-start text-sm font-bold text-primary hover:underline">
+      <button onClick={onClick} className="mt-4 inline-flex items-center gap-1.5 self-start text-sm font-bold text-primary hover:underline">
         {cta} <ArrowUpRight className="h-4 w-4" />
       </button>
     </div>
