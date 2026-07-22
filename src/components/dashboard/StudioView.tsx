@@ -174,7 +174,7 @@ export function StudioView({
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-2">
-        <span className="chip w-fit">Studio</span>
+        <span className="chip w-fit">Opportunities</span>
         <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
           Where offers turn into shipped work.
         </h1>
