@@ -18,8 +18,8 @@ import {
   Clock,
   Sparkles,
   TrendingUp,
-  PanelLeftClose,
-  PanelLeftOpen,
+  ChevronLeft,
+  ChevronRight,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
@@ -78,9 +78,9 @@ function DashboardPage() {
             <button
               onClick={() => setCollapsed((v) => !v)}
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-              className="grid h-8 w-8 place-items-center rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              className="grid h-9 w-9 place-items-center rounded-full border border-primary/40 bg-gradient-to-b from-primary/20 to-primary/5 text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_4px_10px_rgba(0,191,255,0.18)] hover:from-primary/30 hover:to-primary/10 hover:scale-105 active:scale-95 transition-all"
             >
-              {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+              {collapsed ? <ChevronRight className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
             </button>
           </div>
           <nav className="flex flex-col gap-1">
