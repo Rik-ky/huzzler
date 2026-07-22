@@ -72,6 +72,8 @@ function DashboardPage() {
     setMobileOpen(false);
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  useEffect(() => {
     document.documentElement.classList.add("dark");
   }, []);
 
