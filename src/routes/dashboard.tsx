@@ -509,3 +509,164 @@ function QuestRow({ icon: Icon, title, progress, total }: { icon: LucideIcon; ti
     </div>
   );
 }
+
+function EarningsView() {
+  const txns = [
+    { id: 1, label: "Amala Marketplace · Week 4 stipend", amount: "+₦180,000", date: "Jul 18, 2026", status: "Paid" },
+    { id: 2, label: "PayNow · Growth experiment bonus", amount: "+₦95,000", date: "Jul 12, 2026", status: "Paid" },
+    { id: 3, label: "Amala Marketplace · Week 3 stipend", amount: "+₦180,000", date: "Jul 11, 2026", status: "Paid" },
+    { id: 4, label: "LagosCare · Internship completion", amount: "+₦350,000", date: "Jun 28, 2026", status: "Paid" },
+    { id: 5, label: "Zowa · Offer acceptance bonus", amount: "+₦120,000", date: "Pending", status: "Pending" },
+  ];
+  return (
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col gap-2">
+        <span className="chip w-fit">Earnings</span>
+        <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+          What you have earned by shipping.
+        </h1>
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Stipends, bonuses and completion payouts from every mission you deliver on Huzzler.
+        </p>
+      </header>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="card-duo p-5">
+          <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Lifetime</div>
+          <div className="mt-2 font-display text-3xl font-bold">₦1,925,000</div>
+          <div className="mt-1 text-xs text-primary">+₦275k this month</div>
+        </div>
+        <div className="card-duo p-5">
+          <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Available</div>
+          <div className="mt-2 font-display text-3xl font-bold">₦455,000</div>
+          <button className="btn-duo mt-3 !py-2 !px-4 text-sm">Withdraw</button>
+        </div>
+        <div className="card-duo p-5">
+          <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Pending</div>
+          <div className="mt-2 font-display text-3xl font-bold">₦120,000</div>
+          <div className="mt-1 text-xs text-muted-foreground">Clears on Jul 30, 2026</div>
+        </div>
+      </div>
+
+      <div className="card-duo p-5">
+        <div className="mb-3 flex items-center justify-between">
+          <div className="font-display text-base font-bold">Transactions</div>
+          <button className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
+            Export CSV
+          </button>
+        </div>
+        <div className="divide-y divide-border">
+          {txns.map((t) => (
+            <div key={t.id} className="flex items-center justify-between py-3">
+              <div className="min-w-0">
+                <div className="truncate font-display text-sm font-bold">{t.label}</div>
+                <div className="text-xs text-muted-foreground">{t.date}</div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className={`hidden rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider sm:inline ${
+                  t.status === "Paid" ? "bg-primary/15 text-primary" : "bg-[color:var(--gold)]/15 text-[color:var(--gold)]"
+                }`}>
+                  {t.status}
+                </span>
+                <span className="font-display text-sm font-bold text-primary">{t.amount}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SettingsView() {
+  return (
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col gap-2">
+        <span className="chip w-fit">Settings</span>
+        <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+          Your identity and preferences.
+        </h1>
+        <p className="max-w-2xl text-sm text-muted-foreground">
+          Your builder Identity, account details and app preferences all in one place.
+        </p>
+      </header>
+
+      {/* Identity */}
+      <div className="card-duo p-5 md:p-6">
+        <div className="mb-4 flex items-center gap-2">
+          <UserCircle2 className="h-4 w-4 text-primary" />
+          <div className="font-display text-base font-bold">Builder Identity</div>
+        </div>
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="grid h-16 w-16 place-items-center rounded-2xl bg-primary/15 font-display text-xl font-bold text-primary ring-2 ring-primary/25">
+              AK
+            </div>
+            <div>
+              <div className="font-display text-lg font-bold">Ada Kola</div>
+              <div className="text-sm text-muted-foreground">Full-stack builder · Lagos, NG</div>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {["React", "Node", "Postgres", "Design"].map((t) => (
+                  <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <button className="btn-duo-outline !py-2 !px-4 text-sm">Edit profile</button>
+        </div>
+
+        <div className="mt-5 grid grid-cols-3 gap-3">
+          <IdentityStat label="Missions" value="4" />
+          <IdentityStat label="XP" value="1,240" />
+          <IdentityStat label="Endorsements" value="17" />
+        </div>
+      </div>
+
+      {/* Account */}
+      <div className="card-duo p-5">
+        <div className="mb-3 font-display text-base font-bold">Account</div>
+        <div className="divide-y divide-border">
+          <SettingRow label="Email" value="ada@huzzler.dev" />
+          <SettingRow label="Phone" value="+234 810 000 0000" />
+          <SettingRow label="Payout method" value="Bank · GTBank ****1234" />
+          <SettingRow label="Password" value="Last changed 2 weeks ago" />
+        </div>
+      </div>
+
+      {/* Preferences */}
+      <div className="card-duo p-5">
+        <div className="mb-3 font-display text-base font-bold">Preferences</div>
+        <div className="flex items-center justify-between rounded-xl border border-border bg-muted/40 p-3">
+          <div>
+            <div className="text-sm font-semibold">Appearance</div>
+            <div className="text-xs text-muted-foreground">Switch between light and dark mode.</div>
+          </div>
+          <ThemeToggle />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IdentityStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl border border-border bg-muted/40 p-3 text-center">
+      <div className="font-display text-xl font-bold">{value}</div>
+      <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function SettingRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between py-3">
+      <div className="text-sm font-semibold text-muted-foreground">{label}</div>
+      <div className="flex items-center gap-3">
+        <span className="text-sm">{value}</span>
+        <button className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">Edit</button>
+      </div>
+    </div>
+  );
+}
