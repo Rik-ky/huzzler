@@ -286,13 +286,22 @@ function Index() {
               </a>
             </nav>
 
-            <a
-              href="/auth"
-              onClick={() => setMobileOpen(false)}
-              className="btn-duo mt-8 w-full justify-center text-sm"
-            >
-              Get started
-            </a>
+            <div className="mt-8 flex flex-col gap-3">
+              <a
+                href="/auth"
+                onClick={() => setMobileOpen(false)}
+                className="btn-duo w-full justify-center text-sm"
+              >
+                Get started
+              </a>
+              <a
+                href="/auth"
+                onClick={() => setMobileOpen(false)}
+                className="btn-duo-outline w-full justify-center text-sm"
+              >
+                Log in
+              </a>
+            </div>
           </div>
         </>
       )}
