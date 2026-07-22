@@ -7,6 +7,7 @@ import {
   Clock,
   ArrowLeft,
   CheckCircle2,
+  XCircle,
   Users,
   Target,
   Sparkles,
@@ -15,6 +16,10 @@ import {
   CalendarClock,
   LifeBuoy,
   ArrowRight,
+  Upload,
+  Paperclip,
+  Link as LinkIcon,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 
