@@ -302,7 +302,6 @@ function DashboardPage() {
             </div>
           )}
           </div>
-          </div>
         </main>
       </div>
 
