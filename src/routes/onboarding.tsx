@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
 import {
   ArrowLeft,
   Rocket,
@@ -117,6 +118,11 @@ function OnboardingPage() {
   const current = STEPS[step];
   const selected = answers[current.key];
   const progress = useMemo(() => ((step + (selected ? 1 : 0)) / STEPS.length) * 100, [step, selected]);
+
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
+
 
   const next = () => {
     if (!selected) return;

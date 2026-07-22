@@ -1,22 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  Home,
-  Trophy,
-  Target,
+  LayoutDashboard,
+  BrainCircuit,
+  Hammer,
+  UserCircle2,
   Users,
-  User,
-  MoreHorizontal,
+  Trophy,
+  Settings,
   Flame,
   Gem,
-  Heart,
-  BookOpen,
-  Star,
-  Lock,
-  Package,
   Zap,
-  ChevronRight,
   Rocket,
+  Target,
+  ArrowUpRight,
+  CheckCircle2,
+  Clock,
+  Sparkles,
+  TrendingUp,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
@@ -24,10 +25,10 @@ import { ThemeToggle } from "@/lib/theme";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Your path · Huzzler" },
-      { name: "description", content: "Your Huzzler workspace: missions, squads, and the products you're shipping." },
-      { property: "og:title", content: "Your path · Huzzler" },
-      { property: "og:description", content: "Missions, squads, and the products you're shipping." },
+      { title: "Your workspace · Huzzler" },
+      { name: "description", content: "Your Huzzler workspace: Gateway evaluations, Studio missions, and your builder Identity." },
+      { property: "og:title", content: "Your workspace · Huzzler" },
+      { property: "og:description", content: "Gateway, Studio, and Identity in one place." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -38,39 +39,30 @@ export const Route = createFileRoute("/dashboard")({
 type NavItem = { key: string; label: string; icon: LucideIcon };
 
 const NAV: NavItem[] = [
-  { key: "path", label: "Path", icon: Home },
-  { key: "board", label: "Leaderboard", icon: Trophy },
-  { key: "quests", label: "Quests", icon: Target },
+  { key: "overview", label: "Overview", icon: LayoutDashboard },
+  { key: "gateway", label: "Gateway", icon: BrainCircuit },
+  { key: "studio", label: "Studio", icon: Hammer },
+  { key: "identity", label: "Identity", icon: UserCircle2 },
   { key: "squads", label: "Squads", icon: Users },
-  { key: "profile", label: "Profile", icon: User },
-  { key: "more", label: "More", icon: MoreHorizontal },
-];
-
-type Node =
-  | { kind: "start"; label: string }
-  | { kind: "task"; icon: LucideIcon; state: "active" | "locked" | "done"; title: string }
-  | { kind: "chest"; state: "locked" | "open" }
-  | { kind: "trophy"; state: "locked" };
-
-const NODES: Node[] = [
-  { kind: "start", label: "Start" },
-  { kind: "task", icon: Star, state: "active", title: "Kickoff brief" },
-  { kind: "task", icon: BookOpen, state: "locked", title: "Product spec" },
-  { kind: "chest", state: "locked" },
-  { kind: "task", icon: Zap, state: "locked", title: "Ship v0.1" },
-  { kind: "task", icon: Package, state: "locked", title: "First review" },
-  { kind: "trophy", state: "locked" },
+  { key: "leaderboard", label: "Leaderboard", icon: Trophy },
+  { key: "settings", label: "Settings", icon: Settings },
 ];
 
 function DashboardPage() {
-  const [active, setActive] = useState("path");
+  const [active, setActive] = useState("overview");
+
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen max-w-[1400px] gap-6 px-4 py-6">
         {/* Sidebar */}
-        <aside className="hidden w-56 shrink-0 flex-col md:flex">
-          <Link to="/" className="mb-6 flex items-center gap-2">
+        <aside className="hidden w-60 shrink-0 flex-col md:flex">
+          <Link to="/" className="mb-8 flex items-center gap-2 px-2">
             <img src="/huzzler-mark.svg" alt="Huzzler" className="h-9 w-9" />
+            <span className="font-display text-lg font-bold tracking-tight">Huzzler</span>
           </Link>
           <nav className="flex flex-col gap-1">
             {NAV.map((n) => {
@@ -80,7 +72,7 @@ function DashboardPage() {
                 <button
                   key={n.key}
                   onClick={() => setActive(n.key)}
-                  className={`flex items-center gap-3 rounded-2xl border-2 px-3 py-2.5 text-left font-display text-sm font-bold uppercase tracking-wide transition-colors ${
+                  className={`flex items-center gap-3 rounded-2xl border-2 px-3 py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
                     isActive
                       ? "border-primary/40 bg-primary/10 text-primary"
                       : "border-transparent text-muted-foreground hover:text-foreground"
@@ -103,90 +95,247 @@ function DashboardPage() {
           <div className="mb-4 flex items-center justify-between md:hidden">
             <Link to="/" className="flex items-center gap-2">
               <img src="/huzzler-mark.svg" alt="Huzzler" className="h-8 w-8" />
+              <span className="font-display text-lg font-bold">Huzzler</span>
             </Link>
             <ThemeToggle />
           </div>
 
-          {/* Mission header */}
-          <div className="relative overflow-hidden rounded-2xl border-2 border-primary/30 bg-gradient-to-br from-primary to-[color-mix(in_oklab,var(--primary)_75%,black)] p-5 text-primary-foreground shadow-[0_10px_0_-4px_color-mix(in_oklab,var(--primary)_55%,black)]">
-            <div className="flex items-center justify-between gap-4">
-              <div className="min-w-0">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest opacity-90">
-                  <ChevronRight className="h-3 w-3" /> Sprint 1 · Mission 1
-                </div>
-                <h1 className="mt-1 truncate font-display text-2xl font-bold tracking-tight">
-                  Ship your first feature
-                </h1>
-              </div>
-              <button className="hidden shrink-0 items-center gap-2 rounded-2xl bg-background/15 px-4 py-2 font-display text-sm font-bold uppercase tracking-wide ring-2 ring-background/30 hover:bg-background/25 sm:inline-flex">
-                <BookOpen className="h-4 w-4" />
-                Playbook
-              </button>
+          {/* Greeting */}
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <div className="text-sm font-semibold text-muted-foreground">Welcome back</div>
+              <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+                Let's ship something today.
+              </h1>
             </div>
+            <button className="btn-duo !py-2.5 !px-5 text-sm">
+              <Rocket className="h-4 w-4" />
+              New mission
+            </button>
           </div>
 
-          {/* Path */}
-          <div className="mx-auto mt-10 flex max-w-md flex-col items-center gap-8 pb-16">
-            {NODES.map((node, i) => (
-              <PathNode key={i} node={node} offset={i} />
-            ))}
-            <div className="pt-2 text-center text-sm text-muted-foreground">Introduce yourself to your squad</div>
+          {/* Metric cards - horizontal */}
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+            <MetricCard icon={Flame} label="Streak" value="7 days" delta="+2 this wk" tone="fire" />
+            <MetricCard icon={Gem} label="XP earned" value="1,240" delta="+180 today" tone="primary" />
+            <MetricCard icon={Trophy} label="Rank" value="#28" delta="↑ 12" tone="gold" />
+            <MetricCard icon={Zap} label="Missions shipped" value="4" delta="2 in review" tone="primary" />
+          </div>
+
+          {/* Three-pillar row */}
+          <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <PillarCard
+              icon={BrainCircuit}
+              tag="Gateway"
+              title="AI Evaluation"
+              body="Your last skill assessment scored 82. Retake to level up your placement."
+              cta="Open Gateway"
+              progress={82}
+            />
+            <PillarCard
+              icon={Hammer}
+              tag="Studio"
+              title="Active mission"
+              body="Ship v0.2 of Marketplace search with the Amala squad. Due in 3 days."
+              cta="Continue building"
+              progress={45}
+            />
+            <PillarCard
+              icon={UserCircle2}
+              tag="Identity"
+              title="Portfolio"
+              body="3 verified contributions. Your builder profile is 70% complete."
+              cta="View profile"
+              progress={70}
+            />
+          </div>
+
+          {/* Missions + Squad row */}
+          <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <div className="card-duo p-5 lg:col-span-2">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <div className="font-display text-lg font-bold">Current missions</div>
+                  <div className="text-xs text-muted-foreground">Real product work, shipped with your squad.</div>
+                </div>
+                <button className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
+                  View all
+                </button>
+              </div>
+              <div className="flex flex-col divide-y divide-border">
+                <MissionRow
+                  title="Build search filters"
+                  product="Amala Marketplace"
+                  status="In progress"
+                  due="3d"
+                  icon={Target}
+                />
+                <MissionRow
+                  title="Wire checkout webhook"
+                  product="PayNow"
+                  status="In review"
+                  due="1d"
+                  icon={Clock}
+                />
+                <MissionRow
+                  title="Onboarding illustrations"
+                  product="LagosCare"
+                  status="Shipped"
+                  due="Done"
+                  icon={CheckCircle2}
+                />
+                <MissionRow
+                  title="Pricing page copy"
+                  product="Zowa"
+                  status="Backlog"
+                  due="5d"
+                  icon={Sparkles}
+                />
+              </div>
+            </div>
+
+            {/* Squad + daily quests stack */}
+            <div className="flex flex-col gap-4">
+              <div className="card-duo p-5">
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="font-display text-base font-bold">Your squad</div>
+                  <span className="chip">Amala</span>
+                </div>
+                <div className="flex -space-x-2">
+                  {["A", "T", "K", "N", "+2"].map((c, i) => (
+                    <div
+                      key={i}
+                      className="grid h-9 w-9 place-items-center rounded-full ring-2 ring-card bg-primary/15 text-primary font-display text-sm font-bold"
+                    >
+                      {c}
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-3 text-sm text-muted-foreground">
+                  4 builders shipping a marketplace for street food vendors in Lagos.
+                </p>
+              </div>
+
+              <div className="card-duo p-5">
+                <div className="mb-3 flex items-center justify-between">
+                  <div className="font-display text-base font-bold">Daily quests</div>
+                  <TrendingUp className="h-4 w-4 text-primary" />
+                </div>
+                <QuestRow icon={Zap} title="Earn 50 XP" progress={30} total={50} />
+                <QuestRow icon={Rocket} title="Ship one PR" progress={0} total={1} />
+              </div>
+            </div>
           </div>
         </main>
-
-        {/* Right rail */}
-        <aside className="hidden w-80 shrink-0 flex-col gap-4 lg:flex">
-          {/* Stats row */}
-          <div className="flex items-center justify-between rounded-2xl border-2 border-border bg-card px-4 py-3">
-            <Stat icon={Flame} value="7" color="text-[color:var(--fire)]" />
-            <Stat icon={Gem} value="500" color="text-primary" />
-            <Stat icon={Heart} value="5" color="text-rose-500" />
-          </div>
-
-          {/* Unlock card */}
-          <div className="card-duo p-4">
-            <div className="mb-2 font-display text-base font-bold">Unlock the Leaderboard</div>
-            <div className="flex items-center gap-3">
-              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-muted ring-2 ring-border">
-                <Lock className="h-5 w-5 text-muted-foreground" />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Finish 3 more tasks to start competing with your cohort.
-              </p>
-            </div>
-          </div>
-
-          {/* Daily quests */}
-          <div className="card-duo p-4">
-            <div className="mb-3 flex items-center justify-between">
-              <div className="font-display text-base font-bold">Daily Quests</div>
-              <button className="text-xs font-bold uppercase tracking-wider text-primary hover:underline">
-                View all
-              </button>
-            </div>
-            <QuestRow icon={Zap} title="Earn 10 XP" progress={0} total={10} />
-            <QuestRow icon={Rocket} title="Ship one commit" progress={0} total={1} />
-          </div>
-
-          {/* CTA */}
-          <div className="card-duo p-4">
-            <div className="mb-3 font-display text-base font-bold">Save your progress</div>
-            <div className="flex flex-col gap-2">
-              <Link to="/auth" className="btn-duo">Create a profile</Link>
-              <Link to="/auth" className="btn-duo-outline">Sign in</Link>
-            </div>
-          </div>
-        </aside>
       </div>
     </div>
   );
 }
 
-function Stat({ icon: Icon, value, color }: { icon: LucideIcon; value: string; color: string }) {
+function MetricCard({
+  icon: Icon,
+  label,
+  value,
+  delta,
+  tone,
+}: {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+  delta: string;
+  tone: "primary" | "fire" | "gold";
+}) {
+  const toneClass =
+    tone === "fire"
+      ? "text-[color:var(--fire)] bg-[color:var(--fire)]/10 ring-[color:var(--fire)]/25"
+      : tone === "gold"
+      ? "text-[color:var(--gold)] bg-[color:var(--gold)]/10 ring-[color:var(--gold)]/25"
+      : "text-primary bg-primary/10 ring-primary/25";
   return (
-    <div className="flex items-center gap-1.5">
-      <Icon className={`h-5 w-5 ${color}`} />
-      <span className="font-display text-base font-bold">{value}</span>
+    <div className="card-duo p-4">
+      <div className="flex items-center justify-between">
+        <div className={`grid h-10 w-10 place-items-center rounded-xl ring-2 ${toneClass}`}>
+          <Icon className="h-5 w-5" />
+        </div>
+        <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+          {delta}
+        </span>
+      </div>
+      <div className="mt-3 font-display text-2xl font-bold tracking-tight">{value}</div>
+      <div className="text-xs font-semibold text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function PillarCard({
+  icon: Icon,
+  tag,
+  title,
+  body,
+  cta,
+  progress,
+}: {
+  icon: LucideIcon;
+  tag: string;
+  title: string;
+  body: string;
+  cta: string;
+  progress: number;
+}) {
+  return (
+    <div className="card-duo p-5 flex flex-col">
+      <div className="flex items-center gap-3">
+        <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 ring-2 ring-primary/25 text-primary">
+          <Icon className="h-5 w-5" />
+        </div>
+        <span className="chip">{tag}</span>
+      </div>
+      <div className="mt-3 font-display text-lg font-bold tracking-tight">{title}</div>
+      <p className="mt-1 text-sm text-muted-foreground">{body}</p>
+      <div className="mt-4 h-2 overflow-hidden rounded-full bg-muted">
+        <div className="h-full rounded-full bg-primary" style={{ width: `${progress}%` }} />
+      </div>
+      <button className="mt-4 inline-flex items-center gap-1.5 self-start text-sm font-bold text-primary hover:underline">
+        {cta} <ArrowUpRight className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
+function MissionRow({
+  title,
+  product,
+  status,
+  due,
+  icon: Icon,
+}: {
+  title: string;
+  product: string;
+  status: string;
+  due: string;
+  icon: LucideIcon;
+}) {
+  const statusTone =
+    status === "Shipped"
+      ? "bg-primary/15 text-primary"
+      : status === "In review"
+      ? "bg-[color:var(--gold)]/15 text-[color:var(--gold)]"
+      : status === "Backlog"
+      ? "bg-muted text-muted-foreground"
+      : "bg-primary/10 text-primary";
+  return (
+    <div className="flex items-center gap-3 py-3">
+      <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-muted ring-2 ring-border text-foreground">
+        <Icon className="h-4 w-4" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="truncate font-display text-sm font-bold">{title}</div>
+        <div className="truncate text-xs text-muted-foreground">{product}</div>
+      </div>
+      <span className={`hidden shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider sm:inline ${statusTone}`}>
+        {status}
+      </span>
+      <span className="w-12 shrink-0 text-right text-xs font-semibold text-muted-foreground">{due}</span>
     </div>
   );
 }
@@ -195,73 +344,18 @@ function QuestRow({ icon: Icon, title, progress, total }: { icon: LucideIcon; ti
   const pct = Math.round((progress / total) * 100);
   return (
     <div className="mt-2 flex items-center gap-3">
-      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/10 ring-2 ring-primary/25 text-primary">
-        <Icon className="h-5 w-5" />
+      <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 ring-2 ring-primary/25 text-primary">
+        <Icon className="h-4 w-4" />
       </div>
       <div className="min-w-0 flex-1">
         <div className="mb-1 flex items-center justify-between text-sm">
           <span className="font-semibold">{title}</span>
           <span className="text-xs text-muted-foreground">{progress}/{total}</span>
         </div>
-        <div className="h-2.5 overflow-hidden rounded-full bg-muted">
+        <div className="h-2 overflow-hidden rounded-full bg-muted">
           <div className="h-full rounded-full bg-primary" style={{ width: `${pct}%` }} />
         </div>
       </div>
-    </div>
-  );
-}
-
-function PathNode({ node, offset }: { node: Node; offset: number }) {
-  // gentle horizontal sway
-  const sway = [0, 60, 40, 0, -40, -60, 0][offset % 7];
-  const style = { transform: `translateX(${sway}px)` };
-
-  if (node.kind === "start") {
-    return (
-      <div style={style} className="flex flex-col items-center">
-        <div className="mb-1 rounded-lg bg-card px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-foreground ring-2 ring-border">
-          {node.label}
-        </div>
-        <div className="animate-pulse-ring grid h-20 w-20 place-items-center rounded-full border-b-[6px] border-primary-shadow bg-primary text-primary-foreground">
-          <Star className="h-8 w-8 fill-current" />
-        </div>
-      </div>
-    );
-  }
-  if (node.kind === "chest") {
-    return (
-      <div style={style}>
-        <div className="grid h-16 w-16 place-items-center rounded-2xl border-b-4 border-border bg-muted text-muted-foreground">
-          <Package className="h-7 w-7" />
-        </div>
-      </div>
-    );
-  }
-  if (node.kind === "trophy") {
-    return (
-      <div style={style}>
-        <div className="grid h-16 w-16 place-items-center rounded-full border-b-4 border-border bg-muted text-muted-foreground">
-          <Trophy className="h-7 w-7" />
-        </div>
-      </div>
-    );
-  }
-  const isActive = node.state === "active";
-  const Icon = node.icon;
-  return (
-    <div style={style} className="flex flex-col items-center">
-      <div
-        className={`grid h-16 w-16 place-items-center rounded-full border-b-4 ${
-          isActive
-            ? "bg-primary text-primary-foreground border-primary-shadow"
-            : "bg-muted text-muted-foreground border-border"
-        }`}
-      >
-        <Icon className="h-6 w-6" />
-      </div>
-      {isActive && (
-        <div className="mt-2 text-xs font-semibold text-foreground">{node.title}</div>
-      )}
     </div>
   );
 }

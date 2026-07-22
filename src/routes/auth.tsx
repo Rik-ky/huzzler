@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Github } from "lucide-react";
+
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -20,6 +21,13 @@ type Mode = "signup" | "login";
 
 function AuthPage() {
   const [mode, setMode] = useState<Mode>("signup");
+  const navigate = useNavigate();
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate({ to: mode === "signup" ? "/onboarding" : "/dashboard" });
+  };
+
 
   return (
     <div className="min-h-screen bg-charcoal text-white flex flex-col" style={{ overflowX: "clip" }}>
@@ -91,7 +99,7 @@ function AuthPage() {
             <div className="h-px flex-1 bg-white/10" />
           </div>
 
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-3">
+          <form onSubmit={onSubmit} className="space-y-3">
             {mode === "signup" && (
               <BoldInput placeholder="Your name" type="text" autoComplete="name" />
             )}
