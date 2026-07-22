@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero.png";
 import gatewayImg from "@/assets/gateway.png";
 import studioImg from "@/assets/studio.png";
@@ -29,6 +29,8 @@ import {
   Linkedin,
   Github,
   Instagram,
+  Menu,
+  X,
   type LucideIcon,
 } from "lucide-react";
 
