@@ -18,6 +18,8 @@ import {
   Clock,
   Sparkles,
   TrendingUp,
+  PanelLeftClose,
+  PanelLeftOpen,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
