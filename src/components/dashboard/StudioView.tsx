@@ -308,45 +308,155 @@ function EngagementList({
   );
 }
 
+type OfferStatus = "pending" | "accepted" | "declined";
+
 function OfferList() {
+  const [status, setStatus] = useState<Record<string, OfferStatus>>({});
+  const [confirm, setConfirm] = useState<{ id: string; action: "accept" | "decline" } | null>(null);
+
+  const set = (id: string, s: OfferStatus) => setStatus((prev) => ({ ...prev, [id]: s }));
+  const active = confirm ? OFFERS.find((o) => o.id === confirm.id) ?? null : null;
+
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-      {OFFERS.map((o) => (
-        <div key={o.id} className="card-duo flex flex-col gap-3 p-5">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary/10 font-display text-lg font-bold text-primary ring-2 ring-primary/20">
-                {o.logo}
+    <>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {OFFERS.map((o) => {
+          const s: OfferStatus = status[o.id] ?? "pending";
+          return (
+            <div
+              key={o.id}
+              className={`card-duo flex flex-col gap-3 p-5 transition-opacity ${
+                s === "declined" ? "opacity-60" : ""
+              }`}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary/10 font-display text-lg font-bold text-primary ring-2 ring-primary/20">
+                    {o.logo}
+                  </div>
+                  <div>
+                    <div className="font-display text-base font-bold">{o.title}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {o.company} · {o.type}
+                    </div>
+                  </div>
+                </div>
+                <div className="rounded-full bg-primary/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">
+                  {o.match}% match
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1">
+                  <MapPin className="h-3.5 w-3.5" /> {o.location}
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <Building2 className="h-3.5 w-3.5" /> {o.compensation}
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <Clock className="h-3.5 w-3.5" /> Expires in {o.expiresIn}
+                </span>
+              </div>
+              {s === "pending" && (
+                <div className="mt-1 flex gap-2">
+                  <button
+                    onClick={() => setConfirm({ id: o.id, action: "accept" })}
+                    className="btn-duo !py-2 !px-4 flex-1 text-sm"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => setConfirm({ id: o.id, action: "decline" })}
+                    className="btn-duo-outline !py-2 !px-4 text-sm"
+                  >
+                    Decline
+                  </button>
+                </div>
+              )}
+              {s === "accepted" && (
+                <div className="mt-1 flex items-center justify-between rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-sm font-bold text-primary">
+                  <span className="inline-flex items-center gap-1.5">
+                    <CheckCircle2 className="h-4 w-4" /> Accepted
+                  </span>
+                  <span className="text-[10px] uppercase tracking-widest">Moved to Active</span>
+                </div>
+              )}
+              {s === "declined" && (
+                <div className="mt-1 flex items-center gap-1.5 rounded-xl border border-border bg-muted px-3 py-2 text-sm font-bold text-muted-foreground">
+                  <XCircle className="h-4 w-4" /> Declined
+                  <button
+                    onClick={() => set(o.id, "pending")}
+                    className="ml-auto text-[10px] uppercase tracking-widest text-primary hover:underline"
+                  >
+                    Undo
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Confirm dialog */}
+      {confirm && active && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            onClick={() => setConfirm(null)}
+            aria-hidden
+          />
+          <div
+            role="dialog"
+            className="fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border bg-card p-6 shadow-2xl"
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <div
+                className={`grid h-11 w-11 place-items-center rounded-xl ring-2 ${
+                  confirm.action === "accept"
+                    ? "bg-primary/10 text-primary ring-primary/25"
+                    : "bg-muted text-muted-foreground ring-border"
+                }`}
+              >
+                {confirm.action === "accept" ? (
+                  <CheckCircle2 className="h-5 w-5" />
+                ) : (
+                  <XCircle className="h-5 w-5" />
+                )}
               </div>
               <div>
-                <div className="font-display text-base font-bold">{o.title}</div>
+                <div className="font-display text-lg font-bold">
+                  {confirm.action === "accept" ? "Accept offer?" : "Decline offer?"}
+                </div>
                 <div className="text-xs text-muted-foreground">
-                  {o.company} · {o.type}
+                  {active.title} · {active.company}
                 </div>
               </div>
             </div>
-            <div className="rounded-full bg-primary/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">
-              {o.match}% match
+            <p className="text-sm text-muted-foreground">
+              {confirm.action === "accept"
+                ? "You will be onboarded to the squad and Huzzler will start managing your first tasks."
+                : "This offer will be closed. You can still reopen it from Undo before you refresh."}
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                onClick={() => setConfirm(null)}
+                className="btn-duo-outline !py-2 !px-4 text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  set(confirm.id, confirm.action === "accept" ? "accepted" : "declined");
+                  setConfirm(null);
+                }}
+                className="btn-duo !py-2 !px-4 text-sm"
+              >
+                {confirm.action === "accept" ? "Yes, accept" : "Yes, decline"}
+              </button>
             </div>
           </div>
-          <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1">
-              <MapPin className="h-3.5 w-3.5" /> {o.location}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <Building2 className="h-3.5 w-3.5" /> {o.compensation}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <Clock className="h-3.5 w-3.5" /> Expires in {o.expiresIn}
-            </span>
-          </div>
-          <div className="mt-1 flex gap-2">
-            <button className="btn-duo !py-2 !px-4 flex-1 text-sm">Accept</button>
-            <button className="btn-duo-outline !py-2 !px-4 text-sm">Decline</button>
-          </div>
-        </div>
-      ))}
-    </div>
+        </>
+      )}
+    </>
   );
 }
 
