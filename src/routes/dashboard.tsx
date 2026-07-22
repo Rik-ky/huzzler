@@ -65,8 +65,13 @@ function DashboardPage() {
   const [active, setActive] = useState("overview");
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [squadContext, setSquadContext] = useState<string | null>(null);
 
-  useEffect(() => {
+  const goTo = (key: string) => {
+    setActive(key);
+    setMobileOpen(false);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
     document.documentElement.classList.add("dark");
   }, []);
 
