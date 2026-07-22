@@ -77,6 +77,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { property: "og:site_name", content: "Huzzler" },
+      { property: "og:type", content: "website" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -86,6 +88,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Huzzler",
+          url: "/",
+          description:
+            "Experience as a Software for African Builders. AI-verified product experience on real teams.",
+        }),
       },
     ],
   }),
