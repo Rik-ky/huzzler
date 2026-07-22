@@ -28,6 +28,7 @@ import { ThemeToggle } from "@/lib/theme";
 import { GatewayView } from "@/components/dashboard/GatewayView";
 import { StudioView } from "@/components/dashboard/StudioView";
 import { SquadsView } from "@/components/dashboard/SquadsView";
+import { AgentOrb } from "@/components/dashboard/AgentOrb";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
