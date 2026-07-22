@@ -329,7 +329,7 @@ function DashboardPage() {
 
             <button className="btn-duo mb-6 w-full justify-center text-sm">
               <Rocket className="h-4 w-4" />
-              New mission
+              Try AI Assessments
             </button>
 
             <nav className="flex flex-col gap-1">
