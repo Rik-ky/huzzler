@@ -18,7 +18,6 @@ import {
   Clock,
   Sparkles,
   TrendingUp,
-  Gift,
   type LucideIcon,
 } from "lucide-react";
 import { ThemeToggle } from "@/lib/theme";
@@ -57,10 +56,10 @@ function DashboardPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground bg-[linear-gradient(to_right,color-mix(in_oklab,var(--border)_60%,transparent)_1px,transparent_1px),linear-gradient(to_bottom,color-mix(in_oklab,var(--border)_60%,transparent)_1px,transparent_1px)] bg-[size:32px_32px]">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen max-w-[1400px] gap-6 px-4 py-6">
         {/* Sidebar */}
-        <aside className="hidden w-60 shrink-0 flex-col md:flex rounded-2xl border border-border bg-card/80 backdrop-blur p-4">
+        <aside className="hidden w-60 shrink-0 flex-col md:flex">
           <Link to="/" className="mb-8 flex items-center gap-2 px-2">
             <img src="/huzzler-mark.svg" alt="Huzzler" className="h-9 w-9" />
             <span className="font-display text-lg font-bold tracking-tight">Huzzler</span>
@@ -73,7 +72,7 @@ function DashboardPage() {
                 <button
                   key={n.key}
                   onClick={() => setActive(n.key)}
-                  className={`flex items-center gap-3 rounded-xl border-2 px-3 py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
+                  className={`flex items-center gap-3 rounded-2xl border-2 px-3 py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
                     isActive
                       ? "border-primary/40 bg-primary/10 text-primary"
                       : "border-transparent text-muted-foreground hover:text-foreground"
@@ -84,35 +83,16 @@ function DashboardPage() {
                 </button>
               );
             })}
-            <div className="mt-2 flex items-center justify-between rounded-xl border-2 border-transparent px-3 py-2">
-              <span className="font-display text-sm font-bold tracking-tight text-muted-foreground">Theme</span>
-              <ThemeToggle className="h-8 w-8" />
-            </div>
           </nav>
-
-          {/* Promo banner */}
           <div className="mt-auto pt-4">
-            <div className="relative overflow-hidden rounded-xl border border-primary/30 bg-gradient-to-br from-primary/25 via-primary/10 to-transparent p-4">
-              <div className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-primary/30 blur-2xl" />
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-              <div className="relative">
-                <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary ring-1 ring-primary/30">
-                  <Gift className="h-3 w-3" /> New
-                </div>
-                <div className="font-display text-sm font-bold leading-tight">Invite a builder, earn 200 XP</div>
-                <p className="mt-1 text-xs text-muted-foreground">Grow your squad and level up together.</p>
-                <button className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline">
-                  Share invite <ArrowUpRight className="h-3 w-3" />
-                </button>
-              </div>
-            </div>
+            <ThemeToggle />
           </div>
         </aside>
 
         {/* Main */}
         <main className="min-w-0 flex-1">
           {/* Mobile top bar */}
-          <div className="mb-4 flex items-center justify-between rounded-2xl border border-border bg-card/80 px-4 py-3 backdrop-blur md:hidden">
+          <div className="mb-4 flex items-center justify-between md:hidden">
             <Link to="/" className="flex items-center gap-2">
               <img src="/huzzler-mark.svg" alt="Huzzler" className="h-8 w-8" />
               <span className="font-display text-lg font-bold">Huzzler</span>
@@ -120,8 +100,8 @@ function DashboardPage() {
             <ThemeToggle />
           </div>
 
-          {/* Greeting header - contrasting bar */}
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4 rounded-2xl border border-border bg-card/60 px-5 py-4 backdrop-blur">
+          {/* Greeting */}
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <div className="text-sm font-semibold text-muted-foreground">Welcome back</div>
               <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
@@ -133,7 +113,6 @@ function DashboardPage() {
               New mission
             </button>
           </div>
-
 
           {/* Metric cards - horizontal */}
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
