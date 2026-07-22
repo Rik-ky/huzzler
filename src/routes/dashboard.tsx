@@ -57,9 +57,9 @@ function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex min-h-screen max-w-[1400px] gap-6 px-4 py-6">
+      <div className="mx-auto flex min-h-screen max-w-[1400px]">
         {/* Sidebar */}
-        <aside className="hidden w-60 shrink-0 flex-col md:flex">
+        <aside className="hidden w-60 shrink-0 flex-col border-r border-border px-4 py-6 md:flex">
           <Link to="/" className="mb-8 flex items-center gap-2 px-2">
             <img src="/huzzler-mark.svg" alt="Huzzler" className="h-9 w-9" />
             <span className="font-display text-lg font-bold tracking-tight">Huzzler</span>
@@ -68,51 +68,72 @@ function DashboardPage() {
             {NAV.map((n) => {
               const isActive = active === n.key;
               const Icon = n.icon;
+              const isSettings = n.key === "settings";
               return (
-                <button
-                  key={n.key}
-                  onClick={() => setActive(n.key)}
-                  className={`flex items-center gap-3 rounded-2xl border-2 px-3 py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
-                    isActive
-                      ? "border-primary/40 bg-primary/10 text-primary"
-                      : "border-transparent text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  <Icon className="h-5 w-5" />
-                  {n.label}
-                </button>
+                <div key={n.key} className={isSettings ? "flex items-center gap-2" : undefined}>
+                  <button
+                    onClick={() => setActive(n.key)}
+                    className={`flex flex-1 items-center gap-3 rounded-lg border px-3 py-2.5 text-left font-display text-sm font-bold tracking-tight transition-colors ${
+                      isActive
+                        ? "border-primary/40 bg-primary/10 text-primary"
+                        : "border-transparent text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {n.label}
+                  </button>
+                  {isSettings && <ThemeToggle className="h-9 w-9 shrink-0" />}
+                </div>
               );
             })}
           </nav>
-          <div className="mt-auto pt-4">
-            <ThemeToggle />
+
+          {/* Promo banner */}
+          <div className="mt-6 relative overflow-hidden rounded-xl border border-primary/30 bg-gradient-to-br from-primary/25 via-primary/10 to-transparent p-4">
+            <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-primary/30 blur-2xl" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_30%,color-mix(in_oklab,white_18%,transparent)_45%,transparent_60%)]" />
+            <div className="relative">
+              <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-primary">
+                <Sparkles className="h-3 w-3" /> New
+              </div>
+              <div className="font-display text-sm font-bold leading-snug">
+                Unlock Pro squads
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Ship with senior mentors and get placed faster.
+              </p>
+              <button className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline">
+                Upgrade <ArrowUpRight className="h-3 w-3" />
+              </button>
+            </div>
           </div>
         </aside>
 
         {/* Main */}
         <main className="min-w-0 flex-1">
-          {/* Mobile top bar */}
-          <div className="mb-4 flex items-center justify-between md:hidden">
-            <Link to="/" className="flex items-center gap-2">
-              <img src="/huzzler-mark.svg" alt="Huzzler" className="h-8 w-8" />
-              <span className="font-display text-lg font-bold">Huzzler</span>
-            </Link>
-            <ThemeToggle />
+          {/* Top header bar */}
+          <div className="flex items-center justify-between border-b border-border px-4 py-4 md:px-8">
+            <div className="flex items-center gap-3 md:hidden">
+              <Link to="/" className="flex items-center gap-2">
+                <img src="/huzzler-mark.svg" alt="Huzzler" className="h-8 w-8" />
+                <span className="font-display text-lg font-bold">Huzzler</span>
+              </Link>
+            </div>
+            <div className="hidden md:block">
+              <div className="text-xs font-semibold text-muted-foreground">Welcome back</div>
+              <div className="font-display text-base font-bold tracking-tight">Let's ship something today.</div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="md:hidden"><ThemeToggle /></span>
+              <button className="btn-duo !py-2.5 !px-5 text-sm">
+                <Rocket className="h-4 w-4" />
+                New mission
+              </button>
+            </div>
           </div>
 
-          {/* Greeting */}
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <div className="text-sm font-semibold text-muted-foreground">Welcome back</div>
-              <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-                Let's ship something today.
-              </h1>
-            </div>
-            <button className="btn-duo !py-2.5 !px-5 text-sm">
-              <Rocket className="h-4 w-4" />
-              New mission
-            </button>
-          </div>
+          <div className="px-4 py-6 md:px-8">
+
 
           {/* Metric cards - horizontal */}
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
