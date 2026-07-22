@@ -187,9 +187,9 @@ function Index() {
               <span className="text-primary">as a software.</span>
             </h1>
             <p className="mt-6 max-w-lg text-lg text-charcoal/70 leading-relaxed">
-              The free, AI-powered way for junior African tech talent to earn
-              real cross-functional product experience and finally break the
-              no-experience loop.
+              The free, AI-powered way for anyone who needs experience and
+              wants to build. Earn real cross-functional product experience
+              alongside a real product team.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="/auth" className="btn-duo">Get started free</a>
