@@ -28,6 +28,7 @@ import { ThemeToggle } from "@/lib/theme";
 import { GatewayView } from "@/components/dashboard/GatewayView";
 import { StudioView } from "@/components/dashboard/StudioView";
 import { SquadsView } from "@/components/dashboard/SquadsView";
+import { AgentOrb } from "@/components/dashboard/AgentOrb";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -175,7 +176,7 @@ function DashboardPage() {
               <ThemeToggle />
               <button className="btn-duo !py-2.5 !px-5 text-sm">
                 <Rocket className="h-4 w-4" />
-                New mission
+                Try AI Assessments
               </button>
             </div>
             <button
@@ -329,7 +330,7 @@ function DashboardPage() {
 
             <button className="btn-duo mb-6 w-full justify-center text-sm">
               <Rocket className="h-4 w-4" />
-              New mission
+              Try AI Assessments
             </button>
 
             <nav className="flex flex-col gap-1">
@@ -360,6 +361,8 @@ function DashboardPage() {
           </div>
         </>
       )}
+
+      <AgentOrb />
     </div>
 
   );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AgentMark } from "./AgentOrb";
 import {
   Briefcase,
   Building2,
@@ -173,7 +174,7 @@ export function StudioView({
           Where offers turn into shipped work.
         </h1>
         <p className="max-w-2xl text-sm text-muted-foreground">
-          Review live offers, manage your active internships and jobs, and let Hustler your AI agent
+          Review live offers, manage your active internships and jobs, and let Huzzler your AI agent
           keep the whole thing on track.
         </p>
       </header>
@@ -442,17 +443,15 @@ function HustlerPanel() {
   return (
     <div className="card-duo flex flex-col gap-4 p-5">
       <div className="flex items-center gap-3">
-        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary/10 ring-2 ring-primary/25">
-          <img src="/hustler-agent.svg" alt="Hustler" className="h-9 w-9" />
-        </div>
+        <AgentMark size={48} animated />
         <div>
-          <div className="font-display text-base font-bold">Hustler</div>
+          <div className="font-display text-base font-bold">Huzzler</div>
           <div className="text-xs text-muted-foreground">Your AI internship manager</div>
         </div>
       </div>
 
       <p className="text-xs text-muted-foreground">
-        Hustler assigns tasks, tracks deadlines and unblocks you in the moment. Everything shows up
+        Huzzler assigns tasks, tracks deadlines and unblocks you in the moment. Everything shows up
         on your Identity when shipped.
       </p>
 
@@ -467,7 +466,7 @@ function HustlerPanel() {
         <DeadlineRow label="Sprint demo" when="Mon · 10:00 AM WAT" />
       </PanelBlock>
 
-      <PanelBlock icon={LifeBuoy} title="Ask Hustler">
+      <PanelBlock icon={LifeBuoy} title="Ask Huzzler">
         <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/50 p-2">
           <input
             className="flex-1 bg-transparent px-2 py-1 text-sm outline-none placeholder:text-muted-foreground"

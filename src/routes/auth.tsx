@@ -84,7 +84,7 @@ function AuthPage() {
           </div>
 
           <h1 className="mt-8 font-display text-4xl sm:text-5xl font-bold tracking-tight text-center">
-            {mode === "signup" ? "Let's get you shipping." : "Welcome back, hustler."}
+            {mode === "signup" ? "Let's get you shipping." : "Welcome back, huzzler."}
           </h1>
 
           {/* Social */}
